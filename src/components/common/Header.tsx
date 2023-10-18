@@ -66,6 +66,7 @@ const Btn = styled.button`
   border-radius: 5%;
   margin: 0 5px 0 5px;
   padding: 10px 20px 10px 20px;
+  font-weight: 700;
 `;
 
 export default Header;
