@@ -8,14 +8,14 @@ const SignIn = () => {
         <Title>세컨클로젯</Title>
       </FlexWrapper>
       <CombinedSignBtns>
-        <SignBtn>Sign In</SignBtn>
-        <SignBtn>Sign Up</SignBtn>
+        <SignInBtn>Sign In</SignInBtn>
+        <SignUpBtn>Sign Up</SignUpBtn>
       </CombinedSignBtns>
       <form>
         <FormWrapper>
           <ContentContainer placeholder="id" />
           <ContentContainer placeholder="password" />
-          <SubmitBtn type="submit">Sign in</SubmitBtn>
+          <SubmitBtn type="submit">Sign In</SubmitBtn>
         </FormWrapper>
       </form>
     </Container>
@@ -31,8 +31,9 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 1px solid gray;
+  border: 5px solid #fad4db;
   border-radius: 10px;
+  z-index: 999;
 `;
 
 const FlexWrapper = styled.div`
@@ -44,45 +45,78 @@ const FlexWrapper = styled.div`
 const Title = styled.h3`
   font-family: 'Hi melody';
   text-align: center;
+  margin-left: 10px;
 `;
 
 const FormWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #fad4db;
+  padding: 10px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  width: 300px;
 `;
 
 const CombinedSignBtns = styled.div`
   display: flex;
-  margin-bottom: 10px;
 `;
 
-const SignBtn = styled.button`
+const SignInBtn = styled.button`
   width: 150px;
   height: 40px;
-  font-weight: 500;
+  font-weight: 800;
   padding: 10px;
-`;
+  background-color: #fad4db;
+  color: #f1899c;
 
-const ContentContainer = styled.input`
-  width: 300px;
-  height: 40px;
-  margin-bottom: 10px;
-  border-radius: 20px;
-  border: none;
-  padding: 10px;
-  border: 1px solid gray;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  padding-left: 10px;
 
-  ::placeholder {
-    text-align: center; /* 플레이스홀더 텍스트 가운데 정렬 */
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 30%;
+    right: 30%;
+    height: 3px;
+    background-color: #f1899c;
   }
 `;
 
-const SubmitBtn = styled.button`
-  width: 300px;
+const SignUpBtn = styled.button`
+  width: 150px;
+  height: 40px;
+  font-weight: 800;
+  padding: 10px;
+  background-color: white;
+`;
+
+const ContentContainer = styled.input`
+  width: 280px;
   height: 40px;
   margin-bottom: 10px;
   border-radius: 20px;
   border: none;
   padding: 10px;
   border: 1px solid gray;
+`;
+
+const SubmitBtn = styled.button`
+  width: 280px;
+  height: 40px;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  font-weight: 800;
+  border: none;
+  padding: 10px;
+  border: 1px solid gray;
+  background-color: #f1899c;
+  color: white;
 `;
