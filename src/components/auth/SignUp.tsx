@@ -16,7 +16,6 @@ const SignUp = () => {
           <ContentContainer placeholder="id" />
           <ContentContainer placeholder="password" />
           <ContentContainer placeholder="password confirm" />
-          {/* <ContentContainer placeholder="address" /> */}
           <SubmitBtn type="submit">Sign up</SubmitBtn>
         </FormWrapper>
       </form>
@@ -52,21 +51,26 @@ const Title = styled.h3`
 const FormWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #fad4db;
+  padding: 10px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  width: 300px;
 `;
 
 const CombinedSignBtns = styled.div`
   display: flex;
-  margin-bottom: 10px;
 `;
 
 const SignInBtn = styled.button`
   width: 150px;
   height: 40px;
-  font-weight: 600;
+  font-weight: 800;
   padding: 10px;
-  background-color: #e7e5e5;
-  border-top-left-radius: 20px;
-  border-bottom-left-radius: 20px;
+  background-color: white;
 `;
 
 const SignUpBtn = styled.button`
@@ -74,29 +78,28 @@ const SignUpBtn = styled.button`
   height: 40px;
   font-weight: 800;
   padding: 10px;
-  background-color: #e7e5e5;
+  background-color: #fad4db;
   color: #f1899c;
-
   border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
+  border-top-left-radius: 20px;
   padding-left: 10px;
 
-  position: relative; /* 위치 지정을 위해 상대적 위치 설정 */
+  position: relative;
 
   &::after {
     content: '';
     position: absolute;
-    bottom: 4px; /* 밑줄과 컨텐트 사이 간격 조절  */
-    left: 15%; /* 왼쪽 여백 */
-    right: 15%; /* 오른쪽 여백  */
-    height: 3px; /* 밑줄 두께  */
+    bottom: 4px;
+    left: 30%;
+    right: 30%;
+    height: 3px;
 
     background-color: #f1899c;
   }
 `;
 
 const ContentContainer = styled.input`
-  width: 300px;
+  width: 280px;
   height: 40px;
   margin-bottom: 10px;
   border-radius: 20px;
@@ -106,13 +109,14 @@ const ContentContainer = styled.input`
 `;
 
 const SubmitBtn = styled.button`
-  width: 300px;
+  width: 280px;
   height: 40px;
   margin-bottom: 10px;
   border-radius: 20px;
-  font-weight: 600;
+  font-weight: 700;
   border: none;
   padding: 10px;
   border: 1px solid gray;
-  background-color: #e7e5e5;
+  background-color: #f1899c;
+  color: white;
 `;
