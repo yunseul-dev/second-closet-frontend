@@ -1,6 +1,88 @@
+// 유효성 검사 하는 버전
+
 import { styled } from 'styled-components';
+import { useForm, useController, Control } from 'react-hook-form';
+import { signInSchema } from '../../utils/shema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { debounce } from 'lodash';
+import { useCallback, ChangeEvent } from 'react';
+
+interface SignInFormData {
+  userid: string;
+  password: string;
+  passwordConfirm: string;
+}
+
+interface InputProps {
+  control: Control<SignInFormData>;
+  name: 'userid' | 'password' | 'passwordConfirm';
+  trigger: any;
+}
+
+const InputContainer = ({ control, name, trigger }: InputProps) => {
+  const {
+    field: { onChange },
+    fieldState: { invalid, isDirty, error },
+  } = useController({
+    name,
+    control,
+    defaultValue: '',
+  });
+
+  const debouncedTrigger = useCallback(
+    debounce(() => {
+      trigger(name);
+      if (name === 'password') trigger('confirmPassword');
+    }, 100),
+    [],
+  );
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    onChange(e);
+    debouncedTrigger();
+  };
+
+  return (
+    <div>
+      <Input
+        id={name}
+        name={name}
+        type={name.toLowerCase().includes('password') ? 'password' : 'text'}
+        autoComplete="off"
+        onChange={handleChange}
+      />
+    </div>
+  );
+};
 
 const SignIn = () => {
+  const navigate = useNavigate();
+
+  const {
+    control,
+    handleSubmit,
+    trigger,
+    formState: { isValid, errors },
+  } = useForm<SignInFormData>({
+    resolver: zodResolver(signInSchema),
+    defaultValues: {
+      userid: '',
+      password: '',
+    },
+  });
+
+  const onSubmit = async (data: SignInFormData) => {
+    try {
+      const { data: user } = await axios.post('api/auth/signin', data, { withCredentials: true });
+      console.log(user);
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Container>
       <FlexWrapper>
@@ -11,10 +93,17 @@ const SignIn = () => {
         <SignInBtn>Sign In</SignInBtn>
         <SignUpBtn>Sign Up</SignUpBtn>
       </CombinedSignBtns>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <FormWrapper>
-          <ContentContainer placeholder="id" />
-          <ContentContainer placeholder="password" />
+          <InputContainer control={control} name={'userid'} trigger={trigger} />
+          <InputContainer control={control} name={'password'} trigger={trigger} />
+          {!isValid && (
+            <>
+              {errors.userid && errors.password && <ErrorMsg>{errors.userid?.message}</ErrorMsg>}
+              {errors.userid && <ErrorMsg>{errors.userid?.message}</ErrorMsg>}
+              {errors.password && <ErrorMsg>{errors.password?.message}</ErrorMsg>}
+            </>
+          )}
           <SubmitBtn type="submit">Sign In</SubmitBtn>
         </FormWrapper>
       </form>
@@ -98,7 +187,7 @@ const SignUpBtn = styled.button`
   background-color: white;
 `;
 
-const ContentContainer = styled.input`
+const Input = styled.input`
   width: 280px;
   height: 40px;
   margin-bottom: 10px;
@@ -111,7 +200,7 @@ const ContentContainer = styled.input`
 const SubmitBtn = styled.button`
   width: 280px;
   height: 40px;
-  margin-bottom: 10px;
+  margin-top: 10px;
   border-radius: 20px;
   font-weight: 800;
   border: none;
@@ -119,4 +208,9 @@ const SubmitBtn = styled.button`
   border: 1px solid gray;
   background-color: #f1899c;
   color: white;
+`;
+
+const ErrorMsg = styled.span`
+  margin: 5px;
+  font-size: small;
 `;
