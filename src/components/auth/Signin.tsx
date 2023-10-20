@@ -16,15 +16,15 @@ interface SignInFormData {
 }
 
 interface InputProps {
+  placeholder: string;
   control: Control<SignInFormData>;
   name: 'userid' | 'password' | 'passwordConfirm';
   trigger: any;
 }
 
-const InputContainer = ({ control, name, trigger }: InputProps) => {
+const InputContainer = ({ placeholder, control, name, trigger }: InputProps) => {
   const {
     field: { onChange },
-    fieldState: { invalid, isDirty, error },
   } = useController({
     name,
     control,
@@ -49,6 +49,7 @@ const InputContainer = ({ control, name, trigger }: InputProps) => {
       <Input
         id={name}
         name={name}
+        placeholder={placeholder}
         type={name.toLowerCase().includes('password') ? 'password' : 'text'}
         autoComplete="off"
         onChange={handleChange}
@@ -95,13 +96,13 @@ const SignIn = () => {
       </CombinedSignBtns>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormWrapper>
-          <InputContainer control={control} name={'userid'} trigger={trigger} />
-          <InputContainer control={control} name={'password'} trigger={trigger} />
+          <InputContainer placeholder={'아이디'} control={control} name={'userid'} trigger={trigger} />
+          <InputContainer placeholder={'비밀번호'} control={control} name={'password'} trigger={trigger} />
           {!isValid && (
             <>
               {errors.userid && errors.password && <ErrorMsg>{errors.userid?.message}</ErrorMsg>}
-              {errors.userid && <ErrorMsg>{errors.userid?.message}</ErrorMsg>}
-              {errors.password && <ErrorMsg>{errors.password?.message}</ErrorMsg>}
+              {errors.userid && !errors.password && <ErrorMsg>{errors.userid?.message}</ErrorMsg>}
+              {errors.password && !errors.userid && <ErrorMsg>{errors.password?.message}</ErrorMsg>}
             </>
           )}
           <SubmitBtn type="submit">Sign In</SubmitBtn>
