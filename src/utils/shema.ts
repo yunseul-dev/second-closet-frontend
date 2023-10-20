@@ -10,13 +10,13 @@ const signInSchema = z.object({
 
 const signUpSchema = z
   .object({
-    userid: z.string().regex(useridRegExp, '영문 또는 숫자를 4~20자 입력하세요.'),
-    password: z.string().regex(passwordRegExp, '영문 또는 숫자를 6~12자 입력하세요.'),
-    confirmPassword: z.string(),
+    userid: z.string().regex(useridRegExp, '아이디: 영문 또는 숫자를 4~20자 입력하세요.'),
+    password: z.string().regex(passwordRegExp, '비밀번호: 영문 또는 숫자를 6~12자 입력하세요.'),
+    passwordConfirm: z.string(),
   })
-  .refine(({ password, confirmPassword }) => password === confirmPassword, {
-    path: ['confirmPassword'],
-    message: '패스워드가 일치하지 않습니다.',
+  .refine(({ password, passwordConfirm }) => password === passwordConfirm, {
+    path: ['passwordConfirm'],
+    message: '비밀번호가 일치하지 않습니다.',
   });
 
 export { signInSchema, signUpSchema };
