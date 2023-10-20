@@ -1,5 +1,3 @@
-// 유효성 검사 하는 버전
-
 import { styled } from 'styled-components';
 import { useForm, useController, Control } from 'react-hook-form';
 import { signInSchema } from '../../utils/shema';
@@ -8,6 +6,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
 import { useCallback, ChangeEvent } from 'react';
+import { useRecoilState } from 'recoil';
+import { userState } from '../../recoil/atom/userState';
 
 interface SignInFormData {
   userid: string;
@@ -62,6 +62,7 @@ const InputContainer = ({ placeholder, control, name, trigger }: InputProps) => 
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useRecoilState(userState);
 
   const {
     control,
@@ -78,8 +79,8 @@ const SignIn = () => {
 
   const onSubmit = async (data: SignInFormData) => {
     try {
-      const { data: user } = await axios.post('api/auth/signin', data, { withCredentials: true });
-      console.log(user);
+      const { data: userid } = await axios.post('api/auth/signin', data, { withCredentials: true });
+      setUser(userid);
       navigate('/');
     } catch (error) {
       console.log(error);
