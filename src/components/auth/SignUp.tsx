@@ -117,7 +117,7 @@ const SignUp = () => {
 export default SignUp;
 
 const Container = styled.div`
-  min-width: 400px;
+  min-width: 420px;
   min-height: 500px;
   width: 25%;
   height: 56vh;
@@ -198,8 +198,7 @@ const Input = styled.input`
   height: 40px;
   border-radius: 20px;
   border: none;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 10px;
   border: 1px solid gray;
   margin-bottom: 0;
   font-size: 16px;
