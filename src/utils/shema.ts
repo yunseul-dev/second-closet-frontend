@@ -4,8 +4,8 @@ const useridRegExp = /^[A-Za-z0-9]{4,20}/;
 const passwordRegExp = /^[A-Za-z0-9]{6,12}$/;
 
 const signInSchema = z.object({
-  userid: z.string().regex(/^\S/, 'id를 입력하세요.'),
-  password: z.string().regex(/^\S/, 'password를 입력하세요.'),
+  userid: z.string().regex(/^\S/, '아이디를 입력하세요.'),
+  password: z.string().regex(/^\S/, '비밀번호를 입력하세요.'),
 });
 
 const signUpSchema = z
