@@ -25,6 +25,7 @@ interface InputProps {
 const InputContainer = ({ placeholder, control, name, trigger }: InputProps) => {
   const {
     field: { onChange },
+    fieldState: { error },
   } = useController({
     name,
     control,
@@ -45,7 +46,7 @@ const InputContainer = ({ placeholder, control, name, trigger }: InputProps) => 
   };
 
   return (
-    <div>
+    <InputWrapper>
       <Input
         id={name}
         name={name}
@@ -54,7 +55,8 @@ const InputContainer = ({ placeholder, control, name, trigger }: InputProps) => 
         autoComplete="off"
         onChange={handleChange}
       />
-    </div>
+      {error && <ErrorMsg>{error?.message}</ErrorMsg>}
+    </InputWrapper>
   );
 };
 
@@ -65,7 +67,7 @@ const SignIn = () => {
     control,
     handleSubmit,
     trigger,
-    formState: { isValid, errors },
+    formState: { isValid },
   } = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -98,13 +100,6 @@ const SignIn = () => {
         <FormWrapper>
           <InputContainer placeholder={'아이디'} control={control} name={'userid'} trigger={trigger} />
           <InputContainer placeholder={'비밀번호'} control={control} name={'password'} trigger={trigger} />
-          {!isValid && (
-            <>
-              {errors.userid && errors.password && <ErrorMsg>{errors.userid?.message}</ErrorMsg>}
-              {errors.userid && !errors.password && <ErrorMsg>{errors.userid?.message}</ErrorMsg>}
-              {errors.password && !errors.userid && <ErrorMsg>{errors.password?.message}</ErrorMsg>}
-            </>
-          )}
           <SubmitBtn type="submit">Sign In</SubmitBtn>
         </FormWrapper>
       </form>
@@ -115,8 +110,10 @@ const SignIn = () => {
 export default SignIn;
 
 const Container = styled.div`
-  width: 30%;
-  height: 60vh;
+  min-width: 420px;
+  min-height: 500px;
+  width: 25%;
+  height: 56vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -148,7 +145,7 @@ const FormWrapper = styled.div`
   border-top-right-radius: 20px;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
-  width: 300px;
+  width: 360px;
 `;
 
 const CombinedSignBtns = styled.div`
@@ -156,12 +153,13 @@ const CombinedSignBtns = styled.div`
 `;
 
 const SignInBtn = styled.button`
-  width: 150px;
+  width: 180px;
   height: 40px;
   font-weight: 800;
   padding: 10px;
   background-color: #fad4db;
   color: #f1899c;
+  font-size: 16px;
 
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
@@ -181,37 +179,48 @@ const SignInBtn = styled.button`
 `;
 
 const SignUpBtn = styled.button`
-  width: 150px;
+  width: 180px;
   height: 40px;
   font-weight: 800;
+  font-size: 16px;
   padding: 10px;
   background-color: white;
 `;
 
 const Input = styled.input`
-  width: 280px;
+  width: 320px;
   height: 40px;
   margin-bottom: 10px;
   border-radius: 20px;
-  border: none;
   padding: 10px;
+  margin-bottom: 0;
+  font-size: 16px;
   border: 1px solid gray;
 `;
 
 const SubmitBtn = styled.button`
-  width: 280px;
+  width: 320px;
   height: 40px;
   margin-top: 10px;
   border-radius: 20px;
-  font-weight: 800;
+  font-weight: 700;
   border: none;
   padding: 10px;
   border: 1px solid gray;
   background-color: #f1899c;
   color: white;
+  font-size: 16px;
 `;
 
 const ErrorMsg = styled.span`
-  margin: 5px;
-  font-size: small;
+  font-size: 13px;
+  padding: 2px 10px 0 10px;
+  color: #d40e0e;
+`;
+
+const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin: 10px;
 `;
