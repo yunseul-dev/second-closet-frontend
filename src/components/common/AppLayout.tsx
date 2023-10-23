@@ -19,7 +19,7 @@ export default AppLayout;
 
 const LayoutContainer = styled.div`
   display: flex;
-  flex-direction: column;ㅁ
+  flex-direction: column;
   width: 60%;
   height: 100vh;
 `;
