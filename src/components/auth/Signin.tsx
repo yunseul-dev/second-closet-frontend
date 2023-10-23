@@ -64,12 +64,7 @@ const SignIn = () => {
   const navigate = useNavigate();
   const [user, setUser] = useRecoilState(userState);
 
-  const {
-    control,
-    handleSubmit,
-    trigger,
-    formState: { isValid },
-  } = useForm<SignInFormData>({
+  const { control, handleSubmit, trigger } = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
       userid: '',

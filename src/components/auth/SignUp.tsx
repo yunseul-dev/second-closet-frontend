@@ -23,7 +23,7 @@ interface InputProps {
 const InputContainer = ({ placeholder, control, name, trigger }: InputProps) => {
   const {
     field: { onChange },
-    fieldState: { invalid, isDirty, error },
+    fieldState: { error },
   } = useController({
     name,
     control,
@@ -61,12 +61,7 @@ const InputContainer = ({ placeholder, control, name, trigger }: InputProps) => 
 const SignUp = () => {
   const navigate = useNavigate();
 
-  const {
-    control,
-    handleSubmit,
-    trigger,
-    formState: { isValid, errors },
-  } = useForm<SignUpFormData>({
+  const { control, handleSubmit, trigger } = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       userid: '',
