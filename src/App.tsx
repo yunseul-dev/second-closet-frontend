@@ -3,6 +3,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { RouterProvider } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import routerConfig from './router/routerConfig';
+import GlobalStyle from './styles/GlobalStyle';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,6 +18,7 @@ const queryClient = new QueryClient({
 const App = () => {
   return (
     <>
+      <GlobalStyle />
       <RecoilRoot>
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={routerConfig} />
