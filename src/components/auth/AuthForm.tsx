@@ -1,6 +1,15 @@
 import { styled } from 'styled-components';
+import { useState } from 'react';
+import SignIn from './SignIn';
+import SignUp from './SignUp';
+
+type ButtonProps = {
+  active: boolean;
+};
 
 const AuthForm = () => {
+  const [state, setState] = useState('signIn');
+
   return (
     <Container>
       <FlexWrapper>
@@ -8,9 +17,14 @@ const AuthForm = () => {
         <Title>세컨클로젯</Title>
       </FlexWrapper>
       <CombinedSignBtns>
-        <SignInBtn>Sign In</SignInBtn>
-        <SignUpBtn>Sign Up</SignUpBtn>
+        <AuthBtn active={state === 'signIn'} onClick={() => setState('signIn')}>
+          Sign In
+        </AuthBtn>
+        <AuthBtn active={state === 'signUp'} onClick={() => setState('signUp')}>
+          Sign Up
+        </AuthBtn>
       </CombinedSignBtns>
+      {state === 'signIn' ? <SignIn /> : <SignUp />}
     </Container>
   );
 };
@@ -46,26 +60,16 @@ const CombinedSignBtns = styled.div`
   display: flex;
 `;
 
-const SignInBtn = styled.button`
-  width: 180px;
-  height: 40px;
-  font-weight: 800;
-  padding: 10px;
-  background-color: white;
-  font-size: 16px;
-`;
-
-const SignUpBtn = styled.button`
+const AuthBtn = styled.button<ButtonProps>`
+  background-color: ${({ active }) => (active ? '#fad4db' : 'white')};
+  color: ${({ active }) => active && '#f1899c'};
   font-size: 16px;
   width: 180px;
   height: 40px;
   font-weight: 800;
   padding: 10px;
-  background-color: #fad4db;
-  color: #f1899c;
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
-  padding-left: 10px;
 
   position: relative;
 
@@ -76,7 +80,6 @@ const SignUpBtn = styled.button`
     left: 30%;
     right: 30%;
     height: 3px;
-
-    background-color: #f1899c;
+    background-color: ${({ active }) => active && '#f1899c'};
   }
 `;
