@@ -25,6 +25,16 @@ const DetailPost = () => {
           <option value="원피스">원피스</option>
           <option value="점프수트">점프수트</option>
         </Select>
+        <LiaAngleRightSolid />
+        <Select>
+          <option value="">선택</option>
+          <option value="아우터">아우터</option>
+          <option value="상의">상의</option>
+          <option value="바지">바지</option>
+          <option value="치마">치마</option>
+          <option value="원피스">원피스</option>
+          <option value="점프수트">점프수트</option>
+        </Select>
       </CategoryContainer>
       <SubmitConatiner>
         <ImageContainer> 사진 </ImageContainer>
@@ -45,7 +55,7 @@ const DetailPost = () => {
         </InfoWrapper>
       </SubmitConatiner>
       <ExplainContainer>
-        <h3>상품 정보</h3>
+        <h3>판매자 코멘트</h3>
         <Explain>깨끗이 착용했습니다. 저보다 더 잘 입으실 수 있으신 분이 입으시면 좋겠어요 ! </Explain>
       </ExplainContainer>
     </Container>
@@ -54,7 +64,7 @@ const DetailPost = () => {
 export default DetailPost;
 
 const Container = styled.div`
-  border-top: 1px solid #c8c6c6;
+  padding: 10px;
 `;
 
 const CategoryContainer = styled.div`
