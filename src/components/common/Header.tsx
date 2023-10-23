@@ -27,11 +27,10 @@ const Header = () => {
 const Container = styled.header`
   margin-top: 2%;
   display: flex;
-  position: absolute;
+  position: sticky;
   top: 0;
-  width: 70%;
+  width: 100%;
   z-index: 9999;
-  content: space-between;
 `;
 
 const Title = styled.h4`
