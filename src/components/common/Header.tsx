@@ -55,10 +55,12 @@ const SearchBar = styled.form`
   flex-grow: 1;
   display: flex;
   justify-content: center;
+  align-items: center;
 `;
 
 const Input = styled.input`
-  width: 50%;
+  width: 70%;
+  height: 75%;
 `;
 
 const Btn = styled.button`
