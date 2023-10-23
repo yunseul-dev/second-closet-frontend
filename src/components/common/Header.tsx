@@ -31,6 +31,8 @@ const Container = styled.header`
   top: 0;
   width: 100%;
   z-index: 9999;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #d4d4d4;
 `;
 
 const Title = styled.h4`
