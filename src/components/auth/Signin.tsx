@@ -88,53 +88,17 @@ const SignIn = () => {
   };
 
   return (
-    <Container>
-      <FlexWrapper>
-        <img src="./assets/icons/closetFav.png" alt="Closet Icon" />
-        <Title>세컨클로젯</Title>
-      </FlexWrapper>
-      <CombinedSignBtns>
-        <SignInBtn>Sign In</SignInBtn>
-        <SignUpBtn>Sign Up</SignUpBtn>
-      </CombinedSignBtns>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormWrapper>
-          <InputContainer placeholder={'아이디'} control={control} name={'userid'} trigger={trigger} />
-          <InputContainer placeholder={'비밀번호'} control={control} name={'password'} trigger={trigger} />
-          <SubmitBtn type="submit">Sign In</SubmitBtn>
-        </FormWrapper>
-      </form>
-    </Container>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <FormWrapper>
+        <InputContainer placeholder={'아이디'} control={control} name={'userid'} trigger={trigger} />
+        <InputContainer placeholder={'비밀번호'} control={control} name={'password'} trigger={trigger} />
+        <SubmitBtn type="submit">Sign In</SubmitBtn>
+      </FormWrapper>
+    </form>
   );
 };
 
 export default SignIn;
-
-const Container = styled.div`
-  min-width: 420px;
-  min-height: 500px;
-  width: 25%;
-  height: 56vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border: 5px solid #fad4db;
-  border-radius: 10px;
-  z-index: 999;
-`;
-
-const FlexWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-
-const Title = styled.h3`
-  font-family: 'Hi melody';
-  text-align: center;
-  margin-left: 10px;
-`;
 
 const FormWrapper = styled.div`
   display: flex;
@@ -147,45 +111,6 @@ const FormWrapper = styled.div`
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
   width: 360px;
-`;
-
-const CombinedSignBtns = styled.div`
-  display: flex;
-`;
-
-const SignInBtn = styled.button`
-  width: 180px;
-  height: 40px;
-  font-weight: 800;
-  padding: 10px;
-  background-color: #fad4db;
-  color: #f1899c;
-  font-size: 16px;
-
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  padding-left: 10px;
-
-  position: relative;
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 4px;
-    left: 30%;
-    right: 30%;
-    height: 3px;
-    background-color: #f1899c;
-  }
-`;
-
-const SignUpBtn = styled.button`
-  width: 180px;
-  height: 40px;
-  font-weight: 800;
-  font-size: 16px;
-  padding: 10px;
-  background-color: white;
 `;
 
 const Input = styled.input`
