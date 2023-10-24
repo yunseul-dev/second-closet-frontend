@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, KeyboardEvent } from 'react';
 import { AiOutlineCamera } from 'react-icons/ai';
 
 const CreatePost = () => {
@@ -7,11 +7,27 @@ const CreatePost = () => {
   const [exchangeOption, setExchangeOption] = useState('impossible');
   const [delivery, setDelivery] = useState('included');
   const [discount, setDiscount] = useState(false);
+  const [tags, setTags] = useState<string[]>([]);
+  const [inputValue, setInputValue] = useState('');
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const numValue = parseInt(e.target.value.replace(/,/g, ''), 10);
     if (!isNaN(numValue)) {
       setValue(numValue.toLocaleString());
+    }
+  };
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (inputValue && !tags.includes(inputValue) && tags.length < 5) {
+        setTags([...tags, inputValue]);
+        setInputValue('');
+      }
     }
   };
 
@@ -151,6 +167,20 @@ const CreatePost = () => {
             rows={12}
             placeholder="구매시기, 브랜드/모델명, 제품의 상태(사용감, 하자유무), 색상 등을 입력해 주세요."></TextArea>
         </List>
+        <List>
+          <Name>태그</Name>
+          <TagWrapper>
+            {tags.map(tag => {
+              return <Tag key={tag}>{`#${tag}`}</Tag>;
+            })}
+            <StyledInput
+              value={inputValue}
+              onChange={handleInputChange}
+              onKeyDown={handleKeydown}
+              placeholder="태그를 입력해주세요. (최대 5개)"
+            />
+          </TagWrapper>
+        </List>
       </Lists>
       <ButtonContainer>
         <ImsiBtn>임시저장</ImsiBtn>
@@ -288,6 +318,34 @@ const ButtonContainer = styled.div`
   gap: 10px;
   border-top: 1px solid #d4d4d4;
   padding-top: 20px;
+`;
+
+const TagWrapper = styled.div`
+  display: flex;
+  width: 80%;
+  min-height: 38px;
+  padding: 5px;
+  border: 1px solid gray;
+  align-items: center;
+`;
+
+const Tag = styled.div`
+  margin: 5px;
+  background-color: #f1899c;
+  color: white;
+  padding: 5px;
+  border-radius: 10px;
+  font-size: 14px;
+
+  white-space: nowrap;
+`;
+
+const StyledInput = styled.input`
+  border: none;
+  outline: none;
+  width: 80%;
+  font-size: 16px;
+  height: 40px;
 `;
 
 const SubmitBtn = styled.button`
