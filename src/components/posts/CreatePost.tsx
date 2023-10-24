@@ -1,14 +1,45 @@
 import styled from 'styled-components';
-import { useState, ChangeEvent, KeyboardEvent } from 'react';
+import { useState, useRef, ChangeEvent, KeyboardEvent } from 'react';
 import { AiOutlineCamera } from 'react-icons/ai';
+import { FaAngleRight } from 'react-icons/fa6';
+import axios from 'axios';
+import { userState } from '../../recoil/atom/userState';
+import { useRecoilValue } from 'recoil';
+
+interface PostData {
+  userId: string | null;
+  productName: string;
+  img: string;
+  categories: string[];
+  count: string;
+  price: string;
+  discount: boolean;
+  delivery: string;
+  exchange: string;
+  description: string;
+  tags: string[];
+  size: string;
+}
+
+type DivProps = {
+  selected: boolean;
+};
 
 const CreatePost = () => {
+  const userId = useRecoilValue(userState);
+  const productNameRef = useRef<HTMLInputElement>(null);
+  const countRef = useRef<HTMLSelectElement>(null);
+  const sizeRef = useRef<HTMLSelectElement>(null);
+  const commentRef = useRef<HTMLTextAreaElement>(null);
+
   const [value, setValue] = useState('');
   const [exchangeOption, setExchangeOption] = useState('impossible');
   const [delivery, setDelivery] = useState('included');
   const [discount, setDiscount] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState('');
+
+  const [categories, setCategories] = useState<string[]>([]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const numValue = parseInt(e.target.value.replace(/,/g, ''), 10);
@@ -31,6 +62,35 @@ const CreatePost = () => {
     }
   };
 
+  const handleFirstCategoryClick = (category: string) => setCategories([category]);
+
+  const handleSecondCategoryClick = (category: string) => setCategories([categories[0], category]);
+
+  const handleThirdCategoryClick = (category: string) => setCategories([categories[0], categories[1], category]);
+
+  const handleSubmit = async (data: PostData) => {
+    try {
+      data = {
+        userId: userId,
+        productName: productNameRef.current ? productNameRef.current.value : '',
+        img: '3',
+        categories: categories,
+        count: countRef.current ? countRef.current.value : '',
+        price: value,
+        discount: discount,
+        delivery: delivery,
+        exchange: exchangeOption,
+        description: commentRef.current ? commentRef.current.value : '',
+        tags: tags,
+        size: sizeRef.current ? sizeRef.current.value : '',
+      };
+      await axios.post('api/products/post', data);
+    } catch (error) {
+      console.log('data: ', data);
+      console.log(error);
+    }
+  };
+
   const firstCategory = ['여성의류', '남성의류', '가방', '신발', '액세서리'];
   const secondCategory = ['아우터', '상의', '바지', '치마', '원피스', '점프수트', '홈웨어'];
   const thirdCategory = ['패딩', '점퍼', '코트', '자켓', '가디건', '조끼/베스트'];
@@ -44,7 +104,7 @@ const CreatePost = () => {
       <Lists>
         <List>
           <Name>상품명</Name>
-          <Input type="text" />
+          <Input type="text" ref={productNameRef} />
         </List>
         <List>
           <Name>상품 이미지</Name>
@@ -62,33 +122,64 @@ const CreatePost = () => {
             <CategoryContainer>
               <CategoryBox>
                 {firstCategory.map(category => {
-                  return <CategoryItem key={category}>{category}</CategoryItem>;
+                  return (
+                    <CategoryItem
+                      key={category}
+                      selected={category === categories[0]}
+                      onClick={() => handleFirstCategoryClick(category)}>
+                      {category}
+                    </CategoryItem>
+                  );
                 })}
               </CategoryBox>
               <CategoryBox>
                 {secondCategory.map(category => {
-                  return <CategoryItem key={category}>{category}</CategoryItem>;
+                  return (
+                    <CategoryItem
+                      key={category}
+                      selected={category === categories[1]}
+                      onClick={() => handleSecondCategoryClick(category)}>
+                      {category}
+                    </CategoryItem>
+                  );
                 })}
               </CategoryBox>
               <CategoryBox>
                 {thirdCategory.map(category => {
-                  return <CategoryItem key={category}>{category}</CategoryItem>;
+                  return (
+                    <CategoryItem
+                      key={category}
+                      selected={category === categories[2]}
+                      onClick={() => handleThirdCategoryClick(category)}>
+                      {category}
+                    </CategoryItem>
+                  );
                 })}
               </CategoryBox>
             </CategoryContainer>
-            <div>선택한 카테고리: </div>
+            <div>
+              선택한 카테고리:{' '}
+              {categories.map((category, idx) => {
+                return (
+                  <span key={category}>
+                    {category}
+                    {idx < categories.length - 1 && <FaAngleRight />}
+                  </span>
+                );
+              })}
+            </div>
           </CategoryTop>
         </List>
         <List>
           <Name>착용횟수</Name>
-          <Select>
+          <Select ref={countRef}>
             <option value="">선택</option>
-            <option value="원피스">새상품</option>
-            <option value="아우터">1회</option>
-            <option value="상의">2회</option>
-            <option value="바지">3회</option>
-            <option value="치마">4회</option>
-            <option value="점프수트">5회 이상</option>
+            <option value="새상품">새상품</option>
+            <option value="1회">1회</option>
+            <option value="2회">2회</option>
+            <option value="3회">3회</option>
+            <option value="4회">4회</option>
+            <option value="5회 이상">5회 이상</option>
           </Select>
         </List>
         <List>
@@ -149,7 +240,7 @@ const CreatePost = () => {
         </List>
         <List>
           <Name>사이즈</Name>
-          <Select>
+          <Select ref={sizeRef}>
             <option value="">선택</option>
             <option value="xs">XS</option>
             <option value="s">S</option>
@@ -165,7 +256,9 @@ const CreatePost = () => {
             name="inform"
             id=""
             rows={12}
-            placeholder="구매시기, 브랜드/모델명, 제품의 상태(사용감, 하자유무), 색상 등을 입력해 주세요."></TextArea>
+            ref={commentRef}
+            placeholder="구매시기, 브랜드/모델명, 제품의 상태(사용감, 하자유무), 색상 등을 입력해 주세요."
+          />
         </List>
         <List>
           <Name>태그</Name>
@@ -184,7 +277,7 @@ const CreatePost = () => {
       </Lists>
       <ButtonContainer>
         <ImsiBtn>임시저장</ImsiBtn>
-        <SubmitBtn>등록하기</SubmitBtn>
+        <SubmitBtn onClick={handleSubmit}>등록하기</SubmitBtn>
       </ButtonContainer>
     </Container>
   );
@@ -272,9 +365,13 @@ const CategoryBox = styled.div`
   }
 `;
 
-const CategoryItem = styled.div`
+const CategoryItem = styled.div<DivProps>`
   padding: 10px;
-  height: 40px;
+  height: 45px;
+  background-color: ${({ selected }) => selected && '#fad4db'};
+  font-weight: ${({ selected }) => selected && '600'};
+  text-align: center;
+  border-radius: 10px;
 `;
 
 const Select = styled.select``;
