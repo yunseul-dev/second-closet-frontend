@@ -9,7 +9,6 @@ import { useRecoilValue } from 'recoil';
 interface PostData {
   userId: string | null;
   productName: string;
-  img: string;
   categories: string[];
   count: string;
   price: string;
@@ -38,6 +37,8 @@ const CreatePost = () => {
   const [discount, setDiscount] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState('');
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [imgPrevUrl, setImgPrevUrl] = useState<string | null>(null);
 
   const [categories, setCategories] = useState<string[]>([]);
 
@@ -50,6 +51,29 @@ const CreatePost = () => {
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
+  };
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+
+    if (file) {
+      // 파일 확장자 확인 -> 사진만 업로드
+      const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
+      const fileExtension = file.name.split('.').pop()?.toLocaleLowerCase() || '';
+      const isImageFile = allowedExtensions.includes(fileExtension);
+
+      if (isImageFile) {
+        setPhotoFile(file);
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          setImgPrevUrl(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        console.log('선택한 파일은 사진 파일이 아닙니다.');
+      }
+    }
   };
 
   const handleKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -68,23 +92,34 @@ const CreatePost = () => {
 
   const handleThirdCategoryClick = (category: string) => setCategories([categories[0], categories[1], category]);
 
-  const handleSubmit = async (data: PostData) => {
+  const data: PostData = {
+    userId: userId,
+    productName: productNameRef.current ? productNameRef.current.value : '',
+    categories: categories,
+    count: countRef.current ? countRef.current.value : '',
+    price: value,
+    discount: discount,
+    delivery: delivery,
+    exchange: exchangeOption,
+    description: commentRef.current ? commentRef.current.value : '',
+    tags: tags,
+    size: sizeRef.current ? sizeRef.current.value : '',
+  };
+
+  const handleSubmit = async () => {
     try {
-      data = {
-        userId: userId,
-        productName: productNameRef.current ? productNameRef.current.value : '',
-        img: '3',
-        categories: categories,
-        count: countRef.current ? countRef.current.value : '',
-        price: value,
-        discount: discount,
-        delivery: delivery,
-        exchange: exchangeOption,
-        description: commentRef.current ? commentRef.current.value : '',
-        tags: tags,
-        size: sizeRef.current ? sizeRef.current.value : '',
-      };
-      await axios.post('api/products/post', data);
+      const formData = new FormData();
+
+      if (photoFile) {
+        formData.append('photo', photoFile);
+      }
+      formData.append('data', JSON.stringify(data));
+
+      await axios.post('/api/products/post', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
     } catch (error) {
       console.log('data: ', data);
       console.log(error);
@@ -109,12 +144,18 @@ const CreatePost = () => {
         <List>
           <Name>상품 이미지</Name>
           <FileLabel htmlFor="file-upload">
-            <div>
-              <AiOutlineCamera />
-            </div>
-            <div>이미지 등록</div>
+            {imgPrevUrl ? (
+              <ImagePreview src={imgPrevUrl} alt="Image Preview" />
+            ) : (
+              <>
+                <div>
+                  <AiOutlineCamera />
+                </div>
+                <div>이미지 등록</div>
+              </>
+            )}
           </FileLabel>
-          <InputFile id="file-upload" type="file" />
+          <InputFile id="file-upload" type="file" onChange={handleFileChange} />
         </List>
         <List>
           <Name>카테고리</Name>
@@ -277,7 +318,7 @@ const CreatePost = () => {
       </Lists>
       <ButtonContainer>
         <ImsiBtn>임시저장</ImsiBtn>
-        <SubmitBtn onClick={handleSubmit}>등록하기</SubmitBtn>
+        <SubmitBtn onClick={() => handleSubmit()}>등록하기</SubmitBtn>
       </ButtonContainer>
     </Container>
   );
@@ -316,6 +357,13 @@ const FileLabel = styled.label`
   height: 200px;
   background-color: #f0f0f0;
   border: 1px solid gray;
+`;
+
+const ImagePreview = styled.img`
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  margin-top: 10px;
 `;
 
 const InputFile = styled.input`
