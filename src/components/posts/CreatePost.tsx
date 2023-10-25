@@ -50,6 +50,8 @@ const CreatePost = () => {
     const numValue = parseInt(e.target.value.replace(/,/g, ''), 10);
     if (!isNaN(numValue)) {
       setValue(numValue.toLocaleString());
+    } else {
+      setValue('');
     }
   };
 
@@ -122,21 +124,11 @@ const CreatePost = () => {
 
       formData.append('data', JSON.stringify(data));
 
-      if (
-        productNameRef.current?.value &&
-        imgPrevUrls.length &&
-        categories.length &&
-        sizeRef.current?.value &&
-        countRef.current?.value
-      ) {
-        await axios.post('/api/products/post', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-      } else {
-        console.log('모든 항목을 입력해주세요');
-      }
+      await axios.post('/api/products/post', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
     } catch (error) {
       console.log(error);
     }
