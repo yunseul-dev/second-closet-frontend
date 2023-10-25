@@ -122,11 +122,21 @@ const CreatePost = () => {
 
       formData.append('data', JSON.stringify(data));
 
-      await axios.post('/api/products/post', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      if (
+        productNameRef.current?.value &&
+        imgPrevUrls.length &&
+        categories.length &&
+        sizeRef.current?.value &&
+        countRef.current?.value
+      ) {
+        await axios.post('/api/products/post', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+      } else {
+        console.log('모든 항목을 입력해주세요');
+      }
     } catch (error) {
       console.log(error);
     }
