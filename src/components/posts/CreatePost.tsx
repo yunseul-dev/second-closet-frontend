@@ -24,6 +24,10 @@ type DivProps = {
   selected: boolean;
 };
 
+type ImgProps = {
+  idx: number;
+};
+
 const CreatePost = () => {
   const userId = useRecoilValue(userState);
   const productNameRef = useRef<HTMLInputElement>(null);
@@ -37,8 +41,8 @@ const CreatePost = () => {
   const [discount, setDiscount] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState('');
-  const [photoFile, setPhotoFile] = useState<File | null>(null);
-  const [imgPrevUrl, setImgPrevUrl] = useState<string | null>(null);
+  const [photoFiles, setPhotoFiles] = useState<File[]>([]);
+  const [imgPrevUrls, setImgPrevUrls] = useState<string[]>([]);
 
   const [categories, setCategories] = useState<string[]>([]);
 
@@ -58,16 +62,16 @@ const CreatePost = () => {
 
     if (file) {
       // 파일 확장자 확인 -> 사진만 업로드
-      const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
+      const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
       const fileExtension = file.name.split('.').pop()?.toLocaleLowerCase() || '';
       const isImageFile = allowedExtensions.includes(fileExtension);
 
       if (isImageFile) {
-        setPhotoFile(file);
+        setPhotoFiles([...photoFiles, file]);
 
         const reader = new FileReader();
         reader.onload = () => {
-          setImgPrevUrl(reader.result as string);
+          setImgPrevUrls([...imgPrevUrls, reader.result as string]);
         };
         reader.readAsDataURL(file);
       } else {
@@ -92,27 +96,30 @@ const CreatePost = () => {
 
   const handleThirdCategoryClick = (category: string) => setCategories([categories[0], categories[1], category]);
 
-  const data: PostData = {
-    userId: userId,
-    productName: productNameRef.current ? productNameRef.current.value : '',
-    categories: categories,
-    count: countRef.current ? countRef.current.value : '',
-    price: value,
-    discount: discount,
-    delivery: delivery,
-    exchange: exchangeOption,
-    description: commentRef.current ? commentRef.current.value : '',
-    tags: tags,
-    size: sizeRef.current ? sizeRef.current.value : '',
-  };
-
   const handleSubmit = async () => {
     try {
       const formData = new FormData();
 
-      if (photoFile) {
-        formData.append('photo', photoFile);
+      if (photoFiles) {
+        photoFiles.map(file => {
+          formData.append('photo', file);
+        });
       }
+
+      const data: PostData = {
+        userId: userId,
+        productName: productNameRef.current ? productNameRef.current.value : '',
+        categories: categories,
+        count: countRef.current ? countRef.current.value : '',
+        price: value,
+        discount: discount,
+        delivery: delivery,
+        exchange: exchangeOption,
+        description: commentRef.current ? commentRef.current.value : '',
+        tags: tags,
+        size: sizeRef.current ? sizeRef.current.value : '',
+      };
+
       formData.append('data', JSON.stringify(data));
 
       await axios.post('/api/products/post', formData, {
@@ -121,7 +128,6 @@ const CreatePost = () => {
         },
       });
     } catch (error) {
-      console.log('data: ', data);
       console.log(error);
     }
   };
@@ -138,27 +144,41 @@ const CreatePost = () => {
       </TitleContainer>
       <Lists>
         <List>
-          <Name>상품명</Name>
+          <Name>
+            상품명
+            <Must>*</Must>
+          </Name>
           <Input type="text" ref={productNameRef} />
         </List>
         <List>
-          <Name>상품 이미지</Name>
-          <FileLabel htmlFor="file-upload">
-            {imgPrevUrl ? (
-              <ImagePreview src={imgPrevUrl} alt="Image Preview" />
-            ) : (
-              <>
-                <div>
-                  <AiOutlineCamera />
-                </div>
-                <div>이미지 등록</div>
-              </>
-            )}
-          </FileLabel>
-          <InputFile id="file-upload" type="file" onChange={handleFileChange} />
+          <Name>
+            상품 이미지
+            <ImgCount>({imgPrevUrls.length}/11)</ImgCount>
+            <Must>*</Must>
+          </Name>
+          <ImgFileContainer>
+            <FileLabel htmlFor="file-upload">
+              <div>
+                <AiOutlineCamera />
+              </div>
+              <div>이미지 등록</div>
+            </FileLabel>
+            <InputFile id="file-upload" type="file" onChange={handleFileChange} />
+            {imgPrevUrls &&
+              imgPrevUrls.map((imgPrevUrl, idx) => {
+                return (
+                  <ImagePreview idx={idx + 1}>
+                    <Image src={imgPrevUrl} alt="Image Preview" />
+                  </ImagePreview>
+                );
+              })}
+          </ImgFileContainer>
         </List>
         <List>
-          <Name>카테고리</Name>
+          <Name>
+            카테고리
+            <Must>*</Must>
+          </Name>
           <CategoryTop>
             <CategoryContainer>
               <CategoryBox>
@@ -212,7 +232,10 @@ const CreatePost = () => {
           </CategoryTop>
         </List>
         <List>
-          <Name>착용횟수</Name>
+          <Name>
+            착용횟수
+            <Must>*</Must>
+          </Name>
           <Select ref={countRef}>
             <option value="">선택</option>
             <option value="새상품">새상품</option>
@@ -224,7 +247,10 @@ const CreatePost = () => {
           </Select>
         </List>
         <List>
-          <Name>가격</Name>
+          <Name>
+            가격
+            <Must>*</Must>
+          </Name>
           <PriceContainer>
             <Price type="text" placeholder="가격을 입력해주세요." value={value} onChange={handleChange} />원
             <PriceSuggestion>
@@ -234,7 +260,10 @@ const CreatePost = () => {
           </PriceContainer>
         </List>
         <List>
-          <Name>배송비 포함</Name>
+          <Name>
+            배송비 포함
+            <Must>*</Must>
+          </Name>
           <label>
             <input
               type="radio"
@@ -257,7 +286,10 @@ const CreatePost = () => {
           </label>
         </List>
         <List>
-          <Name>교환</Name>
+          <Name>
+            교환
+            <Must>*</Must>
+          </Name>
           <label>
             <input
               type="radio"
@@ -280,7 +312,10 @@ const CreatePost = () => {
           </label>
         </List>
         <List>
-          <Name>사이즈</Name>
+          <Name>
+            사이즈
+            <Must>*</Must>
+          </Name>
           <Select ref={sizeRef}>
             <option value="">선택</option>
             <option value="xs">XS</option>
@@ -348,22 +383,39 @@ const MiniTitle = styled.div`
   color: red;
 `;
 
+const ImgFileContainer = styled.div`
+  flex-wrap: wrap;
+  display: flex;
+  width: 80%;
+`;
+
 const FileLabel = styled.label`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 200px;
+  width: 32%;
   height: 200px;
   background-color: #f0f0f0;
   border: 1px solid gray;
 `;
 
-const ImagePreview = styled.img`
+const ImagePreview = styled.div<ImgProps>`
+  width: 32%;
+  height: 200px;
+  margin-bottom: 1%;
+  margin-left: ${({ idx }) => idx % 3 && '2%'};
+`;
+
+const Image = styled.img`
   width: 100%;
-  max-height: 300px;
+  height: 100%;
   object-fit: cover;
-  margin-top: 10px;
+`;
+
+const ImgCount = styled.span`
+  font-size: 20px;
+  color: #818181;
 `;
 
 const InputFile = styled.input`
@@ -509,4 +561,9 @@ const ImsiBtn = styled.button`
   font-size: 20px;
   font-weight: 600;
   background-color: white;
+`;
+
+const Must = styled.span`
+  font-size: 20px;
+  color: red;
 `;
