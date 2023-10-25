@@ -98,7 +98,7 @@ const CreatePost = () => {
 
   const handleThirdCategoryClick = (category: string) => setCategories([categories[0], categories[1], category]);
 
-  const handleSubmit = async () => {
+  const handleImsiSubmit = async () => {
     try {
       const formData = new FormData();
 
@@ -129,6 +129,52 @@ const CreatePost = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const formData = new FormData();
+
+      if (photoFiles) {
+        photoFiles.map(file => {
+          formData.append('photo', file);
+        });
+      }
+
+      const data: PostData = {
+        userId: userId,
+        productName: productNameRef.current ? productNameRef.current.value : '',
+        categories: categories,
+        count: countRef.current ? countRef.current.value : '',
+        price: value,
+        discount: discount,
+        delivery: delivery,
+        exchange: exchangeOption,
+        description: commentRef.current ? commentRef.current.value : '',
+        tags: tags,
+        size: sizeRef.current ? sizeRef.current.value : '',
+      };
+
+      formData.append('data', JSON.stringify(data));
+
+      if (
+        productNameRef.current?.value &&
+        imgPrevUrls.length &&
+        categories.length &&
+        sizeRef.current?.value &&
+        countRef.current?.value
+      ) {
+        await axios.post('/api/products/post', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+      } else {
+        console.log('모든 항목을 입력해주세요');
+      }
     } catch (error) {
       console.log(error);
     }
@@ -169,7 +215,7 @@ const CreatePost = () => {
             {imgPrevUrls &&
               imgPrevUrls.map((imgPrevUrl, idx) => {
                 return (
-                  <ImagePreview idx={idx + 1}>
+                  <ImagePreview idx={idx + 1} key={idx}>
                     <Image src={imgPrevUrl} alt="Image Preview" />
                   </ImagePreview>
                 );
@@ -354,7 +400,7 @@ const CreatePost = () => {
         </List>
       </Lists>
       <ButtonContainer>
-        <ImsiBtn>임시저장</ImsiBtn>
+        <ImsiBtn onClick={() => handleImsiSubmit()}>임시저장</ImsiBtn>
         <SubmitBtn onClick={() => handleSubmit()}>등록하기</SubmitBtn>
       </ButtonContainer>
     </Container>
