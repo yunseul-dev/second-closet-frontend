@@ -5,6 +5,7 @@ import { FaAngleRight } from 'react-icons/fa6';
 import axios from 'axios';
 import { userState } from '../../recoil/atom/userState';
 import { useRecoilValue } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 
 interface PostData {
   userId: string | null;
@@ -14,10 +15,11 @@ interface PostData {
   price: string;
   discount: boolean;
   delivery: string;
-  exchange: string;
+  exchange: boolean;
   description: string;
   tags: string[];
   size: string;
+  facetoface: boolean;
 }
 
 type DivProps = {
@@ -29,6 +31,8 @@ type ImgProps = {
 };
 
 const CreatePost = () => {
+  const navigate = useNavigate();
+
   const userId = useRecoilValue(userState);
   const productNameRef = useRef<HTMLInputElement>(null);
   const countRef = useRef<HTMLSelectElement>(null);
@@ -36,13 +40,14 @@ const CreatePost = () => {
   const commentRef = useRef<HTMLTextAreaElement>(null);
 
   const [value, setValue] = useState('');
-  const [exchangeOption, setExchangeOption] = useState('impossible');
+  const [exchangeOption, setExchangeOption] = useState<boolean>(false);
   const [delivery, setDelivery] = useState('included');
   const [discount, setDiscount] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [photoFiles, setPhotoFiles] = useState<File[]>([]);
   const [imgPrevUrls, setImgPrevUrls] = useState<string[]>([]);
+  const [canFace, setCanFace] = useState<boolean>(true);
 
   const [categories, setCategories] = useState<string[]>([]);
 
@@ -120,15 +125,27 @@ const CreatePost = () => {
         description: commentRef.current ? commentRef.current.value : '',
         tags: tags,
         size: sizeRef.current ? sizeRef.current.value : '',
+        facetoface: canFace,
       };
 
       formData.append('data', JSON.stringify(data));
 
-      await axios.post('/api/products/post', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      if (
+        productNameRef.current?.value ||
+        imgPrevUrls.length ||
+        categories.length ||
+        sizeRef.current?.value ||
+        countRef.current?.value
+      ) {
+        await axios.post('/api/products/post', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        navigate('/detail');
+      } else {
+        console.log('아무것도 등록되지 않음');
+      }
     } catch (error) {
       console.log(error);
     }
@@ -156,6 +173,7 @@ const CreatePost = () => {
         description: commentRef.current ? commentRef.current.value : '',
         tags: tags,
         size: sizeRef.current ? sizeRef.current.value : '',
+        facetoface: canFace,
       };
 
       formData.append('data', JSON.stringify(data));
@@ -172,6 +190,7 @@ const CreatePost = () => {
             'Content-Type': 'multipart/form-data',
           },
         });
+        navigate('/detail');
       } else {
         console.log('모든 항목을 입력해주세요');
       }
@@ -341,22 +360,36 @@ const CreatePost = () => {
           <label>
             <input
               type="radio"
-              value="impossible"
+              value="false"
               name="exchange"
-              checked={exchangeOption === 'impossible'}
-              onChange={e => setExchangeOption(e.target.value)}
+              checked={!exchangeOption}
+              onChange={() => setExchangeOption(false)}
             />{' '}
             불가
           </label>
           <label>
             <input
               type="radio"
-              value="possible"
+              value="true"
               name="exchange"
-              checked={exchangeOption === 'possible'}
-              onChange={e => setExchangeOption(e.target.value)}
+              checked={exchangeOption}
+              onChange={() => setExchangeOption(true)}
             />{' '}
             가능
+          </label>
+        </List>
+        <List>
+          <Name>
+            직거래
+            <Must>*</Must>
+          </Name>
+          <label>
+            <input type="radio" value="true" name="facetoface" checked={canFace} onChange={() => setCanFace(true)} />{' '}
+            가능
+          </label>
+          <label>
+            <input type="radio" value="false" name="facetoface" checked={!canFace} onChange={() => setCanFace(false)} />{' '}
+            불가능
           </label>
         </List>
         <List>
