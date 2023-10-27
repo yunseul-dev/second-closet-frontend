@@ -66,7 +66,7 @@ const CreatePost = () => {
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (photoFiles.length > 11) return;
+    if (photoFiles.length === 11) return;
 
     const file = e.target.files && e.target.files[0];
 
