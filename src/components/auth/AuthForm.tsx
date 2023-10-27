@@ -4,7 +4,7 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 
 type ButtonProps = {
-  active: boolean;
+  $active: boolean;
 };
 
 const AuthForm = () => {
@@ -17,14 +17,14 @@ const AuthForm = () => {
         <Title>세컨클로젯</Title>
       </FlexWrapper>
       <CombinedSignBtns>
-        <AuthBtn active={state === 'signIn'} onClick={() => setState('signIn')}>
+        <AuthBtn $active={state === 'signIn'} onClick={() => setState('signIn')}>
           Sign In
         </AuthBtn>
-        <AuthBtn active={state === 'signUp'} onClick={() => setState('signUp')}>
+        <AuthBtn $active={state === 'signUp'} onClick={() => setState('signUp')}>
           Sign Up
         </AuthBtn>
       </CombinedSignBtns>
-      {state === 'signIn' ? <SignIn /> : <SignUp />}
+      {state === 'signIn' ? <SignIn /> : <SignUp setState={setState} />}
     </Container>
   );
 };
@@ -61,8 +61,8 @@ const CombinedSignBtns = styled.div`
 `;
 
 const AuthBtn = styled.button<ButtonProps>`
-  background-color: ${({ active }) => (active ? '#fad4db' : 'white')};
-  color: ${({ active }) => active && '#f1899c'};
+  background-color: ${({ $active }) => ($active ? '#fad4db' : 'white')};
+  color: ${({ $active }) => $active && '#f1899c'};
   font-size: 16px;
   width: 180px;
   height: 40px;
@@ -80,6 +80,6 @@ const AuthBtn = styled.button<ButtonProps>`
     left: 30%;
     right: 30%;
     height: 3px;
-    background-color: ${({ active }) => active && '#f1899c'};
+    background-color: ${({ $active }) => $active && '#f1899c'};
   }
 `;
