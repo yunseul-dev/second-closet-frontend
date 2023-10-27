@@ -1,8 +1,22 @@
 import { styled } from 'styled-components';
 import { BiCategoryAlt } from 'react-icons/bi';
 import { LuSunMedium } from 'react-icons/lu';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../../recoil/atom/userState';
 
 const Header = () => {
+  const userId = useRecoilValue(userState);
+
+  const navigate = useNavigate();
+  const handleSigninClick = () => {
+    navigate('/signin');
+  };
+
+  const handleCreatepostClick = () => {
+    navigate('/createpost');
+  };
+
   return (
     <>
       <Container>
@@ -13,12 +27,14 @@ const Header = () => {
         <SearchBar>
           <Input type="text" placeholder=" 검색어를 입력하세요"></Input>
         </SearchBar>
-        <Btn>
-          <IconWrap>
-            <LuSunMedium />
-          </IconWrap>
-        </Btn>
-        <Btn>Sign In</Btn>
+        {userId ? (
+          <>
+            <Btn onClick={handleCreatepostClick}>상품 등록</Btn>
+            <Btn>나의 옷장</Btn>
+          </>
+        ) : (
+          <Btn onClick={handleSigninClick}>Sign In</Btn>
+        )}
       </Container>
     </>
   );
