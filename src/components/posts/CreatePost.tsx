@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { useState, useRef, ChangeEvent, KeyboardEvent } from 'react';
 import { AiOutlineCamera } from 'react-icons/ai';
-import { FaAngleRight, FaXmark } from 'react-icons/fa6';
+import { LiaAngleRightSolid } from 'react-icons/lia';
+import { FaXmark } from 'react-icons/fa6';
 import axios from 'axios';
 import { userState } from '../../recoil/atom/userState';
 import { useRecoilValue } from 'recoil';
@@ -15,7 +16,7 @@ interface PostData {
   count: string;
   price: string;
   discount: boolean;
-  delivery: string;
+  delivery: boolean;
   exchange: boolean;
   description: string;
   tags: string[];
@@ -42,7 +43,7 @@ const CreatePost = () => {
 
   const [value, setValue] = useState('');
   const [exchangeOption, setExchangeOption] = useState<boolean>(false);
-  const [delivery, setDelivery] = useState('included');
+  const [delivery, setDelivery] = useState(true);
   const [discount, setDiscount] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState('');
@@ -301,17 +302,17 @@ const CreatePost = () => {
                   })}
               </CategoryBox>
             </CategoryContainer>
-            <div>
+            <CategoryView>
               선택한 카테고리:{' '}
               {categories.map((category, idx) => {
                 return (
                   <span key={category}>
                     {category}
-                    {idx < categories.length - 1 && <FaAngleRight />}
+                    {idx < categories.length - 1 && <LiaAngleRightSolid />}
                   </span>
                 );
               })}
-            </div>
+            </CategoryView>
           </CategoryTop>
         </List>
         <List>
@@ -352,8 +353,8 @@ const CreatePost = () => {
               type="radio"
               value="included"
               name="delivery"
-              checked={delivery === 'included'}
-              onChange={e => setDelivery(e.target.value)}
+              checked={delivery}
+              onChange={() => setDelivery(true)}
             />{' '}
             배송비포함
           </label>
@@ -362,8 +363,8 @@ const CreatePost = () => {
               type="radio"
               value="notIncluded"
               name="delivery"
-              checked={delivery === 'notIncluded'}
-              onChange={e => setDelivery(e.target.value)}
+              checked={!delivery}
+              onChange={() => setDelivery(false)}
             />{' '}
             배송비별도
           </label>
@@ -428,9 +429,9 @@ const CreatePost = () => {
           <TextArea
             name="inform"
             id=""
-            rows={12}
+            rows={10}
             ref={commentRef}
-            placeholder="구매시기, 브랜드/모델명, 제품의 상태(사용감, 하자유무), 색상 등을 입력해 주세요."
+            placeholder="상품에 대한 상세한 정보를 입력해 주세요."
           />
         </List>
         <List>
@@ -592,6 +593,11 @@ const CategoryItem = styled.div<DivProps>`
   border-radius: 10px;
 `;
 
+const CategoryView = styled.div`
+  font-size: 16px;
+  margin-top: 10px;
+`;
+
 const Select = styled.select``;
 
 const Name = styled.div`
@@ -608,6 +614,7 @@ const Input = styled.input`
 
 const TextArea = styled.textarea`
   width: 80%;
+  font-size: 20px;
 `;
 const PriceContainer = styled.div`
   width: 70%;
