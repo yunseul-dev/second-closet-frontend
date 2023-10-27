@@ -6,6 +6,8 @@ import { LuClock3 } from 'react-icons/lu';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Category } from '../../constants/Category';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../../recoil/atom/userState';
 
 type Product = {
   productId: number;
@@ -23,13 +25,15 @@ type Product = {
   size: string;
   facetoface: boolean;
   createdAt: number;
-  hearts: number;
+  hearts: string[];
 };
 
 const DetailPost = () => {
+  const userName = useRecoilValue(userState);
+
   const [product, setProduct] = useState(null);
-  const [clickHeart, setClickHeart] = useState(false);
   const [imgNum, setImgNum] = useState(0);
+  const [clickHeart, setClickHeart] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,13 +46,11 @@ const DetailPost = () => {
     };
 
     fetchData();
-  }, []);
+  }, [clickHeart]);
 
   if (!product) {
     return <div>Loading...</div>;
   }
-
-  const handleHeartClick = () => setClickHeart(!clickHeart);
 
   const {
     productId,
@@ -68,6 +70,14 @@ const DetailPost = () => {
     createdAt,
     hearts,
   }: Product = product;
+
+  const handleHeartClick = () => {
+    if (userName === null) return;
+
+    const updatedHearts = hearts.includes(userName) ? hearts.filter(id => id !== userName) : [...hearts, userName];
+    axios.patch(`/api/products/hearts/${productId}`, updatedHearts);
+    setClickHeart(!clickHeart);
+  };
 
   let time = '';
 
@@ -153,7 +163,7 @@ const DetailPost = () => {
               </ProductPrice>
               <Alarms>
                 <Alarm>
-                  <LiaHeartSolid /> {hearts}
+                  <LiaHeartSolid /> {hearts.length}
                 </Alarm>
                 <Alarm>
                   <LuClock3 /> {time}
@@ -192,7 +202,9 @@ const DetailPost = () => {
             <Buttons>
               <TalkBtn>문의하기</TalkBtn>
               <BuyBtn>구매하기</BuyBtn>
-              <HeartBtn onClick={handleHeartClick}>{clickHeart ? <AiFillHeart /> : <AiOutlineHeart />} 찜</HeartBtn>
+              <HeartBtn onClick={handleHeartClick}>
+                {userName && hearts.includes(userName) ? <AiFillHeart /> : <AiOutlineHeart />} 찜
+              </HeartBtn>
             </Buttons>
           </InfoWrapper>
         </SubmitConatiner>
