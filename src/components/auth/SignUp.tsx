@@ -3,9 +3,8 @@ import { useForm, useController, Control } from 'react-hook-form';
 import { signUpSchema } from '../../utils/shema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
-import { useCallback, ChangeEvent } from 'react';
+import { useCallback, ChangeEvent, Dispatch, SetStateAction } from 'react';
 
 interface SignUpFormData {
   userid: string;
@@ -18,6 +17,10 @@ interface InputProps {
   control: Control<SignUpFormData>;
   name: 'userid' | 'password' | 'passwordConfirm';
   trigger: any;
+}
+
+interface SignUpProps {
+  setState: Dispatch<SetStateAction<string>>;
 }
 
 const InputContainer = ({ placeholder, control, name, trigger }: InputProps) => {
@@ -58,9 +61,7 @@ const InputContainer = ({ placeholder, control, name, trigger }: InputProps) => 
   );
 };
 
-const SignUp = () => {
-  const navigate = useNavigate();
-
+const SignUp = ({ setState }: SignUpProps) => {
   const { control, handleSubmit, trigger } = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -73,7 +74,7 @@ const SignUp = () => {
     try {
       const { data: user } = await axios.post('api/auth/signup', data, { withCredentials: true });
       console.log(user);
-      navigate('/');
+      setState('signIn');
     } catch (error) {
       console.log(error);
     }
