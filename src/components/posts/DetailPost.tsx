@@ -5,6 +5,7 @@ import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { LuClock3 } from 'react-icons/lu';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { Category } from '../../constants/Category';
 
 type Product = {
   productId: number;
@@ -112,22 +113,24 @@ const DetailPost = () => {
         <LiaAngleRightSolid />
         <Select defaultValue={categories[1]}>
           <option value="">선택</option>
-          <option value="아우터">아우터</option>
-          <option value="상의">상의</option>
-          <option value="바지">바지</option>
-          <option value="치마">치마</option>
-          <option value="원피스">원피스</option>
-          <option value="점프수트">점프수트</option>
+          {categories[1] &&
+            Object.keys(Category[categories[0]]).map(category => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
         </Select>
         <LiaAngleRightSolid />
         <Select defaultValue={categories[2]}>
           <option value="">선택</option>
-          <option value="아우터">아우터</option>
-          <option value="상의">상의</option>
-          <option value="바지">바지</option>
-          <option value="치마">치마</option>
-          <option value="원피스">원피스</option>
-          <option value="점프수트">점프수트</option>
+          {categories[2] &&
+            Object.values(Category[categories[0]][categories[1]]).map((category: string) => {
+              return (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              );
+            })}
         </Select>
       </CategoryContainer>
       <Container>

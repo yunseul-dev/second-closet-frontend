@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import { useState, useRef, ChangeEvent, KeyboardEvent } from 'react';
 import { AiOutlineCamera } from 'react-icons/ai';
-import { FaAngleRight } from 'react-icons/fa6';
+import { FaAngleRight, FaXmark } from 'react-icons/fa6';
 import axios from 'axios';
 import { userState } from '../../recoil/atom/userState';
 import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
+import { Category } from '../../constants/Category';
 
 interface PostData {
   userId: string | null;
@@ -65,6 +66,8 @@ const CreatePost = () => {
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (photoFiles.length > 11) return;
+
     const file = e.target.files && e.target.files[0];
 
     if (file) {
@@ -151,6 +154,18 @@ const CreatePost = () => {
     }
   };
 
+  const handleTagXClick = (Xtag: string) => setTags(tags.filter(tag => tag !== Xtag));
+
+  const handleImgXClick = (idx: number) => {
+    const updatedImgPrevUrls = [...imgPrevUrls];
+    updatedImgPrevUrls.splice(idx, 1);
+    setImgPrevUrls(updatedImgPrevUrls);
+
+    const updatedPhotoFiles = [...photoFiles];
+    updatedPhotoFiles.splice(idx, 1);
+    setPhotoFiles(updatedPhotoFiles);
+  };
+
   const handleSubmit = async () => {
     try {
       const formData = new FormData();
@@ -199,10 +214,6 @@ const CreatePost = () => {
     }
   };
 
-  const firstCategory = ['여성의류', '남성의류', '가방', '신발', '액세서리'];
-  const secondCategory = ['아우터', '상의', '바지', '치마', '원피스', '점프수트', '홈웨어'];
-  const thirdCategory = ['패딩', '점퍼', '코트', '자켓', '가디건', '조끼/베스트'];
-
   return (
     <Container>
       <TitleContainer>
@@ -236,6 +247,9 @@ const CreatePost = () => {
                 return (
                   <ImagePreview idx={idx + 1} key={idx}>
                     <Image src={imgPrevUrl} alt="Image Preview" />
+                    <XImg>
+                      <FaXmark onClick={() => handleImgXClick(idx)} />
+                    </XImg>
                   </ImagePreview>
                 );
               })}
@@ -249,7 +263,7 @@ const CreatePost = () => {
           <CategoryTop>
             <CategoryContainer>
               <CategoryBox>
-                {firstCategory.map(category => {
+                {Object.keys(Category).map(category => {
                   return (
                     <CategoryItem
                       key={category}
@@ -261,28 +275,30 @@ const CreatePost = () => {
                 })}
               </CategoryBox>
               <CategoryBox>
-                {secondCategory.map(category => {
-                  return (
-                    <CategoryItem
-                      key={category}
-                      selected={category === categories[1]}
-                      onClick={() => handleSecondCategoryClick(category)}>
-                      {category}
-                    </CategoryItem>
-                  );
-                })}
+                {categories[0] &&
+                  Object.keys(Category[categories[0]]).map((category: string) => {
+                    return (
+                      <CategoryItem
+                        key={category}
+                        selected={category === categories[1]}
+                        onClick={() => handleSecondCategoryClick(category)}>
+                        {category}
+                      </CategoryItem>
+                    );
+                  })}
               </CategoryBox>
               <CategoryBox>
-                {thirdCategory.map(category => {
-                  return (
-                    <CategoryItem
-                      key={category}
-                      selected={category === categories[2]}
-                      onClick={() => handleThirdCategoryClick(category)}>
-                      {category}
-                    </CategoryItem>
-                  );
-                })}
+                {categories[1] &&
+                  Object.values<string>(Category[categories[0]][categories[1]]).map((category: string) => {
+                    return (
+                      <CategoryItem
+                        key={category}
+                        selected={category === categories[2]}
+                        onClick={() => handleThirdCategoryClick(category)}>
+                        {category}
+                      </CategoryItem>
+                    );
+                  })}
               </CategoryBox>
             </CategoryContainer>
             <div>
@@ -421,7 +437,14 @@ const CreatePost = () => {
           <Name>태그</Name>
           <TagWrapper>
             {tags.map(tag => {
-              return <Tag key={tag}>{`#${tag}`}</Tag>;
+              return (
+                <Tag key={tag}>
+                  {`# ${tag}`}
+                  <Xtag>
+                    <FaXmark onClick={() => handleTagXClick(tag)} />
+                  </Xtag>
+                </Tag>
+              );
             })}
             <StyledInput
               value={inputValue}
@@ -486,12 +509,26 @@ const ImagePreview = styled.div<ImgProps>`
   height: 200px;
   margin-bottom: 1%;
   margin-left: ${({ idx }) => idx % 3 && '2%'};
+  position: relative;
 `;
 
 const Image = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+`;
+
+const XImg = styled.span`
+  color: white;
+  position: absolute;
+  top: 5px;
+  right: 6px;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  background-color: rgba(128, 128, 128, 0.5);
+  z-index: 99;
+  text-align: center;
 `;
 
 const ImgCount = styled.span`
@@ -605,6 +642,11 @@ const TagWrapper = styled.div`
   padding: 5px;
   border: 1px solid gray;
   align-items: center;
+`;
+
+const Xtag = styled.span`
+  margin-left: 5px;
+  cursor: pointer;
 `;
 
 const Tag = styled.div`
