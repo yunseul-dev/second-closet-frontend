@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import { LiaHomeSolid, LiaAngleRightSolid, LiaHeartSolid, LiaHeart } from 'react-icons/lia';
+import { LiaHomeSolid, LiaAngleRightSolid, LiaHeartSolid } from 'react-icons/lia';
 import { AiFillAlert, AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { LuClock3 } from 'react-icons/lu';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
@@ -27,6 +28,7 @@ type Product = {
 const DetailPost = () => {
   const [product, setProduct] = useState(null);
   const [clickHeart, setClickHeart] = useState(false);
+  const [imgNum, setImgNum] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,7 +44,7 @@ const DetailPost = () => {
   }, []);
 
   if (!product) {
-    return <div>Loading...</div>; // 데이터를 기다리는 동안 로딩 상태를 표시할 수 있습니다.
+    return <div>Loading...</div>;
   }
 
   const handleHeartClick = () => setClickHeart(!clickHeart);
@@ -66,8 +68,6 @@ const DetailPost = () => {
     hearts,
   }: Product = product;
 
-  console.log('imgs: ', imgs);
-
   let time = '';
 
   const lastTime = (Date.now() - createdAt) / 1000 / 60 / 60; // 시
@@ -75,26 +75,43 @@ const DetailPost = () => {
   if (Math.floor(lastTime) > 24) {
     time = `${Math.floor(lastTime / 24)}일 전`; // 날짜
   } else if (Math.floor(lastTime) > 0) {
-    time = `${lastTime}시간 전`; //
+    time = `${Math.floor(lastTime)}시간 전`; //
   } else if (lastTime * 60 > 0) {
     time = `${Math.floor(lastTime * 60)}분 전`;
   }
+
+  const handlePrevClick = () => {
+    if (imgNum > 0) {
+      setImgNum(imgNum - 1);
+    } else {
+      setImgNum(imgs.length - 1);
+    }
+  };
+
+  const handleNextClick = () => {
+    if (imgNum < imgs.length - 1) {
+      setImgNum(imgNum + 1);
+    } else {
+      setImgNum(0);
+    }
+  };
+
   return (
     <ContainerWrapper>
       <CategoryContainer>
         <LiaHomeSolid />홈
         <LiaAngleRightSolid />
-        <Select>
-          <option value="">{categories[0]}</option>
+        <Select defaultValue={categories[0]}>
+          <option value="">선택</option>
           <option value="여성의류">여성의류</option>
-          <option value="여성의류">남성의류</option>
-          <option value="여성의류">가방</option>
-          <option value="여성의류">신발</option>
-          <option value="여성의류">액세서리</option>
+          <option value="남성의류">남성의류</option>
+          <option value="가방">가방</option>
+          <option value="신발">신발</option>
+          <option value="액세서리">액세서리</option>
         </Select>
         <LiaAngleRightSolid />
-        <Select>
-          <option value="">{categories[1]}</option>
+        <Select defaultValue={categories[1]}>
+          <option value="">선택</option>
           <option value="아우터">아우터</option>
           <option value="상의">상의</option>
           <option value="바지">바지</option>
@@ -103,8 +120,8 @@ const DetailPost = () => {
           <option value="점프수트">점프수트</option>
         </Select>
         <LiaAngleRightSolid />
-        <Select>
-          <option value="">{categories[2]}</option>
+        <Select defaultValue={categories[2]}>
+          <option value="">선택</option>
           <option value="아우터">아우터</option>
           <option value="상의">상의</option>
           <option value="바지">바지</option>
@@ -116,9 +133,13 @@ const DetailPost = () => {
       <Container>
         <SubmitConatiner>
           <ImageContainer>
-            {imgs.map(img => (
-              <Image key={img} src={`http://localhost:5023/api/products/uploads/${img}`} alt="Image Preview" />
-            ))}
+            {<Image src={`http://localhost:5023/api/products/uploads/${imgs[imgNum]}`} alt="Image Preview" />}
+            <PrevBtn onClick={handlePrevClick}>
+              <FaAngleLeft />
+            </PrevBtn>
+            <NextBtn onClick={handleNextClick}>
+              <FaAngleRight />
+            </NextBtn>
           </ImageContainer>
           <InfoWrapper>
             <InfoContainer>
@@ -173,12 +194,14 @@ const DetailPost = () => {
           </InfoWrapper>
         </SubmitConatiner>
         <ExplainContainer>
-          <MiniTitle>판매자 코멘트</MiniTitle>
+          <MiniTitle>
+            판매자 <SellerName>{userId}</SellerName> 님의 코멘트
+          </MiniTitle>
           <Explain>
             {description}
             <Tags>
               {tags.map(tag => {
-                return <Tag>#{tag}</Tag>;
+                return <Tag key={tag}>#{tag}</Tag>;
               })}
             </Tags>
           </Explain>
@@ -260,16 +283,38 @@ const SubmitConatiner = styled.div`
 
 const ImageContainer = styled.div`
   width: 35%;
+  height: 45vh;
   min-width: 420px;
   min-height: 428px;
-  height: 45vh;
   border: solid 1px #dbd9d9;
+  position: relative;
+  overflow: hidden;
 `;
 
 const Image = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+`;
+
+const Control = styled.button`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fff;
+  background-color: transparent;
+  border-color: transparent;
+  cursor: pointer;
+  z-index: 99;
+  font-size: 2rem;
+`;
+
+const PrevBtn = styled(Control)`
+  left: 0;
+`;
+
+const NextBtn = styled(Control)`
+  right: 0;
 `;
 
 const Alarms = styled.div`
@@ -361,6 +406,8 @@ const Explain = styled.div`
   font-size: 18px;
 `;
 
+const SellerName = styled.span``;
+
 const Tags = styled.div`
   margin: 20px 0 20px 0;
 `;
@@ -368,7 +415,7 @@ const Tags = styled.div`
 const Tag = styled.span`
   padding: 8px;
   color: white;
-  background-color: #fbc3c3;
+  background-color: #fccbd4;
   margin-right: 5px;
   border-radius: 10px;
   font-weight: 600;
