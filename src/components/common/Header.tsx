@@ -1,6 +1,5 @@
 import { styled } from 'styled-components';
 import { BiCategoryAlt } from 'react-icons/bi';
-import { LuSunMedium } from 'react-icons/lu';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/atom/userState';
@@ -61,12 +60,6 @@ const FaBarsWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-right: 10px;
-`;
-
-const IconWrap = styled.div`
-  svg {
-    font-size: 30px;
-  }
 `;
 
 const SearchBar = styled.form`
