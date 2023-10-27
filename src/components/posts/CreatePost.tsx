@@ -94,6 +94,8 @@ const CreatePost = () => {
   const handleKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
+      if (tags.length === 5) return;
+
       if (inputValue && !tags.includes(inputValue) && tags.length < 5) {
         setTags([...tags, inputValue]);
         setInputValue('');
@@ -303,7 +305,7 @@ const CreatePost = () => {
               </CategoryBox>
             </CategoryContainer>
             <CategoryView>
-              선택한 카테고리:{' '}
+              <SelectedCategory> 선택한 카테고리: </SelectedCategory>
               {categories.map((category, idx) => {
                 return (
                   <span key={category}>
@@ -431,7 +433,7 @@ const CreatePost = () => {
             id=""
             rows={10}
             ref={commentRef}
-            placeholder="상품에 대한 상세한 정보를 입력해 주세요."
+            placeholder="구매시기,브랜드/모델명, 제품의 상태(사용감, 하자 유무) 등 상세한 정보를 입력해 주세요."
           />
         </List>
         <List>
@@ -547,7 +549,7 @@ const Lists = styled.div`
 
 const List = styled.div`
   display: flex;
-  font-size: 20px;
+  font-size: 16px;
   margin: 30px 0 30px 0;
 `;
 
@@ -594,8 +596,14 @@ const CategoryItem = styled.div<DivProps>`
 `;
 
 const CategoryView = styled.div`
-  font-size: 16px;
   margin-top: 10px;
+  font-weight: 600;
+  color: #f1899c;
+`;
+
+const SelectedCategory = styled.span`
+  font-weight: 500;
+  color: #858383;
 `;
 
 const Select = styled.select``;
@@ -614,7 +622,7 @@ const Input = styled.input`
 
 const TextArea = styled.textarea`
   width: 80%;
-  font-size: 20px;
+  font-size: 16px;
 `;
 const PriceContainer = styled.div`
   width: 70%;
@@ -623,11 +631,12 @@ const PriceContainer = styled.div`
 const Price = styled.input`
   width: 30%;
   height: 40px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 500;
 `;
 
 const PriceSuggestion = styled.div`
-  font-size: 15px;
+  font-size: 14px;
   padding: 10px 0 10px 0;
 `;
 
@@ -662,8 +671,7 @@ const Tag = styled.div`
   color: white;
   padding: 5px;
   border-radius: 10px;
-  font-size: 14px;
-
+  font-size: 16px;
   white-space: nowrap;
 `;
 
