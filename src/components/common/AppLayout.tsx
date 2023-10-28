@@ -21,6 +21,7 @@ const LayoutContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 60%;
+  min-width: 1024px;
   height: 100vh;
 `;
 
@@ -28,6 +29,6 @@ const Container = styled.div`
   flex-grow: 1;
   width: 100%;
   overflow: auto;
-  padding: 10px;
+  /* padding: 10px; */
   margin-top: 30px;
 `;
