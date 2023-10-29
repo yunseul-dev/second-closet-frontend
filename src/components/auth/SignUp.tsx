@@ -99,7 +99,7 @@ const FormWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #fad4db;
+  background-color: #fdecd0;
   padding: 20px;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
@@ -121,14 +121,14 @@ const Input = styled.input`
 const SubmitBtn = styled.button`
   width: 320px;
   height: 40px;
-  margin-bottom: 10px;
+  margin-top: 10px;
   border-radius: 20px;
   font-weight: 700;
   font-size: 16px;
   border: none;
   padding: 10px;
-  border: 1px solid gray;
-  background-color: #f1899c;
+  border: 1px solid #f9c26a;
+  background-color: #f6c26e;
   color: white;
 `;
 

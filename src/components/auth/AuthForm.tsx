@@ -2,6 +2,7 @@ import { styled } from 'styled-components';
 import { useState } from 'react';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import { LuShirt } from 'react-icons/lu';
 
 type ButtonProps = {
   $active: boolean;
@@ -13,7 +14,7 @@ const AuthForm = () => {
   return (
     <Container>
       <FlexWrapper>
-        <img src="./assets/icons/closetFav.png" alt="Closet Icon" />
+        <LuShirt />
         <Title>SecondCloset</Title>
       </FlexWrapper>
       <CombinedSignBtns>
@@ -40,8 +41,8 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 3px solid #fad4db;
-  border-radius: 10px;
+  border: 3px solid #fdecd0;
+  background-color: #fdecd0;
 `;
 
 const FlexWrapper = styled.div`
@@ -51,7 +52,8 @@ const FlexWrapper = styled.div`
 `;
 
 const Title = styled.div`
-  font-family: 'Gamja Flower';
+  font-family: 'Gaegu';
+  font-weight: 600;
   text-align: center;
   margin-left: 10px;
   margin-bottom: 10px;
@@ -63,15 +65,13 @@ const CombinedSignBtns = styled.div`
 `;
 
 const AuthBtn = styled.button<ButtonProps>`
-  background-color: ${({ $active }) => ($active ? '#fad4db' : 'white')};
-  color: ${({ $active }) => $active && '#f1899c'};
+  background-color: #fdecd0;
+  color: ${({ $active }) => $active && '#fdb849'};
   font-size: 16px;
   width: 180px;
   height: 40px;
   font-weight: 800;
   padding: 10px;
-  border-top-right-radius: 20px;
-  border-top-left-radius: 20px;
 
   position: relative;
 
@@ -82,6 +82,6 @@ const AuthBtn = styled.button<ButtonProps>`
     left: 30%;
     right: 30%;
     height: 3px;
-    background-color: ${({ $active }) => $active && '#f1899c'};
+    background-color: ${({ $active }) => $active && '#fdb849'};
   }
 `;

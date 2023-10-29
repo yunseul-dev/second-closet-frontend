@@ -100,11 +100,8 @@ const FormWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #fad4db;
+  background-color: #fdecd0;
   padding: 10px;
-  border-top-right-radius: 20px;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
   width: 360px;
 `;
 
@@ -127,8 +124,8 @@ const SubmitBtn = styled.button`
   font-weight: 700;
   border: none;
   padding: 10px;
-  border: 1px solid gray;
-  background-color: #f1899c;
+  background-color: #f6c26e;
+  border: 1px solid #f9c26a;
   color: white;
   font-size: 16px;
 `;
