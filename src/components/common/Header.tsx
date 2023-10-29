@@ -2,7 +2,6 @@ import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/atom/userState';
-import { IoMdShirt } from 'react-icons/io';
 import { Category } from '../../constants/Category';
 import { useState } from 'react';
 import { LuShirt, LuUser2, LuLogIn } from 'react-icons/lu';
@@ -19,6 +18,8 @@ const Header = () => {
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
   const [isItemHovered, setIsItemHovered] = useState<string[]>([]);
+
+  const handleLogoClick = () => navigate('/');
 
   const handleSigninClick = () => navigate('/signin');
 
@@ -38,7 +39,7 @@ const Header = () => {
           <FaBarsWrapper onMouseEnter={handleMouseEnter}>
             <LuShirt />
           </FaBarsWrapper>
-          <Title>SecondCloset</Title>
+          <Title onClick={handleLogoClick}>SecondCloset</Title>
           <SearchBar>
             <Input type="text" placeholder="  상품명을 입력하세요"></Input>
           </SearchBar>
