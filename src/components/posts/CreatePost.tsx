@@ -416,15 +416,36 @@ const CreatePost = () => {
             사이즈
             <Must>*</Must>
           </Name>
-          <Select ref={sizeRef}>
-            <option value="">선택</option>
-            <option value="xs">XS</option>
-            <option value="s">S</option>
-            <option value="m">M</option>
-            <option value="l">L</option>
-            <option value="xl">XL</option>
-            <option value="free">FREE</option>
-          </Select>
+          {categories[0] === '신발' ? (
+            <Select ref={sizeRef}>
+              <option value="">선택</option>
+              <option value="225">225</option>
+              <option value="230">230</option>
+              <option value="235">235</option>
+              <option value="240">240</option>
+              <option value="245">245</option>
+              <option value="250">250</option>
+              <option value="255">255</option>
+              <option value="260">260</option>
+              <option value="265">265</option>
+              <option value="270">275</option>
+              <option value="275">275</option>
+              <option value="280">280</option>
+              <option value="285">285</option>
+              <option value="290">295</option>
+              <option value="Free">Free</option>
+            </Select>
+          ) : (
+            <Select ref={sizeRef}>
+              <option value="">선택</option>
+              <option value="xs">XS</option>
+              <option value="s">S</option>
+              <option value="m">M</option>
+              <option value="l">L</option>
+              <option value="xl">XL</option>
+              <option value="free">FREE</option>
+            </Select>
+          )}
         </List>
         <List>
           <Name>판매자 코멘트</Name>
