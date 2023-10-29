@@ -200,11 +200,11 @@ const DetailPost = () => {
               </Infos>
             </InfoContainer>
             <Buttons>
+              <HeartBtn onClick={handleHeartClick}>
+                {userName && hearts.includes(userName) ? <AiFillHeart /> : <AiOutlineHeart />}
+              </HeartBtn>
               <TalkBtn>문의하기</TalkBtn>
               <BuyBtn>구매하기</BuyBtn>
-              <HeartBtn onClick={handleHeartClick}>
-                {userName && hearts.includes(userName) ? <AiFillHeart /> : <AiOutlineHeart />} 찜
-              </HeartBtn>
             </Buttons>
           </InfoWrapper>
         </SubmitConatiner>
@@ -382,33 +382,35 @@ const Buttons = styled.div`
   margin-top: 10px;
   position: relative;
   bottom: 0;
+  justify-content: flex-end;
 `;
 
 const TalkBtn = styled.button`
-  width: 33%;
+  width: 25%;
   height: 8vh;
-  border: solid 1px #f3e29e;
+  border: solid 1px black;
   font-weight: 700;
-  font-size: 16px;
-  background-color: #f8e9ae;
+  font-size: 18px;
+  background-color: white;
 `;
 
 const BuyBtn = styled.button`
-  width: 33%;
+  width: 25%;
   height: 8vh;
-  border: solid 1px #f9c8d0;
+  border: solid 1px #fd7272;
   font-weight: 700;
-  font-size: 16px;
-  background-color: #fad4db;
+  font-size: 18px;
+  background-color: #f98181;
+  color: white;
 `;
 
 const HeartBtn = styled.button`
-  width: 33%;
+  width: 10%;
   height: 8vh;
-  border: solid 1px #89c3f7;
+  border: solid 1px black;
   font-weight: 700;
-  font-size: 16px;
-  background-color: #9ccaf2;
+  font-size: 18px;
+  background-color: white;
 `;
 
 const ExplainContainer = styled.div`
@@ -424,13 +426,12 @@ const Explain = styled.div`
 const SellerName = styled.span``;
 
 const Tags = styled.div`
-  margin: 20px 0 20px 0;
+  margin: 40px 0 20px 0;
 `;
 
 const Tag = styled.span`
   padding: 8px;
-  color: white;
-  background-color: #fccbd4;
+  color: #8f8f8f;
   margin-right: 5px;
   border-radius: 10px;
   font-weight: 600;
