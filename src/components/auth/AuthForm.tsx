@@ -14,7 +14,7 @@ const AuthForm = () => {
     <Container>
       <FlexWrapper>
         <img src="./assets/icons/closetFav.png" alt="Closet Icon" />
-        <Title>세컨클로젯</Title>
+        <Title>SecondCloset</Title>
       </FlexWrapper>
       <CombinedSignBtns>
         <AuthBtn $active={state === 'signIn'} onClick={() => setState('signIn')}>
@@ -50,10 +50,12 @@ const FlexWrapper = styled.div`
   margin-bottom: 20px;
 `;
 
-const Title = styled.h3`
-  font-family: 'Hi melody';
+const Title = styled.div`
+  font-family: 'Gamja Flower';
   text-align: center;
   margin-left: 10px;
+  margin-bottom: 10px;
+  font-size: 40px;
 `;
 
 const CombinedSignBtns = styled.div`

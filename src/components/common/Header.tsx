@@ -207,12 +207,11 @@ const CategoryItem = styled.div<DivProps>`
 `;
 
 const Title = styled.div`
-  font-family: 'Now';
+  font-family: 'Gamja Flower';
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 40px;
-  font-weight: 500;
 `;
 
 const FaBarsWrapper = styled.div`

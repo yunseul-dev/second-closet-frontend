@@ -4,8 +4,11 @@ import gaeguBold from '../assets/fonts/Gaegu-Bold.ttf';
 import gaeguLight from '../assets/fonts/Gaegu-Light.ttf';
 import gaeguRegular from '../assets/fonts/Gaegu-Regular.ttf';
 
-import himelodyRegular from '../assets/fonts/HiMelody-Regular.ttf';
 import nanumRegular from '../assets/fonts/NanumPenScript-Regular.ttf';
+
+import bubblegumsans from '../assets/fonts/BubblegumSans-Regular.ttf';
+
+import gamjaflowerRegular from '../assets/fonts/GamjaFlower-Regular.ttf';
 
 const GlobalStyle = createGlobalStyle`
   #root{
@@ -108,12 +111,6 @@ const GlobalStyle = createGlobalStyle`
   font-display: swap;
 }
 
-@font-face {
-  font-family: 'Hi melody';
-  font-weight: 500;
-  src: local('Hi melody'), url(${himelodyRegular}) format('truetype');
-  font-display: swap;
-}
 
 @font-face {
   font-family: 'Nanum Pen Script';
@@ -121,6 +118,23 @@ const GlobalStyle = createGlobalStyle`
   src: local('Nanum Pen Script'), url(${nanumRegular}) format('truetype');
   font-display: swap;
 }
+
+@font-face {
+  font-family: 'Bubble Gum Sans';
+  font-weight: 500;
+  src: local('Bubble Gum Sans'), url(${bubblegumsans}) format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gamja Flower';
+  font-weight: 500;
+  src: local('Gamja Flower'), url(${gamjaflowerRegular}) format('truetype');
+  font-display: swap;
+}
+
+
+
 `;
 
 export default GlobalStyle;
