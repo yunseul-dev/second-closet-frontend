@@ -432,7 +432,7 @@ const CreatePost = () => {
               <option value="275">275</option>
               <option value="280">280</option>
               <option value="285">285</option>
-              <option value="290">295</option>
+              <option value="290">290</option>
               <option value="Free">Free</option>
             </Select>
           ) : (
@@ -556,7 +556,7 @@ const XImg = styled.span`
 `;
 
 const ImgCount = styled.span`
-  font-size: 20px;
+  font-size: 18px;
   color: #818181;
 `;
 
@@ -596,21 +596,21 @@ const CategoryBox = styled.div`
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #b8b8b8;
+    background-color: #d1d0d0;
     border-radius: 10px;
     background-clip: padding-box;
     border: 2px solid transparent;
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background-color: #8b8b8b;
+    background-color: #a5a5a5;
   }
 `;
 
 const CategoryItem = styled.div<DivProps>`
   padding: 10px;
   height: 45px;
-  background-color: ${({ selected }) => selected && '#fad4db'};
+  background-color: ${({ selected }) => selected && '#fee4e4'};
   font-weight: ${({ selected }) => selected && '600'};
   text-align: center;
   border-radius: 10px;
@@ -619,7 +619,7 @@ const CategoryItem = styled.div<DivProps>`
 const CategoryView = styled.div`
   margin-top: 10px;
   font-weight: 600;
-  color: #f1899c;
+  color: #f98181;
 `;
 
 const SelectedCategory = styled.span`
@@ -630,7 +630,7 @@ const SelectedCategory = styled.span`
 const Select = styled.select``;
 
 const Name = styled.div`
-  font-size: 24px;
+  font-size: 18px;
   width: 20%;
   min-width: 192px;
 `;
@@ -681,19 +681,28 @@ const TagWrapper = styled.div`
   align-items: center;
 `;
 
-const Xtag = styled.span`
+const Xtag = styled.div`
   margin-left: 5px;
   cursor: pointer;
+  color: white;
+  font-size: 12px;
+  background-color: #c9c9c9;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
 `;
 
 const Tag = styled.div`
   margin: 5px;
-  background-color: #f1899c;
-  color: white;
+  background-color: #ededed;
   padding: 5px;
   border-radius: 10px;
   font-size: 16px;
   white-space: nowrap;
+  display: flex;
 `;
 
 const StyledInput = styled.input`
@@ -709,7 +718,7 @@ const SubmitBtn = styled.button`
   height: 55px;
   font-size: 20px;
   font-weight: 600;
-  background-color: #f1899c;
+  background-color: #fc7b7b;
   color: white;
 `;
 
