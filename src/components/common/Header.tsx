@@ -5,6 +5,7 @@ import { userState } from '../../recoil/atom/userState';
 import { Category } from '../../constants/Category';
 import { useState } from 'react';
 import { LuShirt, LuUser2, LuLogIn } from 'react-icons/lu';
+import { HiArrowLongRight } from 'react-icons/hi2';
 import { BiCloset } from 'react-icons/bi';
 import { RxDividerVertical } from 'react-icons/rx';
 import { PiSignInBold } from 'react-icons/pi';
@@ -89,7 +90,10 @@ const Header = () => {
               </CategoryTap>
               <ManyHeart>
                 <HeartImg src="/assets/image/party.png"></HeartImg>
-                <HeartName>상품 보러가기</HeartName>
+                <HeartName>
+                  <div>상품 보러가기</div>
+                  <HiArrowLongRight />
+                </HeartName>
               </ManyHeart>
             </TabContainer>
           )}
@@ -169,9 +173,13 @@ const HeartImg = styled.img`
 const HeartName = styled.div`
   width: 60%;
   height: 10%;
-  border: 1px solid #959292;
+  border: 1px solid #c0bebe;
   font-size: 14px;
   margin-top: 10px;
+  display: flex;
+  padding: 0 10px 0 10px;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const CategoryTap = styled.div`
@@ -199,7 +207,8 @@ const CategoryItem = styled.div<DivProps>`
   font-size: 14px;
   padding: 5px;
   font-weight: ${({ $hovered }) => $hovered && '600'};
-  background-color: ${({ $hovered }) => $hovered && '#fad4db'};
+  background-color: ${({ $hovered }) => $hovered && '#ededed'};
+
   border-radius: 10px;
   width: 100%;
   display: flex;
@@ -208,11 +217,12 @@ const CategoryItem = styled.div<DivProps>`
 `;
 
 const Title = styled.div`
-  font-family: 'Gamja Flower';
+  font-family: 'Gaegu';
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 40px;
+  font-size: 36px;
 `;
 
 const FaBarsWrapper = styled.div`
@@ -230,9 +240,9 @@ const SearchBar = styled.form`
 `;
 
 const Input = styled.input`
-  width: 80%;
-  height: 80%;
-  border: 2px solid #f1899c;
+  width: 85%;
+  height: 85%;
+  border: 2px solid #fc7b7b;
   border-radius: 20px;
 `;
 
