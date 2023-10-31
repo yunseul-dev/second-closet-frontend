@@ -6,11 +6,12 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
 import { useCallback, ChangeEvent } from 'react';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { userState } from '../../recoil/atom/userState';
+import { isLoginState } from '../../recoil/atom/isLoginState';
 
 interface SignInFormData {
-  userid: string;
+  userId: string;
   password: string;
   passwordConfirm: string;
 }
@@ -62,20 +63,22 @@ const InputContainer = ({ placeholder, control, name, trigger }: InputProps) => 
 
 const SignIn = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useRecoilState(userState);
+  const setUser = useSetRecoilState(userState);
+  const setIsLogin = useSetRecoilState(isLoginState);
 
   const { control, handleSubmit, trigger } = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
-      userid: '',
+      userId: '',
       password: '',
     },
   });
 
   const onSubmit = async (data: SignInFormData) => {
     try {
-      const { data: userid } = await axios.post('api/auth/signin', data, { withCredentials: true });
-      setUser(userid);
+      const { data: userId } = await axios.post('api/auth/signin', data, { withCredentials: true });
+      setUser(userId);
+      setIsLogin(true);
       navigate('/');
     } catch (error) {
       console.log(error);
@@ -85,7 +88,7 @@ const SignIn = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormWrapper>
-        <InputContainer placeholder={'아이디'} control={control} name={'userid'} trigger={trigger} />
+        <InputContainer placeholder={'아이디'} control={control} name={'userId'} trigger={trigger} />
         <InputContainer placeholder={'비밀번호'} control={control} name={'password'} trigger={trigger} />
         <SubmitBtn type="submit">Sign In</SubmitBtn>
       </FormWrapper>
