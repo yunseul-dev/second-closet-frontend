@@ -1,10 +1,10 @@
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { userState } from '../../recoil/atom/userState';
+import { isLoginState } from '../../recoil/atom/isLoginState';
 import { Category } from '../../constants/Category';
 import { useState } from 'react';
-import { LuShirt, LuUser2, LuLogIn } from 'react-icons/lu';
+import { LuShirt, LuUser2 } from 'react-icons/lu';
 import { HiArrowLongRight } from 'react-icons/hi2';
 import { BiCloset } from 'react-icons/bi';
 import { RxDividerVertical } from 'react-icons/rx';
@@ -15,7 +15,8 @@ type DivProps = {
 };
 
 const Header = () => {
-  const userId = useRecoilValue(userState);
+  const isLogin = useRecoilValue(isLoginState);
+
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
   const [isItemHovered, setIsItemHovered] = useState<string[]>([]);
@@ -44,7 +45,7 @@ const Header = () => {
           <SearchBar>
             <Input type="text" placeholder="  상품명을 입력하세요"></Input>
           </SearchBar>
-          {userId ? (
+          {isLogin ? (
             <BtnContainer>
               <Btn onClick={handleCreatepostClick}>
                 <BiCloset />
