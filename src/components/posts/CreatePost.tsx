@@ -428,7 +428,7 @@ const CreatePost = () => {
               <option value="255">255</option>
               <option value="260">260</option>
               <option value="265">265</option>
-              <option value="270">275</option>
+              <option value="270">270</option>
               <option value="275">275</option>
               <option value="280">280</option>
               <option value="285">285</option>
