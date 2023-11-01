@@ -275,7 +275,9 @@ const Span = styled.span`
   margin-left: 5px;
 `;
 
-const ContainerWrapper = styled.div``;
+const ContainerWrapper = styled.div`
+  margin-bottom: 30px;
+`;
 
 const Container = styled.div``;
 
@@ -463,22 +465,26 @@ const Rec = styled.div`
 const RecImg = styled.div`
   width: 100%;
   height: 100%;
-  /* border: 1px solid gray; */
 `;
 
 const Img = styled.img`
   width: 100%;
   height: 100%;
-  border: 1px solid gray;
+  border: 1px solid #dad8d8;
 `;
 
 const RecName = styled.div`
   padding: 2px;
   font-size: 16px;
+  font-weight: 600;
+  color: #636363;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const MiniTitle = styled.div`

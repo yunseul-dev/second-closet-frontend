@@ -175,7 +175,7 @@ const ManyHeart = styled.div`
 const LinkTag = styled(Link)`
   display: block;
   width: 60%;
-  height: 50%;
+  height: 60%;
 `;
 
 const HeartImg = styled.img`
