@@ -19,7 +19,7 @@ interface SignInFormData {
 interface InputProps {
   placeholder: string;
   control: Control<SignInFormData>;
-  name: 'userid' | 'password' | 'passwordConfirm';
+  name: 'userId' | 'password' | 'passwordConfirm';
   trigger: any;
 }
 
