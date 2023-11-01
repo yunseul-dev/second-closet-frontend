@@ -2,11 +2,11 @@ import { atom } from 'recoil';
 
 export const isLoginState = atom({
   key: 'isLoginStateKey',
-  default: localStorage.getItem('isLoginStateKey') || 'false',
+  default: localStorage.getItem('isLogin') || false,
   effects_UNSTABLE: [
     ({ onSet }) => {
       onSet(isLogin => {
-        localStorage.setItem('isLoginStateKey', JSON.stringify(isLogin));
+        localStorage.setItem('isLogin', JSON.stringify(isLogin));
       });
     },
   ],
