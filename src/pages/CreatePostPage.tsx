@@ -1,7 +1,7 @@
 import AppLayout from '../components/common/AppLayout';
 import CreatePost from '../components/posts/CreatePost';
 
-const Root = () => {
+const CreatePostPage = () => {
   return (
     <AppLayout>
       <CreatePost />
@@ -9,4 +9,4 @@ const Root = () => {
   );
 };
 
-export default Root;
+export default CreatePostPage;
