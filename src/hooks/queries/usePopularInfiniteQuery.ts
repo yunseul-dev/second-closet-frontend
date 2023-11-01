@@ -20,9 +20,9 @@ const usePopularInfiniteQuery = () => {
       return res.data;
     },
     getNextPageParam: (lastPage: FetchResponse['pages'][0], allPages: FetchResponse['pageParams']) => {
-      const nextPage = allPages.length === 1 ? 1 : allPages.length + 1;
+      const nextPage = allPages.length === 1 ? 1 : allPages.length;
 
-      return lastPage.length !== 0 && nextPage;
+      return lastPage.length !== 0 ? nextPage : undefined;
     },
   });
 
