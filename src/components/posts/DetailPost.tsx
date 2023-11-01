@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 import { Category } from '../../constants/Category';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/atom/userState';
+import { useParams, Link } from 'react-router-dom';
 
 type Product = {
   productId: number;
@@ -30,15 +31,17 @@ type Product = {
 
 const DetailPost = () => {
   const userName = useRecoilValue(userState);
+  const { id } = useParams();
 
   const [product, setProduct] = useState(null);
   const [imgNum, setImgNum] = useState(0);
   const [clickHeart, setClickHeart] = useState(false);
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/products/1');
+        const response = await axios.get(`/api/products/${id}`);
         setProduct(response.data[0]);
       } catch (error) {
         console.error(error);
@@ -47,6 +50,19 @@ const DetailPost = () => {
 
     fetchData();
   }, [clickHeart]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get('/api/products/related');
+        setItems(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   if (!product) {
     return <div>Loading...</div>;
@@ -225,26 +241,16 @@ const DetailPost = () => {
       <Bottom>
         <MiniTitle>연관 상품</MiniTitle>
         <Recs>
-          <Rec>
-            <RecImg>사진</RecImg>
-            <RecName>제목</RecName>
-          </Rec>
-          <Rec>
-            <RecImg>사진</RecImg>
-            <RecName>제목</RecName>
-          </Rec>
-          <Rec>
-            <RecImg>사진</RecImg>
-            <RecName>제목</RecName>
-          </Rec>
-          <Rec>
-            <RecImg>사진</RecImg>
-            <RecName>제목</RecName>
-          </Rec>
-          <Rec>
-            <RecImg>사진</RecImg>
-            <RecName>제목</RecName>
-          </Rec>
+          {items.map(({ productId, productName, imgs }) => (
+            <Rec key={productId}>
+              <Link to={`/detail/${productId}`}>
+                <RecImg>
+                  <Img src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} />
+                </RecImg>
+                <RecName>{productName}</RecName>
+              </Link>
+            </Rec>
+          ))}
         </Recs>
       </Bottom>
     </ContainerWrapper>
@@ -455,6 +461,12 @@ const Rec = styled.div`
 `;
 
 const RecImg = styled.div`
+  width: 100%;
+  height: 100%;
+  /* border: 1px solid gray; */
+`;
+
+const Img = styled.img`
   width: 100%;
   height: 100%;
   border: 1px solid gray;
