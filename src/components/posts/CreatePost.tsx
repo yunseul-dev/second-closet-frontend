@@ -148,7 +148,7 @@ const CreatePost = () => {
             'Content-Type': 'multipart/form-data',
           },
         });
-        navigate('/detail');
+        navigate('/');
       } else {
         console.log('아무것도 등록되지 않음');
       }
@@ -208,7 +208,7 @@ const CreatePost = () => {
             'Content-Type': 'multipart/form-data',
           },
         });
-        navigate('/detail');
+        navigate('/');
       } else {
         console.log('모든 항목을 입력해주세요');
       }
