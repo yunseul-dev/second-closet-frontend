@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { isLoginState } from '../../recoil/atom/isLoginState';
 import { Category } from '../../constants/Category';
@@ -9,6 +9,7 @@ import { HiArrowLongRight } from 'react-icons/hi2';
 import { BiCloset } from 'react-icons/bi';
 import { RxDividerVertical } from 'react-icons/rx';
 import { PiSignInBold } from 'react-icons/pi';
+import useRecommendQuery from '../../hooks/queries/useRecommendQuery';
 
 type DivProps = {
   $hovered: boolean;
@@ -18,6 +19,7 @@ const Header = () => {
   const isLogin = useRecoilValue(isLoginState);
 
   const navigate = useNavigate();
+
   const [isHovered, setIsHovered] = useState(false);
   const [isItemHovered, setIsItemHovered] = useState<string[]>([]);
 
@@ -33,6 +35,8 @@ const Header = () => {
 
   const handleItemMouseEnter = (category: string[]) => setIsItemHovered(category);
   const handleItemMouseLeave = (category: string[]) => setIsItemHovered(category);
+
+  const { productId, imgs } = useRecommendQuery();
 
   return (
     <>
@@ -90,11 +94,13 @@ const Header = () => {
                 ))}
               </CategoryTap>
               <ManyHeart>
-                <HeartImg src="/assets/image/party.png"></HeartImg>
-                <HeartName>
-                  <div>상품 보러가기</div>
-                  <HiArrowLongRight />
-                </HeartName>
+                <LinkTag to={`/detail/${productId}`}>
+                  <HeartImg src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} />
+                  <HeartName>
+                    <div>상품 보러가기</div>
+                    <HiArrowLongRight />
+                  </HeartName>
+                </LinkTag>
               </ManyHeart>
             </TabContainer>
           )}
@@ -166,14 +172,20 @@ const ManyHeart = styled.div`
   align-items: center;
 `;
 
-const HeartImg = styled.img`
+const LinkTag = styled(Link)`
+  display: block;
   width: 60%;
-  height: 40%;
+  height: 50%;
+`;
+
+const HeartImg = styled.img`
+  width: 100%;
+  height: 80%;
 `;
 
 const HeartName = styled.div`
-  width: 60%;
-  height: 10%;
+  width: 100%;
+  height: 20%;
   border: 1px solid #c0bebe;
   font-size: 14px;
   margin-top: 10px;
