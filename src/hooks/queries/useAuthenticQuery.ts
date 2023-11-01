@@ -6,12 +6,14 @@ import axios from 'axios';
 import { useEffect } from 'react';
 
 const useAuthenticationQuery = () => {
-  const setUsesrId = useSetRecoilState(userState);
+  const setUserId = useSetRecoilState(userState);
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+
   const { isSuccess, isFetched, data } = useQuery({
     queryKey: ['@Authenticated'],
     queryFn: async () => {
-      const res = await axios('api/auth/verify', { withCredentials: true });
+      const res = await axios.get('/api/auth/verify', { withCredentials: true });
+
       return res.data;
     },
     staleTime: 1000,
@@ -20,15 +22,15 @@ const useAuthenticationQuery = () => {
 
   useEffect(() => {
     if (isSuccess && !data.userId) {
-      setUsesrId(null);
+      setUserId(null);
       setIsLogin(data.isLogin);
     }
 
     if (isSuccess && data.userId) {
-      setUsesrId(data.userId);
+      setUserId(data.userId);
       setIsLogin(data.isLogin);
     }
-  }, [data, isSuccess, setIsLogin, setUsesrId]);
+  }, [data, isSuccess, setIsLogin, setUserId]);
 
   return { isFetched, isLogin };
 };
