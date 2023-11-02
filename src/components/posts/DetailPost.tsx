@@ -31,6 +31,7 @@ type Product = {
 
 const DetailPost = () => {
   const userName = useRecoilValue(userState);
+
   const { id } = useParams();
 
   const [product, setProduct] = useState(null);
@@ -49,7 +50,7 @@ const DetailPost = () => {
     };
 
     fetchData();
-  }, [clickHeart]);
+  }, [clickHeart, id]);
 
   useEffect(() => {
     const fetchData = async () => {
