@@ -5,6 +5,7 @@ import DetailPage from '../pages/DetailPage';
 import CreatePostPage from '../pages/CreatePostPage';
 import AuthenticationGuard from '../guard/AuthenticationGuard';
 import { Suspense } from 'react';
+import CategoryItemsPage from '../pages/CategoryItemsPage';
 
 const routerConfig = createBrowserRouter([
   {
@@ -28,6 +29,14 @@ const routerConfig = createBrowserRouter([
     element: (
       <Suspense fallback={<div>...loading</div>}>
         <DetailPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: '/category/:param1/:param2?/:param3?',
+    element: (
+      <Suspense fallback={<div>...loading</div>}>
+        <CategoryItemsPage />
       </Suspense>
     ),
   },
