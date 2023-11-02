@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { LiaHomeSolid, LiaAngleRightSolid } from 'react-icons/lia';
 import { Category } from '../../constants/Category';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import useCategoryInfiniteQuery from '../../hooks/queries/useCategoryInfiniteQuery';
 import { useCallback } from 'react';
 import useObserver from '../../hooks/useObserver';
@@ -10,7 +10,12 @@ interface Product {
   productId: number;
   productName: string;
   imgs: string[];
+  price: string;
   createdAt: string;
+}
+
+interface DivProp {
+  $bold: boolean;
 }
 
 const CategoryItems = () => {
@@ -40,6 +45,22 @@ const CategoryItems = () => {
     navigate(`/detail/${productId}`);
   };
 
+  const how = (createdAt: string) => {
+    let time = '';
+
+    const lastTime = (Date.now() - +createdAt) / 1000 / 60 / 60; // 시
+
+    if (Math.floor(lastTime) > 24) {
+      time = `${Math.floor(lastTime / 24)}일 전`; // 날짜
+    } else if (Math.floor(lastTime) > 0) {
+      time = `${Math.floor(lastTime)}시간 전`; //
+    } else if (lastTime * 60 > 0) {
+      time = `${Math.floor(lastTime * 60)}분 전`;
+    }
+
+    return time;
+  };
+
   return (
     <Container>
       <CategoryTab>
@@ -65,14 +86,28 @@ const CategoryItems = () => {
         </Select>
       </CategoryTab>
       <CategoryLists>
-        {fullItems.map((category, idx) => (
-          <MiniCategory key={category + idx}>{category}</MiniCategory>
-        ))}
+        {fullItems.map((category, idx) =>
+          category === '' ? (
+            <Div key={idx}>{category}</Div>
+          ) : (
+            <LinkTag
+              to={`/category/${categories[0]}/${categories[1]}/${
+                category === '' || category === '전체보기' ? '' : category
+              }`}
+              key={category + idx}>
+              <MiniCategory $bold={categories[2] === category || (!categories[2] && category === '전체보기')}>
+                {category}
+              </MiniCategory>
+            </LinkTag>
+          ),
+        )}
       </CategoryLists>
       <Items>
-        <ItemsName>아우터의 전체상품</ItemsName>
+        <ItemsName>
+          <SpanTitle>{categories[categories.length - 1]}</SpanTitle>의 전체상품
+        </ItemsName>
         <ItemContainer>
-          {data?.pages.flat().map(({ productId, productName, imgs, createdAt }: Product) => {
+          {data?.pages.flat().map(({ productId, productName, imgs, price, createdAt }: Product) => {
             return (
               <Item key={productId} onClick={() => handleClick(productId)}>
                 <ImageContainer>
@@ -81,8 +116,11 @@ const CategoryItems = () => {
                 <ItemInfoContainer>
                   <ItemName>{productName}</ItemName>
                   <ItemInfo>
+                    <div>
+                      <Price>{price}</Price>원
+                    </div>
                     <MiniInfo>
-                      <div>{createdAt}</div>
+                      <div>{how(createdAt)}</div>
                     </MiniInfo>
                   </ItemInfo>
                 </ItemInfoContainer>
@@ -97,6 +135,10 @@ const CategoryItems = () => {
 };
 
 export default CategoryItems;
+
+const SpanTitle = styled.span`
+  font-weight: 600;
+`;
 
 const Container = styled.div`
   margin-bottom: 20px;
@@ -124,15 +166,27 @@ const CategoryLists = styled.div`
   padding-top: 20px;
 `;
 
-const MiniCategory = styled.div`
+const LinkTag = styled(Link)`
   width: 20%;
   height: 48px;
-  font-size: 12px;
   border: 1px solid #e0e0e0;
+`;
+
+const Div = styled.div`
+  width: 20%;
+  height: 48px;
+  border: 1px solid #e0e0e0;
+`;
+
+const MiniCategory = styled.div<DivProp>`
+  width: 100%;
+  height: 100%;
+  font-size: 12px;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: ${({ $bold }) => $bold && '600'};
 `;
 
 const Items = styled.div``;
@@ -190,4 +244,9 @@ const MiniInfo = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
+`;
+
+const Price = styled.span`
+  font-size: 16px;
+  font-weight: 600;
 `;
