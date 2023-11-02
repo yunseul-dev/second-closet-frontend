@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { HiArrowLongRight } from 'react-icons/hi2';
 import useRecommendQuery from '../../hooks/queries/useRecommendQuery';
 import { useState } from 'react';
@@ -10,17 +10,10 @@ type DivProps = {
 };
 
 const CategoryContainer = () => {
-  const navigate = useNavigate();
   const [isItemHovered, setIsItemHovered] = useState<string[]>([]);
 
   const handleItemMouseEnter = (category: string[]) => setIsItemHovered(category);
   const handleItemMouseLeave = (category: string[]) => setIsItemHovered(category);
-
-  const handleCategoryClick = (category: string, second: string) => {
-    console.log('1', category);
-    console.log('2', second);
-    navigate(`/category/${category}/${second}`);
-  };
 
   const { productId, imgs } = useRecommendQuery();
 
@@ -30,14 +23,14 @@ const CategoryContainer = () => {
         {Object.keys(Category).map((category: string) => (
           <CategoryList key={category}>
             {Object.keys(Category[category]).map((second: string) => (
-              <CategoryItem
-                key={second}
-                onClick={() => handleCategoryClick(category, second)}
-                onMouseEnter={() => handleItemMouseEnter([category, second])}
-                onMouseLeave={() => handleItemMouseLeave([category, second])}
-                $hovered={isItemHovered[0] === category && isItemHovered[1] === second}>
-                {second}
-              </CategoryItem>
+              <LinkCategoryTag key={second} to={`/category/${category}/${second}`}>
+                <CategoryItem
+                  onMouseEnter={() => handleItemMouseEnter([category, second])}
+                  onMouseLeave={() => handleItemMouseLeave([category, second])}
+                  $hovered={isItemHovered[0] === category && isItemHovered[1] === second}>
+                  {second}
+                </CategoryItem>
+              </LinkCategoryTag>
             ))}
           </CategoryList>
         ))}
@@ -85,6 +78,10 @@ const HeartImg = styled.img`
   height: 80%;
 `;
 
+const LinkCategoryTag = styled(Link)`
+  width: 100%;
+`;
+
 const HeartName = styled.div`
   width: 100%;
   height: 20%;
@@ -123,9 +120,7 @@ const CategoryItem = styled.div<DivProps>`
   padding: 5px;
   font-weight: ${({ $hovered }) => $hovered && '600'};
   background-color: ${({ $hovered }) => $hovered && '#ededed'};
-
   border-radius: 10px;
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
