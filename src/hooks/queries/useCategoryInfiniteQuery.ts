@@ -15,9 +15,8 @@ interface FetchResponse {
 
 const useCategoryInfiniteQuery = (category: string[]) => {
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery<FetchResponse, Product[], unknown>({
-    queryKey: ['@CategoryItem'],
+    queryKey: ['@CategoryItem', category],
     queryFn: async ({ pageParam = 0 }) => {
-      console.log(category);
       const res = await axios.get(`/api/products/category`, {
         params: {
           category: category,
