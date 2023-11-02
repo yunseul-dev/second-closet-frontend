@@ -63,12 +63,6 @@ const Main = () => {
 
 export default Main;
 
-const MiniInfo = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
-`;
-
 const Banner = styled.div`
   width: 100%;
   height: 250px;
@@ -93,7 +87,6 @@ const Title = styled.div`
 const ItemContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
 `;
 
 const Item = styled.div`
@@ -138,4 +131,10 @@ const ItemName = styled.div`
 const Price = styled.span`
   font-size: 16px;
   font-weight: 600;
+`;
+
+const MiniInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
 `;
