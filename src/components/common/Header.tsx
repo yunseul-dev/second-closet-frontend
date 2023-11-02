@@ -1,42 +1,27 @@
 import { styled } from 'styled-components';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { isLoginState } from '../../recoil/atom/isLoginState';
 import { Category } from '../../constants/Category';
 import { useState } from 'react';
 import { LuShirt, LuUser2 } from 'react-icons/lu';
-import { HiArrowLongRight } from 'react-icons/hi2';
 import { BiCloset } from 'react-icons/bi';
 import { RxDividerVertical } from 'react-icons/rx';
 import { PiSignInBold } from 'react-icons/pi';
-import useRecommendQuery from '../../hooks/queries/useRecommendQuery';
-
-type DivProps = {
-  $hovered: boolean;
-};
+import CategoryContainer from './CategoryContainer';
 
 const Header = () => {
   const isLogin = useRecoilValue(isLoginState);
 
   const navigate = useNavigate();
-
   const [isHovered, setIsHovered] = useState(false);
-  const [isItemHovered, setIsItemHovered] = useState<string[]>([]);
 
   const handleLogoClick = () => navigate('/');
-
   const handleSigninClick = () => navigate('/signin');
-
   const handleCreatepostClick = () => navigate('/createpost');
 
   const handleMouseEnter = () => setIsHovered(true);
-
   const handleMouseLeave = () => setIsHovered(false);
-
-  const handleItemMouseEnter = (category: string[]) => setIsItemHovered(category);
-  const handleItemMouseLeave = (category: string[]) => setIsItemHovered(category);
-
-  const { productId, imgs } = useRecommendQuery();
 
   return (
     <>
@@ -71,44 +56,19 @@ const Header = () => {
           )}
         </FirstContainer>
         <div onMouseLeave={handleMouseLeave}>
-          <CategoryContainer onMouseEnter={handleMouseEnter}>
+          <CategoryList onMouseEnter={handleMouseEnter}>
             {Object.keys(Category).map(category => (
               <CategoryName key={category}>{category}</CategoryName>
             ))}
-          </CategoryContainer>
-          {isHovered && (
-            <TabContainer id="categorytab">
-              <CategoryTap>
-                {Object.keys(Category).map((category: string) => (
-                  <CategoryList key={category}>
-                    {Object.keys(Category[category]).map((second: string) => (
-                      <CategoryItem
-                        key={second}
-                        onMouseEnter={() => handleItemMouseEnter([category, second])}
-                        onMouseLeave={() => handleItemMouseLeave([category, second])}
-                        $hovered={isItemHovered[0] === category && isItemHovered[1] === second}>
-                        {second}
-                      </CategoryItem>
-                    ))}
-                  </CategoryList>
-                ))}
-              </CategoryTap>
-              <ManyHeart>
-                <LinkTag to={`/detail/${productId}`}>
-                  <HeartImg src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} />
-                  <HeartName>
-                    <div>상품 보러가기</div>
-                    <HiArrowLongRight />
-                  </HeartName>
-                </LinkTag>
-              </ManyHeart>
-            </TabContainer>
-          )}
+          </CategoryList>
+          {isHovered && <CategoryContainer />}
         </div>
       </Container>
     </>
   );
 };
+
+export default Header;
 
 const BtnContainer = styled.div`
   display: flex;
@@ -138,7 +98,7 @@ const FirstContainer = styled.div`
   width: 100%;
 `;
 
-const CategoryContainer = styled.div`
+const CategoryList = styled.div`
   width: 75%;
   height: 30px;
   display: flex;
@@ -151,80 +111,6 @@ const CategoryName = styled.div`
   color: #747373;
   display: flex;
   width: 20%;
-  align-items: center;
-  justify-content: center;
-`;
-
-const TabContainer = styled.div`
-  width: 100%;
-  border: 1px solid gray;
-  background-color: white;
-  height: 300px;
-  position: absolute;
-  display: flex;
-`;
-
-const ManyHeart = styled.div`
-  width: 25%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const LinkTag = styled(Link)`
-  display: block;
-  width: 60%;
-  height: 60%;
-`;
-
-const HeartImg = styled.img`
-  width: 100%;
-  height: 80%;
-`;
-
-const HeartName = styled.div`
-  width: 100%;
-  height: 20%;
-  border: 1px solid #c0bebe;
-  font-size: 14px;
-  margin-top: 10px;
-  display: flex;
-  padding: 0 10px 0 10px;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const CategoryTap = styled.div`
-  width: 75%;
-  height: 100%;
-  top: 100%;
-  left: 0;
-  display: flex;
-`;
-
-const CategoryList = styled.div`
-  width: 20%;
-  border: 1px solid #dfdfdf;
-  height: 100%;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  background-color: white;
-  padding: 5px;
-`;
-const CategoryItem = styled.div<DivProps>`
-  font-size: 14px;
-  padding: 5px;
-  font-weight: ${({ $hovered }) => $hovered && '600'};
-  background-color: ${({ $hovered }) => $hovered && '#ededed'};
-
-  border-radius: 10px;
-  width: 100%;
-  display: flex;
   align-items: center;
   justify-content: center;
 `;
@@ -270,5 +156,3 @@ const Btn = styled.div`
   align-items: center;
   gap: 5px;
 `;
-
-export default Header;
