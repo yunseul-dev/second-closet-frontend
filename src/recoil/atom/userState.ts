@@ -2,7 +2,7 @@ import { atom } from 'recoil';
 
 export const userState = atom({
   key: 'userState',
-  default: localStorage.getItem(localStorage.getItem('userInfo') || '{}'),
+  default: localStorage.getItem('userInfo') || '{}',
   effects_UNSTABLE: [
     ({ onSet }) => {
       onSet(newUser => {
