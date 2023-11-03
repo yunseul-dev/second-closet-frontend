@@ -9,6 +9,9 @@ import { Category } from '../../constants/Category';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/atom/userState';
 import { useParams, Link } from 'react-router-dom';
+import useAddHeartMutation from '../../hooks/mutations/useAddHeartMutation';
+import useDeleteHeartMutation from '../../hooks/mutations/useDeleteMutation';
+import useProductQuery from '../../hooks/queries/useProductQuery';
 
 type Product = {
   productId: number;
@@ -34,40 +37,12 @@ const DetailPost = () => {
 
   const { id } = useParams();
 
-  const [product, setProduct] = useState(null);
   const [imgNum, setImgNum] = useState(0);
-  const [clickHeart, setClickHeart] = useState(false);
   const [items, setItems] = useState([]);
+  const { mutate: addHeart } = useAddHeartMutation();
+  const { mutate: deleteHeart } = useDeleteHeartMutation();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`/api/products/${id}`);
-        setProduct(response.data[0]);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, [clickHeart, id]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get('/api/products/related');
-        setItems(res.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (!product) {
-    return <div>Loading...</div>;
-  }
+  const { productInfo } = useProductQuery(id, {});
 
   const {
     productId,
@@ -86,14 +61,33 @@ const DetailPost = () => {
     facetoface,
     createdAt,
     hearts,
-  }: Product = product;
+  }: Product = productInfo;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get('/api/products/related');
+        setItems(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (!productInfo) {
+    return <div>Loading...</div>;
+  }
 
   const handleHeartClick = () => {
     if (userName === null) return;
 
-    const updatedHearts = hearts.includes(userName) ? hearts.filter(id => id !== userName) : [...hearts, userName];
-    axios.patch(`/api/products/hearts/${productId}`, updatedHearts);
-    setClickHeart(!clickHeart);
+    if (!hearts.includes(userName)) {
+      addHeart({ productId: productId, userId: userName, hearts: hearts });
+    } else {
+      deleteHeart({ productId: productId, userId: userName, hearts: hearts });
+    }
   };
 
   let time = '';
