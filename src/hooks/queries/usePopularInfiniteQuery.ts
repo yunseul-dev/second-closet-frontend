@@ -13,10 +13,10 @@ interface FetchResponse {
 }
 
 const usePopularInfiniteQuery = () => {
-  const { data, hasNextPage, fetchNextPage } = useInfiniteQuery<FetchResponse, Error, Product[]>({
+  const { data, hasNextPage, fetchNextPage } = useInfiniteQuery<FetchResponse, Product[], unknown>({
     queryKey: ['@populars'],
     queryFn: async ({ pageParam = 0 }) => {
-      const res = await axios.get<FetchResponse>(`/api/products/populars/${pageParam}`);
+      const res = await axios.get(`/api/products/populars/${pageParam}`);
       return res.data;
     },
     getNextPageParam: (lastPage: FetchResponse['pages'][0], allPages: FetchResponse['pageParams']) => {
@@ -24,6 +24,7 @@ const usePopularInfiniteQuery = () => {
 
       return lastPage.length !== 0 ? nextPage : undefined;
     },
+    select: response => response.pages.flat(),
   });
 
   return { data, hasNextPage, fetchNextPage };

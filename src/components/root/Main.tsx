@@ -34,7 +34,7 @@ const Main = () => {
       </Banner>
       <Title>오늘의 인기 상품</Title>
       <ItemContainer>
-        {data?.pages.flat().map(({ productId, productName, imgs, hearts, price }: Product) => {
+        {data.map(({ productId, productName, imgs, hearts, price }: Product) => {
           return (
             <Item key={productId} onClick={() => handleClick(productId)}>
               <ImageContainer>

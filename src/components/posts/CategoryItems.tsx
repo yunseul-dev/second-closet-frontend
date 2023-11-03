@@ -107,7 +107,7 @@ const CategoryItems = () => {
           <SpanTitle>{categories[categories.length - 1]}</SpanTitle>의 전체상품
         </ItemsName>
         <ItemContainer>
-          {data?.pages.flat().map(({ productId, productName, imgs, price, createdAt }: Product) => {
+          {data.map(({ productId, productName, imgs, price, createdAt }: Product) => {
             return (
               <Item key={productId} onClick={() => handleClick(productId)}>
                 <ImageContainer>

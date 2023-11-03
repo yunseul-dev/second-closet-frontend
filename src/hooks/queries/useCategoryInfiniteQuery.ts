@@ -31,6 +31,7 @@ const useCategoryInfiniteQuery = (category: string[]) => {
 
       return lastPage.length !== 0 ? nextPage : undefined;
     },
+    select: response => response.pages.flat(),
   });
 
   return { data, hasNextPage, fetchNextPage };
