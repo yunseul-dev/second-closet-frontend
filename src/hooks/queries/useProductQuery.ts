@@ -8,7 +8,7 @@ const fetchProduct = async (id: string) => {
   return data;
 };
 
-const staleTime = 1000 * 3;
+const staleTime = 1000;
 
 const useProductQuery = (id: string, options: object) => {
   const userId = useRecoilValue(userState);
