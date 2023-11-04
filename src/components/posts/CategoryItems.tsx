@@ -1,17 +1,18 @@
 import styled from 'styled-components';
-import { LiaHomeSolid, LiaAngleRightSolid } from 'react-icons/lia';
 import { Category } from '../../constants/Category';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import useCategoryInfiniteQuery from '../../hooks/queries/useCategoryInfiniteQuery';
 import { useCallback } from 'react';
 import useObserver from '../../hooks/useObserver';
+import formatTimeAgo from '../../utils/formatTimeAgo';
+import CategoryTab from '../common/CategoryTab';
 
 interface Product {
   productId: number;
   productName: string;
   imgs: string[];
   price: string;
-  createdAt: string;
+  createdAt: number;
 }
 
 interface DivProp {
@@ -32,7 +33,10 @@ const CategoryItems = () => {
 
   const observerRef = useObserver(getNextPage);
 
-  const categoryItems = Object.values(Category[categories[0]][categories[1]]);
+  const categoryItems =
+    categories.length === 1
+      ? Object.keys(Category[categories[0]])
+      : Object.values(Category[categories[0]][categories[1]]);
 
   const itemsPerRow = 5;
   const fullItems = [
@@ -45,53 +49,16 @@ const CategoryItems = () => {
     navigate(`/detail/${productId}`);
   };
 
-  const how = (createdAt: string) => {
-    let time = '';
-
-    const lastTime = (Date.now() - +createdAt) / 1000 / 60 / 60; // 시
-
-    if (Math.floor(lastTime) > 24) {
-      time = `${Math.floor(lastTime / 24)}일 전`; // 날짜
-    } else if (Math.floor(lastTime) > 0) {
-      time = `${Math.floor(lastTime)}시간 전`; //
-    } else if (lastTime * 60 > 0) {
-      time = `${Math.floor(lastTime * 60)}분 전`;
-    }
-
-    return time;
-  };
-
   return (
     <Container>
-      <CategoryTab>
-        <LiaHomeSolid />홈
-        <LiaAngleRightSolid />
-        <Select defaultValue={categories[0]}>
-          <option value="">선택</option>
-          <option value="여성의류">여성의류</option>
-          <option value="남성의류">남성의류</option>
-          <option value="가방">가방</option>
-          <option value="신발">신발</option>
-          <option value="액세서리">액세서리</option>
-        </Select>
-        <LiaAngleRightSolid />
-        <Select defaultValue={categories[1]}>
-          <option value="">선택</option>
-          {categories[1] &&
-            Object.keys(Category[categories[0]]).map(category => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-        </Select>
-      </CategoryTab>
+      <CategoryTab categories={categories} />
       <CategoryLists>
         {fullItems.map((category, idx) =>
           category === '' ? (
             <Div key={idx}>{category}</Div>
           ) : (
             <LinkTag
-              to={`/category/${categories[0]}/${categories[1]}/${
+              to={`/category/${categories[0]}/${categories[1] ? categories[1] + '/' : ''}${
                 category === '' || category === '전체보기' ? '' : category
               }`}
               key={category + idx}>
@@ -120,7 +87,7 @@ const CategoryItems = () => {
                       <Price>{price}</Price>원
                     </div>
                     <MiniInfo>
-                      <div>{how(createdAt)}</div>
+                      <div>{formatTimeAgo(createdAt)}</div>
                     </MiniInfo>
                   </ItemInfo>
                 </ItemInfoContainer>
@@ -143,21 +110,6 @@ const SpanTitle = styled.span`
 const Container = styled.div`
   margin-bottom: 20px;
   padding: 10px;
-`;
-
-const CategoryTab = styled.div`
-  padding: 10px 0 10px 0;
-  font-size: small;
-  color: #908d8d;
-  display: flex;
-  gap: 5px;
-  align-items: center;
-`;
-
-const Select = styled.select`
-  width: 150px;
-  height: 25px;
-  border-color: #bbb7b7;
 `;
 
 const CategoryLists = styled.div`
@@ -202,7 +154,7 @@ const ItemContainer = styled.div`
 `;
 
 const Item = styled.div`
-  width: 22%;
+  width: 23%;
   height: 300px;
   margin: 10px;
   border: 1px solid #e0e0e0c4;

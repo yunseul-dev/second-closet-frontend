@@ -1,17 +1,18 @@
 import styled from 'styled-components';
-import { LiaHomeSolid, LiaAngleRightSolid, LiaHeartSolid } from 'react-icons/lia';
+import { LiaHeartSolid } from 'react-icons/lia';
 import { AiFillAlert, AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { LuClock3 } from 'react-icons/lu';
-import axios from 'axios';
-import { useState, useEffect } from 'react';
-import { Category } from '../../constants/Category';
+import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/atom/userState';
 import { useParams, Link } from 'react-router-dom';
 import useAddHeartMutation from '../../hooks/mutations/useAddHeartMutation';
 import useDeleteHeartMutation from '../../hooks/mutations/useDeleteMutation';
 import useProductQuery from '../../hooks/queries/useProductQuery';
+import formatTimeAgo from '../../utils/formatTimeAgo';
+import useRelatedQuery from '../../hooks/queries/useRelatedQuery';
+import CategoryTab from '../common/CategoryTab';
 
 type Product = {
   productId: number;
@@ -32,13 +33,18 @@ type Product = {
   hearts: string[];
 };
 
+type RelatedItems = {
+  productId: number;
+  productName: string;
+  imgs: string[];
+};
+
 const DetailPost = () => {
   const userName = useRecoilValue(userState);
 
   const { id } = useParams();
 
   const [imgNum, setImgNum] = useState(0);
-  const [items, setItems] = useState([]);
   const { mutate: addHeart } = useAddHeartMutation();
   const { mutate: deleteHeart } = useDeleteHeartMutation();
 
@@ -63,18 +69,7 @@ const DetailPost = () => {
     hearts,
   }: Product = productInfo;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get('/api/products/related');
-        setItems(res.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const relatedItems: RelatedItems = useRelatedQuery(productId, categories[categories.length - 1]);
 
   if (!productInfo) {
     return <div>Loading...</div>;
@@ -89,18 +84,6 @@ const DetailPost = () => {
       deleteHeart({ productId: productId, userId: userName, hearts: hearts });
     }
   };
-
-  let time = '';
-
-  const lastTime = (Date.now() - createdAt) / 1000 / 60 / 60; // 시
-
-  if (Math.floor(lastTime) > 24) {
-    time = `${Math.floor(lastTime / 24)}일 전`; // 날짜
-  } else if (Math.floor(lastTime) > 0) {
-    time = `${Math.floor(lastTime)}시간 전`; //
-  } else if (lastTime * 60 > 0) {
-    time = `${Math.floor(lastTime * 60)}분 전`;
-  }
 
   const handlePrevClick = () => {
     if (imgNum > 0) {
@@ -120,40 +103,7 @@ const DetailPost = () => {
 
   return (
     <ContainerWrapper>
-      <CategoryContainer>
-        <LiaHomeSolid />홈
-        <LiaAngleRightSolid />
-        <Select defaultValue={categories[0]}>
-          <option value="">선택</option>
-          <option value="여성의류">여성의류</option>
-          <option value="남성의류">남성의류</option>
-          <option value="가방">가방</option>
-          <option value="신발">신발</option>
-          <option value="액세서리">액세서리</option>
-        </Select>
-        <LiaAngleRightSolid />
-        <Select defaultValue={categories[1]}>
-          <option value="">선택</option>
-          {categories[1] &&
-            Object.keys(Category[categories[0]]).map(category => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-        </Select>
-        <LiaAngleRightSolid />
-        <Select defaultValue={categories[2]}>
-          <option value="">선택</option>
-          {categories[2] &&
-            Object.values(Category[categories[0]][categories[1]]).map((category: string) => {
-              return (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              );
-            })}
-        </Select>
-      </CategoryContainer>
+      <CategoryTab categories={categories} />
       <Container>
         <SubmitConatiner>
           <ImageContainer>
@@ -177,7 +127,7 @@ const DetailPost = () => {
                   <LiaHeartSolid /> {hearts.length}
                 </Alarm>
                 <Alarm>
-                  <LuClock3 /> {time}
+                  <LuClock3 /> {formatTimeAgo(createdAt)}
                 </Alarm>
                 <Alarm>
                   <AiFillAlert /> 신고하기
@@ -236,7 +186,7 @@ const DetailPost = () => {
       <Bottom>
         <MiniTitle>연관 상품</MiniTitle>
         <Recs>
-          {items.map(({ productId, productName, imgs }) => (
+          {relatedItems.map(({ productId, productName, imgs }) => (
             <Rec key={productId}>
               <Link to={`/detail/${productId}`}>
                 <RecImg>
@@ -275,22 +225,6 @@ const ContainerWrapper = styled.div`
 `;
 
 const Container = styled.div``;
-
-const CategoryContainer = styled.div`
-  border-bottom: 1px solid #767676;
-  padding: 10px 0 10px 0;
-  font-size: small;
-  color: #908d8d;
-  display: flex;
-  gap: 5px;
-  align-items: center;
-`;
-
-const Select = styled.select`
-  width: 150px;
-  height: 25px;
-  border-color: #bbb7b7;
-`;
 
 const SubmitConatiner = styled.div`
   display: flex;
