@@ -13,11 +13,11 @@ interface FetchResponse {
   pageParams: number[];
 }
 
-const useCategoryInfiniteQuery = (category: string[]) => {
+const useCategoryInfiniteQuery = (category: string[], sortOption: string) => {
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery<FetchResponse, Product[], unknown>({
-    queryKey: ['@CategoryItem', category],
+    queryKey: ['@CategoryItem', category, sortOption],
     queryFn: async ({ pageParam = 0 }) => {
-      const res = await axios.get(`/api/products/category`, {
+      const res = await axios.get(`/api/products/category?sort=${sortOption}`, {
         params: {
           category: category,
           page: pageParam,

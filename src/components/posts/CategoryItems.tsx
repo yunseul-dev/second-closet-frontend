@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Category } from '../../constants/Category';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import useCategoryInfiniteQuery from '../../hooks/queries/useCategoryInfiniteQuery';
-import { useCallback } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import useObserver from '../../hooks/useObserver';
 import formatTimeAgo from '../../utils/formatTimeAgo';
 import CategoryTab from '../common/CategoryTab';
@@ -25,12 +25,17 @@ const CategoryItems = () => {
 
   const categoryParams = useParams();
   const categories = Object.values(categoryParams) as string[];
+  const [sortOption, setSortOption] = useState<string>('latest');
 
-  const { data, hasNextPage, fetchNextPage } = useCategoryInfiniteQuery(categories);
+  const { data, hasNextPage, fetchNextPage } = useCategoryInfiniteQuery(categories, sortOption);
 
   const getNextPage = useCallback(() => {
     fetchNextPage();
   }, [fetchNextPage]);
+
+  useEffect(() => {
+    getNextPage();
+  }, [getNextPage]);
 
   const observerRef = useObserver(getNextPage);
 
@@ -49,6 +54,8 @@ const CategoryItems = () => {
   const handleClick = (productId: number) => {
     navigate(`/detail/${productId}`);
   };
+
+  const handleSortClick = (sortOption: string) => setSortOption(sortOption);
 
   return (
     <Container>
@@ -75,19 +82,19 @@ const CategoryItems = () => {
             <SpanTitle>{categories[categories.length - 1]}</SpanTitle>의 전체상품
           </div>
           <Sort>
-            <SortTab>최신순</SortTab>
+            <SortTab onClick={() => handleSortClick('latest')}>최신순</SortTab>
             <Divider>
               <RxDividerVertical />
             </Divider>
-            <SortTab>인기순</SortTab>
+            <SortTab onClick={() => handleSortClick('popular')}>인기순</SortTab>
             <Divider>
               <RxDividerVertical />
             </Divider>
-            <SortTab>고가순</SortTab>
+            <SortTab onClick={() => handleSortClick('highPrice')}>고가순</SortTab>
             <Divider>
               <RxDividerVertical />
             </Divider>
-            <SortTab>저가순</SortTab>
+            <SortTab onClick={() => handleSortClick('lowPrice')}>저가순</SortTab>
           </Sort>
         </ItemsName>
         <ItemContainer>
