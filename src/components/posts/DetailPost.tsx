@@ -39,12 +39,17 @@ type RelatedItems = {
   imgs: string[];
 };
 
+interface BtnProps {
+  $isHovered: boolean;
+}
+
 const DetailPost = () => {
   const userName = useRecoilValue(userState);
 
   const { id } = useParams();
 
   const [imgNum, setImgNum] = useState(0);
+  const [imgHovered, setImgHovered] = useState(false);
   const { mutate: addHeart } = useAddHeartMutation();
   const { mutate: deleteHeart } = useDeleteHeartMutation();
 
@@ -101,17 +106,25 @@ const DetailPost = () => {
     }
   };
 
+  const handleMouseEnter = () => {
+    setImgHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setImgHovered(false);
+  };
+
   return (
     <ContainerWrapper>
       <CategoryTab categories={categories} />
       <Container>
         <SubmitConatiner>
-          <ImageContainer>
+          <ImageContainer onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             {<Image src={`http://localhost:5023/api/products/uploads/${imgs[imgNum]}`} alt="Image Preview" />}
-            <PrevBtn onClick={handlePrevClick}>
+            <PrevBtn onClick={handlePrevClick} $isHovered={imgHovered}>
               <FaAngleLeft />
             </PrevBtn>
-            <NextBtn onClick={handleNextClick}>
+            <NextBtn onClick={handleNextClick} $isHovered={imgHovered}>
               <FaAngleRight />
             </NextBtn>
           </ImageContainer>
@@ -249,24 +262,30 @@ const Image = styled.img`
   object-fit: cover;
 `;
 
-const Control = styled.button`
+const Control = styled.button<BtnProps>`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  color: #fff;
-  background-color: transparent;
-  border-color: transparent;
+  color: ${({ $isHovered }) => ($isHovered ? '#fff' : 'transparent')};
+  background-color: ${({ $isHovered }) => ($isHovered ? '#2d2c2c' : 'transparent')};
+  border-radius: 50px;
+  opacity: 0.2;
   cursor: pointer;
   z-index: 99;
   font-size: 2rem;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  width: 40px;
+  height: 40px;
 `;
 
 const PrevBtn = styled(Control)`
-  left: 0;
+  left: 10px;
 `;
 
 const NextBtn = styled(Control)`
-  right: 0;
+  right: 10px;
 `;
 
 const Alarms = styled.div`
