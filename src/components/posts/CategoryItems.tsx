@@ -6,6 +6,7 @@ import { useCallback } from 'react';
 import useObserver from '../../hooks/useObserver';
 import formatTimeAgo from '../../utils/formatTimeAgo';
 import CategoryTab from '../common/CategoryTab';
+import { RxDividerVertical } from 'react-icons/rx';
 
 interface Product {
   productId: number;
@@ -15,8 +16,8 @@ interface Product {
   createdAt: number;
 }
 
-interface DivProp {
-  $bold: boolean;
+interface LinkProp {
+  $clicked: boolean;
 }
 
 const CategoryItems = () => {
@@ -61,17 +62,33 @@ const CategoryItems = () => {
               to={`/category/${categories[0]}/${categories[1] ? categories[1] + '/' : ''}${
                 category === '' || category === '전체보기' ? '' : category
               }`}
-              key={category + idx}>
-              <MiniCategory $bold={categories[2] === category || (!categories[2] && category === '전체보기')}>
-                {category}
-              </MiniCategory>
+              key={category + idx}
+              $clicked={categories[2] === category || (!categories[2] && category === '전체보기')}>
+              <MiniCategory>{category}</MiniCategory>
             </LinkTag>
           ),
         )}
       </CategoryLists>
       <Items>
         <ItemsName>
-          <SpanTitle>{categories[categories.length - 1]}</SpanTitle>의 전체상품
+          <div>
+            <SpanTitle>{categories[categories.length - 1]}</SpanTitle>의 전체상품
+          </div>
+          <Sort>
+            <SortTab>최신순</SortTab>
+            <Divider>
+              <RxDividerVertical />
+            </Divider>
+            <SortTab>인기순</SortTab>
+            <Divider>
+              <RxDividerVertical />
+            </Divider>
+            <SortTab>고가순</SortTab>
+            <Divider>
+              <RxDividerVertical />
+            </Divider>
+            <SortTab>저가순</SortTab>
+          </Sort>
         </ItemsName>
         <ItemContainer>
           {data.map(({ productId, productName, imgs, price, createdAt }: Product) => {
@@ -118,10 +135,12 @@ const CategoryLists = styled.div`
   padding-top: 20px;
 `;
 
-const LinkTag = styled(Link)`
+const LinkTag = styled(Link)<LinkProp>`
   width: 20%;
   height: 48px;
   border: 1px solid #e0e0e0;
+  background-color: ${({ $clicked }) => $clicked && '#fee4e4'};
+  font-weight: ${({ $clicked }) => $clicked && '600'};
 `;
 
 const Div = styled.div`
@@ -130,7 +149,7 @@ const Div = styled.div`
   border: 1px solid #e0e0e0;
 `;
 
-const MiniCategory = styled.div<DivProp>`
+const MiniCategory = styled.div`
   width: 100%;
   height: 100%;
   font-size: 12px;
@@ -138,14 +157,15 @@ const MiniCategory = styled.div<DivProp>`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: ${({ $bold }) => $bold && '600'};
 `;
 
 const Items = styled.div``;
 
 const ItemsName = styled.div`
-  margin: 50px 0 25px 0;
+  margin: 50px 20px 25px 0;
   font-size: 16px;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const ItemContainer = styled.div`
@@ -202,3 +222,15 @@ const Price = styled.span`
   font-size: 16px;
   font-weight: 600;
 `;
+
+const Divider = styled.div`
+  font-size: 20px;
+  color: #a1a0a0;
+`;
+
+const Sort = styled.div`
+  font-size: 16px;
+  display: flex;
+`;
+
+const SortTab = styled.div``;
