@@ -542,7 +542,7 @@ const Image = styled.img`
   object-fit: cover;
 `;
 
-const XImg = styled.span`
+const XImg = styled.button`
   color: white;
   position: absolute;
   top: 5px;
