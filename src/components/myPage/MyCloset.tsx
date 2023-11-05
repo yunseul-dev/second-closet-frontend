@@ -3,12 +3,8 @@ import { PiPencilSimpleLineBold } from 'react-icons/pi';
 import { RxDividerVertical } from 'react-icons/rx';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/atom/userState';
-import { useState, useCallback, useEffect } from 'react';
-import useMyProductInfiiteQuery from '../../hooks/queries/useMyProductInfiniteQuery';
-import formatTimeAgo from '../../utils/formatTimeAgo';
-import { useNavigate } from 'react-router-dom';
-import useObserver from '../../hooks/useObserver';
-import { AiOutlineEdit, AiOutlineHeart } from 'react-icons/ai';
+
+import MyProducts from './MyProducts';
 
 interface DivProp {
   $bold: boolean;
@@ -22,39 +18,8 @@ interface DivPencilProp {
   size: number;
 }
 
-interface Product {
-  productId: number;
-  productName: string;
-  imgs: string[];
-  price: string;
-  delivery: boolean;
-  createdAt: number;
-  sold: boolean;
-}
-
 const MyCloset = () => {
-  const navigate = useNavigate();
-
   const userId = useRecoilValue(userState);
-  const [sortOption, setSortOption] = useState<string>('all');
-
-  const { data, hasNextPage, fetchNextPage } = useMyProductInfiiteQuery(userId.replace(/"/g, ''), sortOption);
-
-  const getNextPage = useCallback(() => {
-    fetchNextPage();
-  }, [fetchNextPage]);
-
-  useEffect(() => {
-    getNextPage();
-  }, [getNextPage]);
-
-  const observerRef = useObserver(getNextPage);
-
-  const handleClick = (productId: number) => {
-    navigate(`/detail/${productId}`);
-  };
-
-  const handleOptionClick = (sortOption: string) => setSortOption(sortOption);
 
   return (
     <Container>
@@ -86,60 +51,7 @@ const MyCloset = () => {
           <ListName $clicked={false}>옷장 후기</ListName>
           <Empty />
         </ListTab>
-        <div>
-          <ListCount>
-            <div>전체 상품 86</div>
-            <Sort>
-              <SortTab $bold={sortOption === 'all'} onClick={() => handleOptionClick('all')}>
-                전체
-              </SortTab>
-              <Divider>
-                <RxDividerVertical />
-              </Divider>
-              <SortTab $bold={sortOption === 'notSold'} onClick={() => handleOptionClick('notSold')}>
-                판매중
-              </SortTab>
-              <Divider>
-                <RxDividerVertical />
-              </Divider>
-              <SortTab $bold={sortOption === 'sold'} onClick={() => handleOptionClick('sold')}>
-                판매완료
-              </SortTab>
-            </Sort>
-          </ListCount>
-        </div>
-        <ItemContainer>
-          {data.map(({ productId, productName, imgs, price, delivery, hearts, createdAt }: Product) => {
-            return (
-              <Item key={productId}>
-                <ImageContainer onClick={() => handleClick(productId)}>
-                  <Image src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} />
-                </ImageContainer>
-                <ItemInfoContainer>
-                  <ItemName>{productName}</ItemName>
-                  <ItemInfo>
-                    <div>
-                      <Price>{price}</Price>원
-                    </div>
-                    <div>{delivery ? '무료배송' : '배송비 별도'}</div>
-                  </ItemInfo>
-                  <MiniInfo>
-                    <div>{formatTimeAgo(createdAt)}</div>
-                  </MiniInfo>
-                  <MiniInfo>
-                    {hearts} <AiOutlineHeart />
-                  </MiniInfo>
-                  <Edit>
-                    <Pencil size={30}>
-                      <AiOutlineEdit />
-                    </Pencil>
-                  </Edit>
-                </ItemInfoContainer>
-              </Item>
-            );
-          })}
-        </ItemContainer>
-        {hasNextPage && <div ref={observerRef}>Observer</div>}
+        <MyProducts userId={userId} />
       </MyList>
     </Container>
   );
@@ -156,11 +68,6 @@ const MyInfo = styled.div`
 
   margin-bottom: 20px;
 `;
-
-// const Span = styled.span`
-//   background-color: #fdecd0;
-//   border-radius: 30px;
-// `;
 
 const TabName = styled.div<DivProp>`
   font-weight: ${({ $bold }) => $bold && '600'};
