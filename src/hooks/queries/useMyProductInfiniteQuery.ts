@@ -5,6 +5,7 @@ interface Product {
   productId: number;
   productName: string;
   imgs: string[];
+  price: string;
   createdAt: string;
 }
 
@@ -15,7 +16,7 @@ interface FetchResponse {
 
 const useMyProductInfiiteQuery = (userId: string, sortOption: string) => {
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery<FetchResponse, Product[], unknown>({
-    queryKey: ['@CategoryItem', userId, sortOption],
+    queryKey: ['@MyProducts', sortOption],
     queryFn: async ({ pageParam = 0 }) => {
       const res = await axios.get(`/api/products/myproducts?sort=${sortOption}`, {
         params: {
