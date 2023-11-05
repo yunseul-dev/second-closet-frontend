@@ -54,7 +54,7 @@ const TabContainer = styled.div`
   width: 100%;
   border: 1px solid gray;
   background-color: white;
-  height: 300px;
+  height: 280px;
   position: absolute;
   display: flex;
 `;

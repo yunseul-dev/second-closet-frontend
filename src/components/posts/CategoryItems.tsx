@@ -20,6 +20,10 @@ interface LinkProp {
   $clicked: boolean;
 }
 
+interface DivProp {
+  $bold: boolean;
+}
+
 const CategoryItems = () => {
   const navigate = useNavigate();
 
@@ -82,19 +86,27 @@ const CategoryItems = () => {
             <SpanTitle>{categories[categories.length - 1]}</SpanTitle>의 전체상품
           </div>
           <Sort>
-            <SortTab onClick={() => handleSortClick('latest')}>최신순</SortTab>
+            <SortTab onClick={() => handleSortClick('latest')} $bold={sortOption === 'latest'}>
+              최신순
+            </SortTab>
             <Divider>
               <RxDividerVertical />
             </Divider>
-            <SortTab onClick={() => handleSortClick('popular')}>인기순</SortTab>
+            <SortTab onClick={() => handleSortClick('popular')} $bold={sortOption === 'popular'}>
+              인기순
+            </SortTab>
             <Divider>
               <RxDividerVertical />
             </Divider>
-            <SortTab onClick={() => handleSortClick('highPrice')}>고가순</SortTab>
+            <SortTab onClick={() => handleSortClick('highPrice')} $bold={sortOption === 'highPrice'}>
+              고가순
+            </SortTab>
             <Divider>
               <RxDividerVertical />
             </Divider>
-            <SortTab onClick={() => handleSortClick('lowPrice')}>저가순</SortTab>
+            <SortTab onClick={() => handleSortClick('lowPrice')} $bold={sortOption === 'lowPrice'}>
+              저가순
+            </SortTab>
           </Sort>
         </ItemsName>
         <ItemContainer>
@@ -223,6 +235,8 @@ const MiniInfo = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
+  font-size: 12px;
+  color: #888888;
 `;
 
 const Price = styled.span`
@@ -240,4 +254,6 @@ const Sort = styled.div`
   display: flex;
 `;
 
-const SortTab = styled.div``;
+const SortTab = styled.div<DivProp>`
+  font-weight: ${({ $bold }) => $bold && '600'};
+`;
