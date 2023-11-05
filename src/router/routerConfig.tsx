@@ -6,6 +6,7 @@ import CreatePostPage from '../pages/CreatePostPage';
 import AuthenticationGuard from '../guard/AuthenticationGuard';
 import { Suspense } from 'react';
 import CategoryItemsPage from '../pages/CategoryItemsPage';
+import MyPage from '../pages/MyPaage';
 
 const routerConfig = createBrowserRouter([
   {
@@ -46,6 +47,14 @@ const routerConfig = createBrowserRouter([
     element: (
       <Suspense fallback={<div>...loading</div>}>
         <AuthenticationGuard redirectTo="/signin" element={<CreatePostPage />} />
+      </Suspense>
+    ),
+  },
+  {
+    path: '/mypage',
+    element: (
+      <Suspense fallback={<div>...loading</div>}>
+        <AuthenticationGuard redirectTo="/signin" element={<MyPage />} />
       </Suspense>
     ),
   },

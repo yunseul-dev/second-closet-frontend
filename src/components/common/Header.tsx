@@ -19,6 +19,7 @@ const Header = () => {
   const handleLogoClick = () => navigate('/');
   const handleSigninClick = () => navigate('/signin');
   const handleCreatepostClick = () => navigate('/createpost');
+  const handleMypageClick = () => navigate('/mypage');
 
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => setIsHovered(false);
@@ -43,7 +44,7 @@ const Header = () => {
               <Divider>
                 <RxDividerVertical />
               </Divider>
-              <Btn>
+              <Btn onClick={handleMypageClick}>
                 <LuUser2 />
                 <div>My 옷장</div>
               </Btn>
