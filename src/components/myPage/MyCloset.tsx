@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { PiPencilSimpleLineBold } from 'react-icons/pi';
 import { RxDividerVertical } from 'react-icons/rx';
-import { FaRegFaceGrinBeam } from 'react-icons/fa6';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/atom/userState';
 import { useState, useCallback, useEffect } from 'react';
@@ -9,6 +8,7 @@ import useMyProductInfiiteQuery from '../../hooks/queries/useMyProductInfiniteQu
 import formatTimeAgo from '../../utils/formatTimeAgo';
 import { useNavigate } from 'react-router-dom';
 import useObserver from '../../hooks/useObserver';
+import { AiOutlineEdit, AiOutlineHeart } from 'react-icons/ai';
 
 interface DivProp {
   $bold: boolean;
@@ -18,11 +18,16 @@ interface DivNameProp {
   $clicked: boolean;
 }
 
+interface DivPencilProp {
+  size: number;
+}
+
 interface Product {
   productId: number;
   productName: string;
   imgs: string[];
   price: string;
+  delivery: boolean;
   createdAt: number;
   sold: boolean;
 }
@@ -54,18 +59,24 @@ const MyCloset = () => {
   return (
     <Container>
       <MyInfo>
-        <Character>
-          <FaRegFaceGrinBeam />
-        </Character>
         <StoreContainer>
           <StoreInfo>
-            <StoreName>test님의 옷장</StoreName>
-            <Pencil>
+            <StoreName>주성's 옷장</StoreName>
+            <Pencil size={20}>
               <PiPencilSimpleLineBold />
             </Pencil>
           </StoreInfo>
-          <div>상품 관리하기</div>
-          <Account>나의 계정 관리하기</Account>
+          <StoreAdmin>
+            <TabName $bold={true}>정보 관리</TabName>
+            <Divider>
+              <RxDividerVertical />
+            </Divider>
+            <TabName $bold={false}>회원정보 수정</TabName>
+            <Divider>
+              <RxDividerVertical />
+            </Divider>
+            <TabName $bold={false}>회원 탈퇴</TabName>
+          </StoreAdmin>
         </StoreContainer>
       </MyInfo>
       <MyList>
@@ -79,29 +90,29 @@ const MyCloset = () => {
           <ListCount>
             <div>전체 상품 86</div>
             <Sort>
-              <SortTab $bold={true} onClick={() => handleOptionClick('all')}>
+              <SortTab $bold={sortOption === 'all'} onClick={() => handleOptionClick('all')}>
                 전체
               </SortTab>
               <Divider>
                 <RxDividerVertical />
               </Divider>
-              <SortTab $bold={false} onClick={() => handleOptionClick('notSold')}>
+              <SortTab $bold={sortOption === 'notSold'} onClick={() => handleOptionClick('notSold')}>
                 판매중
               </SortTab>
               <Divider>
                 <RxDividerVertical />
               </Divider>
-              <SortTab $bold={false} onClick={() => handleOptionClick('sold')}>
+              <SortTab $bold={sortOption === 'sold'} onClick={() => handleOptionClick('sold')}>
                 판매완료
               </SortTab>
             </Sort>
           </ListCount>
         </div>
         <ItemContainer>
-          {data.map(({ productId, productName, imgs, price, createdAt }: Product) => {
+          {data.map(({ productId, productName, imgs, price, delivery, hearts, createdAt }: Product) => {
             return (
-              <Item key={productId} onClick={() => handleClick(productId)}>
-                <ImageContainer>
+              <Item key={productId}>
+                <ImageContainer onClick={() => handleClick(productId)}>
                   <Image src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} />
                 </ImageContainer>
                 <ItemInfoContainer>
@@ -110,10 +121,19 @@ const MyCloset = () => {
                     <div>
                       <Price>{price}</Price>원
                     </div>
-                    <MiniInfo>
-                      <div>{formatTimeAgo(createdAt)}</div>
-                    </MiniInfo>
+                    <div>{delivery ? '무료배송' : '배송비 별도'}</div>
                   </ItemInfo>
+                  <MiniInfo>
+                    <div>{formatTimeAgo(createdAt)}</div>
+                  </MiniInfo>
+                  <MiniInfo>
+                    {hearts} <AiOutlineHeart />
+                  </MiniInfo>
+                  <Edit>
+                    <Pencil size={30}>
+                      <AiOutlineEdit />
+                    </Pencil>
+                  </Edit>
                 </ItemInfoContainer>
               </Item>
             );
@@ -130,48 +150,54 @@ export default MyCloset;
 const Container = styled.div``;
 
 const MyInfo = styled.div`
-  margin-bottom: 20px;
   width: 100%;
-  height: 250px;
-  background-color: #fdecd0;
+  height: 80px;
   display: flex;
+
+  margin-bottom: 20px;
 `;
 
-const Character = styled.div`
-  margin: 20px;
-  width: 200px;
-  height: 200px;
-  border: 5px solid #fff;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  font-size: 100px;
-  color: #fff;
+// const Span = styled.span`
+//   background-color: #fdecd0;
+//   border-radius: 30px;
+// `;
+
+const TabName = styled.div<DivProp>`
+  font-weight: ${({ $bold }) => $bold && '600'};
 `;
 
 const StoreContainer = styled.div`
-  margin: 20px;
   font-size: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const StoreInfo = styled.div`
-  align-items: center;
   display: flex;
   font-family: 'Gaegu';
   font-weight: 500;
-  padding: 20px;
+  padding: 10px;
+`;
+
+const StoreAdmin = styled.div`
+  padding: 10px;
+  font-size: 14px;
+  display: flex;
 `;
 
 const StoreName = styled.div`
-  font-size: 38px;
+  font-size: 40px;
   justify-content: center;
+  background-color: #fdecd0;
+  border-radius: 30px;
+  padding: 5px;
 `;
 
-const Pencil = styled.div`
-  font-size: 16px;
+const Pencil = styled.div<DivPencilProp>`
+  margin: 5px;
+  font-size: ${({ size }) => size && `${size}px`};
 `;
-
-const Account = styled.div``;
 
 const MyList = styled.div``;
 
@@ -186,10 +212,11 @@ const ListName = styled.div<DivNameProp>`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #000;
+  border: 1px solid #e6e6e6;
 
   font-weight: ${({ $clicked }) => $clicked && '600'};
-  background-color: ${({ $clicked }) => $clicked && '#fee4e4'};
+  border: ${({ $clicked }) => $clicked && '1px solid #000'};
+  border-bottom: ${({ $clicked }) => ($clicked ? 'none' : '1px solid #000')};
 `;
 
 const Empty = styled.div`
@@ -207,6 +234,7 @@ const ListCount = styled.div`
 
 const Sort = styled.div`
   display: flex;
+  margin-right: 20px;
 `;
 
 const Divider = styled.div`
@@ -216,23 +244,26 @@ const Divider = styled.div`
 
 const SortTab = styled.div<DivProp>`
   font-weight: ${({ $bold }) => $bold && '600'};
+  font-size: 14px;
 `;
 
 const ItemContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+  gap: 30px;
 `;
 
 const Item = styled.div`
-  width: 23%;
-  height: 300px;
-  margin: 10px;
+  padding: 30px;
+  width: 48%;
+  height: 350px;
   border: 1px solid #e0e0e0c4;
+  display: flex;
 `;
 
 const ImageContainer = styled.div`
-  width: 100%;
-  height: 230px;
+  width: 45%;
+  height: 100%;
 `;
 
 const Image = styled.img`
@@ -244,7 +275,9 @@ const Image = styled.img`
 const ItemInfoContainer = styled.div`
   font-size: 14px;
   height: 60px;
+  width: 55%;
   padding: 10px 20px 10px 20px;
+  position: relative;
 `;
 
 const ItemInfo = styled.div`
@@ -255,22 +288,27 @@ const ItemInfo = styled.div`
 
 const ItemName = styled.div`
   width: 100%;
-  font-size: 14px;
+  font-size: 16px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
 `;
 
 const MiniInfo = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 12px;
-  color: #888888;
+  margin: 10px 0;
 `;
 
 const Price = styled.span`
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
+`;
+
+const Edit = styled.div`
+  position: absolute;
+  top: 250px;
+  right: 0;
 `;
