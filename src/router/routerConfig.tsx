@@ -6,7 +6,7 @@ import CreatePostPage from '../pages/CreatePostPage';
 import AuthenticationGuard from '../guard/AuthenticationGuard';
 import { Suspense } from 'react';
 import CategoryItemsPage from '../pages/CategoryItemsPage';
-import MyPage from '../pages/MyPaage';
+import MyPage from '../pages/MyPage';
 
 const routerConfig = createBrowserRouter([
   {
