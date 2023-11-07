@@ -9,9 +9,11 @@ import { BiCloset } from 'react-icons/bi';
 import { RxDividerVertical } from 'react-icons/rx';
 import { PiSignInBold } from 'react-icons/pi';
 import CategoryContainer from './CategoryContainer';
+import useAuthenticationQuery from '../../hooks/queries/useAuthenticQuery';
 
 const Header = () => {
-  const isLogin = useRecoilValue(isLoginState);
+  const isLogin = useAuthenticationQuery();
+  // const isLogin = useRecoilValue(isLoginState);
 
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
