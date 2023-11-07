@@ -1,40 +1,22 @@
 import styled from 'styled-components';
 import useObserver from '../../hooks/useObserver';
-import { AiOutlineEdit, AiOutlineHeart } from 'react-icons/ai';
 import { useState, useCallback, useEffect } from 'react';
 import useMyProductInfiiteQuery from '../../hooks/queries/useMyProductInfiniteQuery';
-import formatTimeAgo from '../../utils/formatTimeAgo';
-import { useNavigate } from 'react-router-dom';
 import { RxDividerVertical } from 'react-icons/rx';
-
-interface Product {
-  productId: number;
-  productName: string;
-  imgs: string[];
-  price: string;
-  delivery: boolean;
-  hearts: number;
-  createdAt: number;
-  sold: boolean;
-}
-
-interface DivPencilProp {
-  size: number;
-}
+import { useRecoilValue } from 'recoil';
+import { userState } from '../../recoil/atom/userState';
+import Products from './Products';
 
 interface DivProp {
   $bold: boolean;
 }
 
-interface MyProductsProps {
-  userId: string;
-}
-
-const MyProducts = ({ userId }: MyProductsProps) => {
-  const navigate = useNavigate();
+const MyProducts = () => {
   const [sortOption, setSortOption] = useState<string>('all');
 
-  const { data, hasNextPage, fetchNextPage } = useMyProductInfiiteQuery(userId.replace(/"/g, ''), sortOption);
+  const userId = useRecoilValue(userState);
+
+  const { products, hasNextPage, fetchNextPage } = useMyProductInfiiteQuery(userId.replace(/"/g, ''), sortOption);
 
   const getNextPage = useCallback(() => {
     fetchNextPage();
@@ -47,10 +29,6 @@ const MyProducts = ({ userId }: MyProductsProps) => {
   const observerRef = useObserver(getNextPage);
 
   const handleOptionClick = (sortOption: string) => setSortOption(sortOption);
-
-  const handleClick = (productId: number) => {
-    navigate(`/detail/${productId}`);
-  };
 
   return (
     <>
@@ -76,37 +54,7 @@ const MyProducts = ({ userId }: MyProductsProps) => {
           </Sort>
         </ListCount>
       </div>
-      <ItemContainer>
-        {data.map(({ productId, productName, imgs, price, delivery, hearts, createdAt }: Product) => {
-          return (
-            <Item key={productId}>
-              <ImageContainer onClick={() => handleClick(productId)}>
-                <Image src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} />
-              </ImageContainer>
-              <ItemInfoContainer>
-                <ItemName>{productName}</ItemName>
-                <ItemInfo>
-                  <div>
-                    <Price>{price}</Price>원
-                  </div>
-                  <div>{delivery ? '무료배송' : '배송비 별도'}</div>
-                </ItemInfo>
-                <MiniInfo>
-                  <div>{formatTimeAgo(createdAt)}</div>
-                </MiniInfo>
-                <MiniInfo>
-                  {hearts} <AiOutlineHeart />
-                </MiniInfo>
-                <Edit>
-                  <Pencil size={30}>
-                    <AiOutlineEdit />
-                  </Pencil>
-                </Edit>
-              </ItemInfoContainer>
-            </Item>
-          );
-        })}
-      </ItemContainer>
+      <Products products={products} />
       {hasNextPage && <div ref={observerRef}>Observer</div>}
     </>
   );
@@ -134,75 +82,4 @@ const Divider = styled.div`
 const SortTab = styled.div<DivProp>`
   font-weight: ${({ $bold }) => $bold && '600'};
   font-size: 14px;
-`;
-
-const Pencil = styled.div<DivPencilProp>`
-  margin: 5px;
-  font-size: ${({ size }) => size && `${size}px`};
-`;
-
-const ItemContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
-`;
-
-const Item = styled.div`
-  padding: 30px;
-  width: 48%;
-  height: 350px;
-  border: 1px solid #e0e0e0c4;
-  display: flex;
-`;
-
-const ImageContainer = styled.div`
-  width: 45%;
-  height: 100%;
-`;
-
-const Image = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-
-const ItemInfoContainer = styled.div`
-  font-size: 14px;
-  height: 60px;
-  width: 55%;
-  padding: 10px 20px 10px 20px;
-  position: relative;
-`;
-
-const ItemInfo = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const ItemName = styled.div`
-  width: 100%;
-  font-size: 16px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-bottom: 15px;
-`;
-
-const MiniInfo = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin: 10px 0;
-`;
-
-const Price = styled.span`
-  font-size: 18px;
-  font-weight: 600;
-`;
-
-const Edit = styled.div`
-  position: absolute;
-  top: 250px;
-  right: 0;
 `;
