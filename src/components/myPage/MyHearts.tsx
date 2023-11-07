@@ -17,14 +17,7 @@ const MyHearts = () => {
   const handleOptionClick = (sortOption: string) => setSortOption(sortOption);
   const [sortOption, setSortOption] = useState<string>('all');
 
-  const { products, fetchNextPage, hasNextPage, refetchPage } = useMyHeartsInfiniteQuery(
-    userId.replace(/"/g, ''),
-    sortOption,
-  );
-
-  // useEffect(() => {
-  //   refetchPage();
-  // }, []);
+  const { products, fetchNextPage, hasNextPage } = useMyHeartsInfiniteQuery(userId.replace(/"/g, ''), sortOption);
 
   const getNextPage = useCallback(() => {
     fetchNextPage();
