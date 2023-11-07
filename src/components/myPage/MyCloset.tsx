@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 import { PiPencilSimpleLineBold } from 'react-icons/pi';
 import { RxDividerVertical } from 'react-icons/rx';
-import { useRecoilValue } from 'recoil';
-import { userState } from '../../recoil/atom/userState';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MyProducts from './MyProducts';
 import MyHearts from './MyHearts';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface DivProp {
   $bold: boolean;
@@ -20,10 +19,14 @@ interface DivPencilProp {
 }
 
 const MyCloset = () => {
-  const userId = useRecoilValue(userState);
   const [category, setCategory] = useState('products');
+  const queryClient = useQueryClient();
 
   const handleCategoryClick = (category: string) => setCategory(category);
+
+  useEffect(() => {
+    queryClient.refetchQueries();
+  }, []);
 
   return (
     <Container>
@@ -61,13 +64,7 @@ const MyCloset = () => {
           </ListName>
           <Empty />
         </ListTab>
-        {category === 'products' ? (
-          <MyProducts userId={userId} />
-        ) : category === 'hearts' ? (
-          <MyHearts userId={userId} />
-        ) : (
-          <></>
-        )}
+        {category === 'products' ? <MyProducts /> : category === 'hearts' ? <MyHearts /> : <></>}
       </MyList>
     </Container>
   );
