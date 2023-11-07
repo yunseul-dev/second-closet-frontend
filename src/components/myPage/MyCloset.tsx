@@ -5,6 +5,11 @@ import { useEffect, useState } from 'react';
 import MyProducts from './MyProducts';
 import MyHearts from './MyHearts';
 import { useQueryClient } from '@tanstack/react-query';
+import axios from 'axios';
+import { userState } from '../../recoil/atom/userState';
+import { useSetRecoilState } from 'recoil';
+import { isLoginState } from '../../recoil/atom/isLoginState';
+import { useNavigate } from 'react-router-dom';
 
 interface DivProp {
   $bold: boolean;
@@ -21,12 +26,24 @@ interface DivPencilProp {
 const MyCloset = () => {
   const [category, setCategory] = useState('products');
   const queryClient = useQueryClient();
+  const setUser = useSetRecoilState(userState);
+  const setIsLogin = useSetRecoilState(isLoginState);
+  const navigate = useNavigate();
 
   const handleCategoryClick = (category: string) => setCategory(category);
 
   useEffect(() => {
     queryClient.refetchQueries();
   }, []);
+
+  const handleClick = async () => {
+    const isLogin = await axios.get('api/auth/signout', { withCredentials: true });
+
+    setUser(null);
+    localStorage.removeItem('user');
+    setIsLogin(isLogin);
+    navigate('/');
+  };
 
   return (
     <Container>
@@ -48,6 +65,12 @@ const MyCloset = () => {
               <RxDividerVertical />
             </Divider>
             <TabName $bold={false}>회원 탈퇴</TabName>
+            <Divider>
+              <RxDividerVertical />
+            </Divider>
+            <TabName $bold={false} onClick={handleClick}>
+              로그아웃
+            </TabName>
           </StoreAdmin>
         </StoreContainer>
       </MyInfo>
