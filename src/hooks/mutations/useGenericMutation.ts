@@ -14,15 +14,13 @@ const useGenericMutation = <TData, TVariables>({
   const queryClient = useQueryClient();
 
   return useMutation({
-    queryKey,
     mutationFn,
 
     async onMutate(variables: TVariables) {
-      await queryClient.cancelQueries({ queryKey });
+      await queryClient.cancelQueries({ queryKey: queryKey });
       const previousHearts = queryClient.getQueryData<TData>(queryKey);
 
       queryClient.setQueryData<TData>(queryKey, expected(variables));
-      const nowHearts = queryClient.getQueryData<TData>(queryKey);
 
       return { previousHearts };
     },
@@ -31,7 +29,9 @@ const useGenericMutation = <TData, TVariables>({
       queryClient.setQueryData(queryKey, context?.previousHearts);
     },
 
-    onSettled() {},
+    onSettled() {
+      queryClient.invalidateQueries({ queryKey: queryKey });
+    },
   });
 };
 
