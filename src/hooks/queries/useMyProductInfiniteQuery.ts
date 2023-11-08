@@ -35,7 +35,7 @@ const useMyProductInfiiteQuery = (userId: string, sortOption: string) => {
     select: response => response.pages.flat(),
   });
 
-  return { data, hasNextPage, fetchNextPage };
+  return { products: data, hasNextPage, fetchNextPage };
 };
 
 export default useMyProductInfiiteQuery;
