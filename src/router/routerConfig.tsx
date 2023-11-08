@@ -60,7 +60,7 @@ const routerConfig = createBrowserRouter([
     ),
   },
   {
-    path: '/editpost',
+    path: '/editpost/:id',
     element: (
       <Suspense fallback={<div>...loading</div>}>
         <AuthenticationGuard redirectTo="/signin" element={<EditPostPage />} />
