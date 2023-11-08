@@ -7,6 +7,7 @@ import AuthenticationGuard from '../guard/AuthenticationGuard';
 import { Suspense } from 'react';
 import CategoryItemsPage from '../pages/CategoryItemsPage';
 import MyPage from '../pages/MyPage';
+import EditPostPage from '../pages/EditPostPage';
 
 const routerConfig = createBrowserRouter([
   {
@@ -55,6 +56,14 @@ const routerConfig = createBrowserRouter([
     element: (
       <Suspense fallback={<div>...loading</div>}>
         <AuthenticationGuard redirectTo="/signin" element={<MyPage />} />
+      </Suspense>
+    ),
+  },
+  {
+    path: '/editpost',
+    element: (
+      <Suspense fallback={<div>...loading</div>}>
+        <AuthenticationGuard redirectTo="/signin" element={<EditPostPage />} />
       </Suspense>
     ),
   },
