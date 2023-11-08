@@ -25,6 +25,10 @@ const Products = ({ products }: MyProductsProps) => {
     navigate(`/detail/${productId}`);
   };
 
+  const handleEditClick = (productId: number) => {
+    navigate(`/editpost/${productId}`);
+  };
+
   return (
     <ItemContainer>
       {products.map(({ productId, productName, imgs, price, delivery, hearts, createdAt }: Product) => {
@@ -49,7 +53,7 @@ const Products = ({ products }: MyProductsProps) => {
                   {hearts} <AiOutlineHeart />
                 </MiniInfo>
               </div>
-              <Edit>
+              <Edit onClick={() => handleEditClick(productId)}>
                 <EditBtn>수정</EditBtn>
               </Edit>
             </ItemInfoContainer>
