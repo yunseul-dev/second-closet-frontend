@@ -3,7 +3,7 @@ import { PiPencilSimpleLineBold } from 'react-icons/pi';
 import { RxDividerVertical } from 'react-icons/rx';
 import axios from 'axios';
 import { userState } from '../../recoil/atom/userState';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { isLoginState } from '../../recoil/atom/isLoginState';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -19,7 +19,7 @@ interface DivPencilProp {
 }
 
 const MyInfo = () => {
-  const setUserId = useSetRecoilState(userState);
+  const [userId, setUserId] = useRecoilState(userState);
   const setIsLogin = useSetRecoilState(isLoginState);
   const navigate = useNavigate();
 
@@ -41,7 +41,7 @@ const MyInfo = () => {
     <Container>
       <StoreContainer>
         <StoreInfo>
-          <StoreName>주성's 옷장</StoreName>
+          <StoreName>{userId}'s 옷장</StoreName>
           <Pencil size={20}>
             <PiPencilSimpleLineBold />
           </Pencil>
@@ -77,7 +77,6 @@ const Container = styled.div`
   width: 100%;
   height: 80px;
   display: flex;
-
   margin-bottom: 20px;
 `;
 
