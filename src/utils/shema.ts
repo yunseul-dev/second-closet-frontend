@@ -19,4 +19,9 @@ const signUpSchema = z
     message: '비밀번호가 일치하지 않습니다.',
   });
 
-export { signInSchema, signUpSchema };
+const signUpOptionSchema = z.object({
+  address: z.string().regex(/.+/, '최소 한 글자 이상 입력하시오.'),
+  account: z.string().regex(/.+/, '최소 한 글자 이상 입력하시오.'),
+});
+
+export { signInSchema, signUpSchema, signUpOptionSchema };
