@@ -3,6 +3,9 @@ import { AiOutlineHeart } from 'react-icons/ai';
 import formatTimeAgo from '../../utils/formatTimeAgo';
 import { useNavigate } from 'react-router-dom';
 import useDeleteProductMutation from '../../hooks/mutations/useDeleteProductMutation';
+import Modal from '../common/Modal';
+import DeleteProductModal from './DeleteProductModal';
+import { useState } from 'react';
 
 interface Product {
   productId: number;
@@ -23,19 +26,18 @@ interface MyProductsProps {
 const Products = ({ products, sortOption }: MyProductsProps) => {
   const navigate = useNavigate();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   const { mutate: deleteProduct } = useDeleteProductMutation(sortOption, products.productId);
 
-  const handleClick = (productId: number) => {
-    navigate(`/detail/${productId}`);
-  };
+  const handleClick = (productId: number) => navigate(`/detail/${productId}`);
 
-  const handleEditClick = (productId: number) => {
-    navigate(`/editpost/${productId}`);
-  };
+  const handleEditClick = (productId: number) => navigate(`/editpost/${productId}`);
 
-  const handleDeleteClick = async (productId: number) => {
-    deleteProduct(productId);
-  };
+  const handleDeleteClick = async (productId: number) => deleteProduct(productId);
 
   return (
     <ItemContainer>
@@ -65,11 +67,19 @@ const Products = ({ products, sortOption }: MyProductsProps) => {
                 <BtnWrapper onClick={() => handleEditClick(productId)}>
                   <Btn>수정</Btn>
                 </BtnWrapper>
-                <BtnWrapper onClick={() => handleDeleteClick(productId)}>
+                <BtnWrapper onClick={openModal}>
                   <Btn>삭제</Btn>
                 </BtnWrapper>
               </BtnContainer>
             </ItemInfoContainer>
+            {isModalOpen && (
+              <Modal
+                content={
+                  <DeleteProductModal closeModal={closeModal} handleDeleteClick={() => handleDeleteClick(productId)} />
+                }
+                closeModal={closeModal}
+              />
+            )}
           </Item>
         );
       })}
