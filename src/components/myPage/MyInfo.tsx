@@ -3,9 +3,12 @@ import { PiPencilSimpleLineBold } from 'react-icons/pi';
 import { RxDividerVertical } from 'react-icons/rx';
 import axios from 'axios';
 import { userState } from '../../recoil/atom/userState';
-import { useSetRecoilState, useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { isLoginState } from '../../recoil/atom/isLoginState';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import Modal from '../common/Modal';
+import WithDrawal from './Withdrawal';
 
 interface DivProp {
   $bold: boolean;
@@ -16,21 +19,17 @@ interface DivPencilProp {
 }
 
 const MyInfo = () => {
-  const [userId, setUserId] = useRecoilState(userState);
+  const setUserId = useSetRecoilState(userState);
   const setIsLogin = useSetRecoilState(isLoginState);
   const navigate = useNavigate();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   const handleSignoutClick = async () => {
     const isLogin = await axios.get('api/auth/signout', { withCredentials: true });
-
-    setUserId(null);
-    localStorage.removeItem('user');
-    setIsLogin(isLogin);
-    navigate('/');
-  };
-
-  const handleWithdrawClick = async () => {
-    const isLogin = await axios.delete(`api/auth/withdraw/${userId}`);
 
     setUserId(null);
     localStorage.removeItem('user');
@@ -56,7 +55,7 @@ const MyInfo = () => {
           <Divider>
             <RxDividerVertical />
           </Divider>
-          <TabName $bold={false} onClick={handleWithdrawClick}>
+          <TabName $bold={false} onClick={openModal}>
             회원 탈퇴
           </TabName>
           <Divider>
@@ -67,6 +66,7 @@ const MyInfo = () => {
           </TabName>
         </StoreAdmin>
       </StoreContainer>
+      {isModalOpen && <Modal content={<WithDrawal closeModal={closeModal} />} closeModal={closeModal} />}
     </Container>
   );
 };
