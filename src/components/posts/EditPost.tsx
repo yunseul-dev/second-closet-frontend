@@ -141,6 +141,12 @@ const EditPost = () => {
     setPhotoFiles(updatedPhotoFiles);
   };
 
+  const handlePrevImgXClick = (idx: number) => {
+    const updatedPrevImgs = [...prevImgs];
+    updatedPrevImgs.splice(idx, 1);
+    setPrevImgs(updatedPrevImgs);
+  };
+
   const handleSubmit = async () => {
     try {
       const formData = new FormData();
@@ -205,7 +211,7 @@ const EditPost = () => {
 
       if (
         productNameRef.current?.value &&
-        imgPrevUrls.length &&
+        (imgPrevUrls.length || prevImgs.length) &&
         categories.length &&
         sizeRef.current?.value &&
         countRef.current?.value
@@ -269,7 +275,7 @@ const EditPost = () => {
                   <ImagePreview idx={idx + 1} key={idx}>
                     <Image src={`http://localhost:5023/api/products/uploads/${prevImg}`} alt="Image Preview" />
                     <XImg>
-                      <FaXmark onClick={() => handleImgXClick(idx)} />
+                      <FaXmark onClick={() => handlePrevImgXClick(idx)} />
                     </XImg>
                   </ImagePreview>
                 );
