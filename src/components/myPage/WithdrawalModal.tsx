@@ -10,7 +10,7 @@ interface WithDrawalProps {
   closeModal: () => void;
 }
 
-const WithDrawal: React.FC<WithDrawalProps> = ({ closeModal }) => {
+const WithdrawalModal: React.FC<WithDrawalProps> = ({ closeModal }) => {
   const [userId, setUserId] = useRecoilState(userState);
   const setIsLogin = useSetRecoilState(isLoginState);
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ const WithDrawal: React.FC<WithDrawalProps> = ({ closeModal }) => {
   );
 };
 
-export default WithDrawal;
+export default WithdrawalModal;
 
 const Container = styled.div`
   width: 100%;

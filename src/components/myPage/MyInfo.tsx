@@ -8,7 +8,7 @@ import { isLoginState } from '../../recoil/atom/isLoginState';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Modal from '../common/Modal';
-import WithDrawal from './Withdrawal';
+import WithdrawalModal from './WithdrawalModal';
 
 interface DivProp {
   $bold: boolean;
@@ -66,7 +66,7 @@ const MyInfo = () => {
           </TabName>
         </StoreAdmin>
       </StoreContainer>
-      {isModalOpen && <Modal content={<WithDrawal closeModal={closeModal} />} closeModal={closeModal} />}
+      {isModalOpen && <Modal content={<WithdrawalModal closeModal={closeModal} />} closeModal={closeModal} />}
     </Container>
   );
 };
