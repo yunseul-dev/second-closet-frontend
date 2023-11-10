@@ -53,9 +53,14 @@ const Products = ({ products }: MyProductsProps) => {
                   {hearts} <AiOutlineHeart />
                 </MiniInfo>
               </div>
-              <Edit onClick={() => handleEditClick(productId)}>
-                <EditBtn>수정</EditBtn>
-              </Edit>
+              <BtnContainer>
+                <BtnWrapper onClick={() => handleEditClick(productId)}>
+                  <Btn>수정</Btn>
+                </BtnWrapper>
+                <BtnWrapper>
+                  <Btn>삭제</Btn>
+                </BtnWrapper>
+              </BtnContainer>
             </ItemInfoContainer>
           </Item>
         );
@@ -129,17 +134,21 @@ const Price = styled.span`
   font-weight: 600;
 `;
 
-const Edit = styled.div`
-  margin-left: auto;
-  margin-top: auto;
-  width: 100%;
+const BtnContainer = styled.div`
   display: flex;
   justify-content: flex-end;
+  width: 100%;
+  margin-top: auto;
+  gap: 5px;
 `;
 
-const EditBtn = styled.button`
+const BtnWrapper = styled.div`
+  width: 40%;
+`;
+
+const Btn = styled.button`
   background-color: white;
   height: 40px;
-  width: 35%;
+  width: 100%;
   border: solid 1px black;
 `;
