@@ -7,7 +7,7 @@ import { debounce } from 'lodash';
 import { useCallback, ChangeEvent, Dispatch, SetStateAction } from 'react';
 
 interface SignUpFormData {
-  userid: string;
+  userId: string;
   password: string;
   passwordConfirm: string;
 }
@@ -15,7 +15,7 @@ interface SignUpFormData {
 interface InputProps {
   placeholder: string;
   control: Control<SignUpFormData>;
-  name: 'userid' | 'password' | 'passwordConfirm';
+  name: 'userId' | 'password' | 'passwordConfirm';
   trigger: any;
 }
 
@@ -65,7 +65,7 @@ const SignUp = ({ setState }: SignUpProps) => {
   const { control, handleSubmit, trigger } = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      userid: '',
+      userId: '',
       password: '',
     },
   });
@@ -73,7 +73,7 @@ const SignUp = ({ setState }: SignUpProps) => {
   const onSubmit = async (data: SignUpFormData) => {
     try {
       const { data: user } = await axios.post('api/auth/signup', data, { withCredentials: true });
-      console.log(user);
+      console.log(user, '님의 회원가입을 축하드립니다.');
       setState('signIn');
     } catch (error) {
       console.log(error);
@@ -83,7 +83,7 @@ const SignUp = ({ setState }: SignUpProps) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormWrapper>
-        <InputContainer placeholder={'아이디'} control={control} name={'userid'} trigger={trigger} />
+        <InputContainer placeholder={'아이디'} control={control} name={'userId'} trigger={trigger} />
         <InputContainer placeholder={'비밀번호'} control={control} name={'password'} trigger={trigger} />
         <InputContainer placeholder={'비밀번호 확인'} control={control} name={'passwordConfirm'} trigger={trigger} />
         <SubmitBtn type="submit">Sign up</SubmitBtn>
