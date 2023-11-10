@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { AiOutlineHeart } from 'react-icons/ai';
 import formatTimeAgo from '../../utils/formatTimeAgo';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 interface Product {
   productId: number;
@@ -27,6 +28,15 @@ const Products = ({ products }: MyProductsProps) => {
 
   const handleEditClick = (productId: number) => {
     navigate(`/editpost/${productId}`);
+  };
+
+  const handleDeleteClick = async (productId: number) => {
+    try {
+      await axios.delete(`/delete/${productId}`);
+      navigate('/mypage');
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -57,7 +67,7 @@ const Products = ({ products }: MyProductsProps) => {
                 <BtnWrapper onClick={() => handleEditClick(productId)}>
                   <Btn>수정</Btn>
                 </BtnWrapper>
-                <BtnWrapper>
+                <BtnWrapper onClick={() => handleDeleteClick(productId)}>
                   <Btn>삭제</Btn>
                 </BtnWrapper>
               </BtnContainer>
