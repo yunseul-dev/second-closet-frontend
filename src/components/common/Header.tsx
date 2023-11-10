@@ -12,8 +12,8 @@ import CategoryContainer from './CategoryContainer';
 import useAuthenticationQuery from '../../hooks/queries/useAuthenticQuery';
 
 const Header = () => {
-  const isLogin = useAuthenticationQuery();
-  // const isLogin = useRecoilValue(isLoginState);
+  useAuthenticationQuery();
+  const isLogin = useRecoilValue(isLoginState);
 
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
