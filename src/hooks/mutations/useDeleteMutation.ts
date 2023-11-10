@@ -14,14 +14,13 @@ const useDeleteHeartMutation = () => {
     queryKey: ['@ProductInfo', userId],
     mutationFn: deleteHeart,
     onMutate() {
-      return (productInfo: object[]) => [
+      return (productInfo: object) => [
         {
           ...productInfo[0],
           hearts: [...productInfo[0].hearts.filter((id: string) => id !== userId)],
         },
       ];
     },
-    suspense: true,
   });
 };
 

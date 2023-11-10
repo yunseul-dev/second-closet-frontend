@@ -16,7 +16,6 @@ const useAddHeartMutation = () => {
     onMutate() {
       return (productInfo: object[]) => [{ ...productInfo[0], hearts: [...productInfo[0].hearts, userId] }];
     },
-    suspense: true,
   });
 };
 
