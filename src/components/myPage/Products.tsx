@@ -27,8 +27,12 @@ const Products = ({ products, sortOption }: MyProductsProps) => {
   const navigate = useNavigate();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState<undefined | number>(undefined);
 
-  const openModal = () => setIsModalOpen(true);
+  const openModal = (productId: number) => {
+    setDeleteId(productId);
+    setIsModalOpen(true);
+  };
   const closeModal = () => setIsModalOpen(false);
 
   const { mutate: deleteProduct } = useDeleteProductMutation(sortOption, products.productId);
@@ -67,22 +71,20 @@ const Products = ({ products, sortOption }: MyProductsProps) => {
                 <BtnWrapper onClick={() => handleEditClick(productId)}>
                   <Btn>수정</Btn>
                 </BtnWrapper>
-                <BtnWrapper onClick={openModal}>
+                <BtnWrapper onClick={() => openModal(productId)}>
                   <Btn>삭제</Btn>
                 </BtnWrapper>
               </BtnContainer>
             </ItemInfoContainer>
-            {isModalOpen && (
-              <Modal
-                content={
-                  <DeleteProductModal closeModal={closeModal} handleDeleteClick={() => handleDeleteClick(productId)} />
-                }
-                closeModal={closeModal}
-              />
-            )}
           </Item>
         );
       })}
+      {isModalOpen && (
+        <Modal
+          content={<DeleteProductModal closeModal={closeModal} handleDeleteClick={() => handleDeleteClick(deleteId)} />}
+          closeModal={closeModal}
+        />
+      )}
     </ItemContainer>
   );
 };
