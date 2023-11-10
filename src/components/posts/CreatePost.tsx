@@ -41,7 +41,7 @@ const CreatePost = () => {
   const sizeRef = useRef<HTMLSelectElement>(null);
   const commentRef = useRef<HTMLTextAreaElement>(null);
 
-  const [value, setValue] = useState('');
+  const [price, setPrice] = useState('');
   const [exchangeOption, setExchangeOption] = useState<boolean>(false);
   const [delivery, setDelivery] = useState(true);
   const [discount, setDiscount] = useState(false);
@@ -56,9 +56,9 @@ const CreatePost = () => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const numValue = parseInt(e.target.value.replace(/,/g, ''), 10);
     if (!isNaN(numValue)) {
-      setValue(numValue.toLocaleString());
+      setPrice(numValue.toLocaleString());
     } else {
-      setValue('');
+      setPrice('');
     }
   };
 
@@ -124,7 +124,7 @@ const CreatePost = () => {
         productName: productNameRef.current ? productNameRef.current.value : '',
         categories: categories,
         count: countRef.current ? countRef.current.value : '',
-        price: value,
+        price: price,
         discount: discount,
         delivery: delivery,
         exchange: exchangeOption,
@@ -184,7 +184,7 @@ const CreatePost = () => {
         productName: productNameRef.current ? productNameRef.current.value : '',
         categories: categories,
         count: countRef.current ? countRef.current.value : '',
-        price: value,
+        price: price,
         discount: discount,
         delivery: delivery,
         exchange: exchangeOption,
@@ -338,7 +338,7 @@ const CreatePost = () => {
             <Must>*</Must>
           </Name>
           <PriceContainer>
-            <Price type="text" placeholder="가격을 입력해주세요." value={value} onChange={handleChange} />원
+            <Price type="text" placeholder="가격을 입력해주세요." value={price} onChange={handleChange} />원
             <PriceSuggestion>
               <input type="checkbox" onChange={e => setDiscount(e.target.checked)} />
               가격 제안받기
