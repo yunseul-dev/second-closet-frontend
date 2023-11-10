@@ -29,6 +29,5 @@ const Container = styled.div`
   flex-grow: 1;
   width: 100%;
   overflow: auto;
-  /* padding: 10px; */
   margin-top: 30px;
 `;
