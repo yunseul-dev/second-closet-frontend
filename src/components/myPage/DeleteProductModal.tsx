@@ -7,6 +7,11 @@ interface ModalProps {
 }
 
 const DeleteProductModal: React.FC<ModalProps> = ({ closeModal, handleDeleteClick }) => {
+  const handleOClick = () => {
+    handleDeleteClick();
+    closeModal();
+  };
+
   return (
     <Container>
       <Title>게시물 삭제</Title>
@@ -16,7 +21,7 @@ const DeleteProductModal: React.FC<ModalProps> = ({ closeModal, handleDeleteClic
       </Content>
       <ButtonContainer>
         <XBtn onClick={closeModal}>아니오</XBtn>
-        <OBtn onClick={handleDeleteClick}>예</OBtn>
+        <OBtn onClick={handleOClick}>예</OBtn>
       </ButtonContainer>
     </Container>
   );
