@@ -46,7 +46,7 @@ const MyCloset = () => {
   };
 
   const handleWithdrawClick = async () => {
-    await axios.delete(`/api/users/withdraw/${userId}`);
+    await axios.delete(`api/auth/withdraw/${userId}`);
 
     setUserId(null);
     localStorage.removeItem('user');
