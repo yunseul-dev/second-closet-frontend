@@ -35,7 +35,7 @@ const Container = styled.div`
 
 const ModalInner = styled.div`
   border: 1px solid;
-  width: 35%;
+  width: 25%;
   height: 200px;
   background-color: white;
   position: relative;
