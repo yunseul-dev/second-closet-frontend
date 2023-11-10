@@ -10,12 +10,12 @@ interface Product {
 }
 
 interface FetchResponse {
-  pages: Product[][];
+  pages: Product[];
   pageParams: number[];
 }
 
 const useMyHeartsInfiniteQuery = (userId: string, sortOption: string) => {
-  const { data, hasNextPage, fetchNextPage } = useInfiniteQuery<FetchResponse, Product[], unknown>({
+  const { data, hasNextPage, fetchNextPage } = useInfiniteQuery<FetchResponse[], Product[], unknown>({
     queryKey: ['@MyHearts', sortOption],
     queryFn: async ({ pageParam = 0 }) => {
       const { data } = await axios.get(`/api/products/myhearts?sort=${sortOption}`, {
