@@ -74,7 +74,7 @@ const SignUp = ({ setState }: SignUpProps) => {
     try {
       const { data: user } = await axios.post('api/auth/signup', data, { withCredentials: true });
       console.log(user, '님의 회원가입을 축하드립니다.');
-      setState('signIn');
+      setState('signUpOption');
     } catch (error) {
       console.log(error);
     }
