@@ -18,20 +18,20 @@ const AuthForm = () => {
         <LuShirt />
         <Title>SecondCloset</Title>
       </FlexWrapper>
-      {state === 'signUpOption' ? (
-        <SignUpOption setState={setState} />
+      <CombinedSignBtns>
+        <AuthBtn $active={state === 'signIn'} onClick={() => setState('signIn')}>
+          Sign In
+        </AuthBtn>
+        <AuthBtn $active={state.includes('signUp')} onClick={() => setState('signUp')}>
+          Sign Up
+        </AuthBtn>
+      </CombinedSignBtns>
+      {state === 'signIn' ? (
+        <SignIn />
+      ) : state === 'signUp' ? (
+        <SignUp setState={setState} />
       ) : (
-        <>
-          <CombinedSignBtns>
-            <AuthBtn $active={state === 'signIn'} onClick={() => setState('signIn')}>
-              Sign In
-            </AuthBtn>
-            <AuthBtn $active={state === 'signUp'} onClick={() => setState('signUp')}>
-              Sign Up
-            </AuthBtn>
-          </CombinedSignBtns>
-          {state === 'signIn' ? <SignIn /> : <SignUp setState={setState} />}
-        </>
+        <SignUpOption setState={setState} />
       )}
     </Container>
   );
