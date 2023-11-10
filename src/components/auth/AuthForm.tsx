@@ -3,13 +3,14 @@ import { useState } from 'react';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import { LuShirt } from 'react-icons/lu';
+import SignUpOption from './SignUpOption';
 
 type ButtonProps = {
   $active: boolean;
 };
 
 const AuthForm = () => {
-  const [state, setState] = useState('signIn');
+  const [state, setState] = useState('signUpOption');
 
   return (
     <Container>
@@ -17,15 +18,21 @@ const AuthForm = () => {
         <LuShirt />
         <Title>SecondCloset</Title>
       </FlexWrapper>
-      <CombinedSignBtns>
-        <AuthBtn $active={state === 'signIn'} onClick={() => setState('signIn')}>
-          Sign In
-        </AuthBtn>
-        <AuthBtn $active={state === 'signUp'} onClick={() => setState('signUp')}>
-          Sign Up
-        </AuthBtn>
-      </CombinedSignBtns>
-      {state === 'signIn' ? <SignIn /> : <SignUp setState={setState} />}
+      {state === 'signUpOption' ? (
+        <SignUpOption setState={setState} />
+      ) : (
+        <>
+          <CombinedSignBtns>
+            <AuthBtn $active={state === 'signIn'} onClick={() => setState('signIn')}>
+              Sign In
+            </AuthBtn>
+            <AuthBtn $active={state === 'signUp'} onClick={() => setState('signUp')}>
+              Sign Up
+            </AuthBtn>
+          </CombinedSignBtns>
+          {state === 'signIn' ? <SignIn /> : <SignUp setState={setState} />}
+        </>
+      )}
     </Container>
   );
 };

@@ -1,21 +1,28 @@
 import { styled } from 'styled-components';
+import { Dispatch, SetStateAction } from 'react';
 
-const SignUpAddress = () => {
+interface SignUpOptionProps {
+  setState: Dispatch<SetStateAction<string>>;
+}
+
+const SignUpOption = ({ setState }: SignUpOptionProps) => {
+  const clickSkipBtn = () => setState('signIn');
+
   return (
     <Container>
-      <FlexWrapper>
-        <img src="./assets/icons/closetFav.png" alt="Closet Icon" />
-        <Title>세컨클로젯</Title>
-      </FlexWrapper>
       <CombinedSignBtns>
-        <h6>뿌붕님의 가입을 축하드립니다.</h6>
+        <Content>
+          뿌붕님의 가입을 축하드립니다.
+          <br />
+          편리한 이용을 위하여 계좌번호와 주소를 입력해주세요.
+        </Content>
       </CombinedSignBtns>
       <form>
         <FormWrapper>
-          <Text>Your address?</Text>
-          <ContentContainer placeholder="address" />
+          <ContentContainer placeholder="주소 ex) 창원시 성산구 대암로 256 106동 104호" />
+          <ContentContainer placeholder="은행 이름 + 계좌번호" />
           <SubmitButtonGroup>
-            <SubmitBtn type="submit">Skip</SubmitBtn>
+            <SubmitBtn onClick={clickSkipBtn}>Skip</SubmitBtn>
             <SubmitBtn type="submit">Submit</SubmitBtn>
           </SubmitButtonGroup>
         </FormWrapper>
@@ -24,29 +31,19 @@ const SignUpAddress = () => {
   );
 };
 
-export default SignUpAddress;
+export default SignUpOption;
 
 const Container = styled.div`
-  width: 30%;
-  height: 60vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 5px solid #fad4db;
   border-radius: 10px;
 `;
 
-const FlexWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-
-const Title = styled.h3`
-  font-family: 'Hi melody';
-  text-align: center;
-  margin-left: 10px;
+const Content = styled.div`
+  font-size: 14px;
 `;
 
 const FormWrapper = styled.div`
@@ -67,6 +64,10 @@ const ContentContainer = styled.input`
   border: none;
   padding: 10px;
   border: 1px solid gray;
+
+  &::placeholder {
+    font-size: 12px;
+  }
 `;
 
 const SubmitBtn = styled.button`
