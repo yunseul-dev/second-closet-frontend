@@ -4,8 +4,6 @@ import { AiOutlineCamera } from 'react-icons/ai';
 import { LiaAngleRightSolid } from 'react-icons/lia';
 import { FaXmark } from 'react-icons/fa6';
 import axios from 'axios';
-import { userState } from '../../recoil/atom/userState';
-import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { Category } from '../../constants/Category';
 import { useParams } from 'react-router-dom';
@@ -25,6 +23,7 @@ interface PostData {
   tags: string[];
   size: string;
   facetoface: boolean;
+  prevImgs: string[];
 }
 
 type DivProps = {
@@ -38,13 +37,12 @@ type ImgProps = {
 const EditPost = () => {
   const navigate = useNavigate();
 
-  const userId = useRecoilValue(userState);
   const productNameRef = useRef<HTMLInputElement>(null);
   const countRef = useRef<HTMLSelectElement>(null);
   const sizeRef = useRef<HTMLSelectElement>(null);
   const commentRef = useRef<HTMLTextAreaElement>(null);
 
-  const [value, setValue] = useState('');
+  const [price, setPrice] = useState('');
   const [exchangeOption, setExchangeOption] = useState<boolean>(false);
   const [delivery, setDelivery] = useState(true);
   const [discount, setDiscount] = useState(false);
@@ -62,7 +60,7 @@ const EditPost = () => {
   const { productInfo } = useProductQuery(id, {});
 
   useEffect(() => {
-    setValue(productInfo?.price);
+    setPrice(productInfo?.price);
     setExchangeOption(productInfo?.exchange);
     setDelivery(productInfo?.delivery);
     setDiscount(productInfo?.discount);
@@ -75,9 +73,9 @@ const EditPost = () => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const numValue = parseInt(e.target.value.replace(/,/g, ''), 10);
     if (!isNaN(numValue)) {
-      setValue(numValue.toLocaleString());
+      setPrice(numValue.toLocaleString());
     } else {
-      setValue('');
+      setPrice('');
     }
   };
 
@@ -91,7 +89,6 @@ const EditPost = () => {
     const file = e.target.files && e.target.files[0];
 
     if (file) {
-      // 파일 확장자 확인 -> 사진만 업로드
       const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
       const fileExtension = file.name.split('.').pop()?.toLocaleLowerCase() || '';
       const isImageFile = allowedExtensions.includes(fileExtension);
@@ -154,22 +151,74 @@ const EditPost = () => {
         });
       }
 
-      const data: PostData = {
-        userId: userId,
-        productName: productNameRef.current ? productNameRef.current.value : '',
-        categories: categories,
-        count: countRef.current ? countRef.current.value : '',
-        price: value,
-        discount: discount,
-        delivery: delivery,
-        exchange: exchangeOption,
-        description: commentRef.current ? commentRef.current.value : '',
-        tags: tags,
-        size: sizeRef.current ? sizeRef.current.value : '',
-        facetoface: canFace,
-      };
+      const updatedData: Partial<PostData> = {};
 
-      formData.append('data', JSON.stringify(data));
+      if (productNameRef.current?.value !== productInfo?.productName) {
+        updatedData.productName = productNameRef.current?.value;
+      }
+
+      if (countRef.current?.value !== productInfo?.count) {
+        updatedData.count = countRef.current?.value;
+      }
+
+      if (categories !== productInfo?.categories) {
+        updatedData.categories = categories;
+      }
+
+      if (price !== productInfo?.price) {
+        updatedData.price = price;
+      }
+
+      if (discount !== productInfo?.discount) {
+        updatedData.discount = discount;
+      }
+
+      if (delivery !== productInfo?.delivery) {
+        updatedData.delivery = delivery;
+      }
+
+      if (exchangeOption !== productInfo?.exchange) {
+        updatedData.exchange = exchangeOption;
+      }
+
+      if (commentRef.current?.value !== productInfo?.description) {
+        updatedData.description = commentRef.current?.value;
+      }
+
+      if (tags !== productInfo?.tags) {
+        updatedData.tags = tags;
+      }
+
+      if (sizeRef.current?.value !== productInfo?.size) {
+        updatedData.size = sizeRef.current?.value;
+      }
+
+      if (canFace !== productInfo?.facetoface) {
+        updatedData.facetoface = canFace;
+      }
+
+      if (prevImgs !== productInfo.imgs) {
+        updatedData.prevImgs = prevImgs;
+      }
+
+      formData.append('data', JSON.stringify(updatedData));
+
+      if (
+        productNameRef.current?.value &&
+        imgPrevUrls.length &&
+        categories.length &&
+        sizeRef.current?.value &&
+        countRef.current?.value
+      ) {
+        await axios.patch(`/api/products/edit/${id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        navigate('/');
+      } else {
+        console.log('모든 항목을 입력해주세요');
+      }
     } catch (error) {
       console.log(error);
     }
@@ -307,7 +356,7 @@ const EditPost = () => {
             <Must>*</Must>
           </Name>
           <PriceContainer>
-            <Price type="text" placeholder="가격을 입력해주세요." value={value} onChange={handleChange} />원
+            <Price type="text" placeholder="가격을 입력해주세요." value={price} onChange={handleChange} />원
             <PriceSuggestion>
               <input type="checkbox" onChange={e => setDiscount(e.target.checked)} />
               가격 제안받기
