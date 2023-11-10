@@ -12,7 +12,7 @@ import useProductQuery from '../../hooks/queries/useProductQuery';
 interface PostData {
   userId: string | null;
   productName: string;
-  imgs: string[];
+  imgs: string[][];
   categories: string[];
   count: string;
   price: string;
@@ -23,7 +23,6 @@ interface PostData {
   tags: string[];
   size: string;
   facetoface: boolean;
-  prevImgs: string[];
 }
 
 type DivProps = {
@@ -53,7 +52,9 @@ const EditPost = () => {
   const [canFace, setCanFace] = useState<boolean>(true);
   const [categories, setCategories] = useState<string[]>([]);
 
-  const [prevImgs, setPrevImgs] = useState<string[]>([]);
+  // newProduct.imgs[0] = prevImgs
+  // newProduct.imgs[1] = deleteImgs
+  const [prevImgs, setPrevImgs] = useState<string[][]>([]);
 
   const { id } = useParams();
 
@@ -67,7 +68,7 @@ const EditPost = () => {
     setTags(productInfo?.tags);
     setCategories(productInfo?.categories);
     setCanFace(productInfo?.facetoface);
-    setPrevImgs(productInfo?.imgs);
+    setPrevImgs([productInfo?.imgs, []]);
   }, [productInfo]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -142,9 +143,11 @@ const EditPost = () => {
   };
 
   const handlePrevImgXClick = (idx: number) => {
-    const updatedPrevImgs = [...prevImgs];
+    const updatedPrevImgs = [...prevImgs[0]];
+    const updatedDeleteImgs = [...prevImgs[1]];
+    updatedDeleteImgs.push(prevImgs[0][idx]);
     updatedPrevImgs.splice(idx, 1);
-    setPrevImgs(updatedPrevImgs);
+    setPrevImgs([updatedPrevImgs, updatedDeleteImgs]);
   };
 
   const handleSubmit = async () => {
@@ -204,7 +207,7 @@ const EditPost = () => {
       }
 
       if (prevImgs !== productInfo.imgs) {
-        updatedData.prevImgs = prevImgs;
+        updatedData.imgs = prevImgs;
       }
 
       formData.append('data', JSON.stringify(updatedData));
@@ -221,7 +224,7 @@ const EditPost = () => {
             'Content-Type': 'multipart/form-data',
           },
         });
-        navigate('/');
+        navigate('/mypage');
       } else {
         console.log('모든 항목을 입력해주세요');
       }
@@ -269,8 +272,8 @@ const EditPost = () => {
                   </ImagePreview>
                 );
               })}{' '}
-            {prevImgs &&
-              prevImgs.map((prevImg, idx) => {
+            {prevImgs[0] &&
+              prevImgs[0].map((prevImg, idx) => {
                 return (
                   <ImagePreview idx={idx + 1} key={idx}>
                     <Image src={`http://localhost:5023/api/products/uploads/${prevImg}`} alt="Image Preview" />
