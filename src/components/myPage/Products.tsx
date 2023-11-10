@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { AiOutlineHeart } from 'react-icons/ai';
 import formatTimeAgo from '../../utils/formatTimeAgo';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import useDeleteProductMutation from '../../hooks/mutations/useDeleteProductMutation';
 
 interface Product {
   productId: number;
@@ -17,10 +17,13 @@ interface Product {
 
 interface MyProductsProps {
   products: Product[];
+  sortOption: string;
 }
 
-const Products = ({ products }: MyProductsProps) => {
+const Products = ({ products, sortOption }: MyProductsProps) => {
   const navigate = useNavigate();
+
+  const { mutate: deleteProduct } = useDeleteProductMutation(sortOption, products.productId);
 
   const handleClick = (productId: number) => {
     navigate(`/detail/${productId}`);
@@ -31,12 +34,7 @@ const Products = ({ products }: MyProductsProps) => {
   };
 
   const handleDeleteClick = async (productId: number) => {
-    try {
-      await axios.delete(`/delete/${productId}`);
-      navigate('/mypage');
-    } catch (err) {
-      console.log(err);
-    }
+    deleteProduct(productId);
   };
 
   return (

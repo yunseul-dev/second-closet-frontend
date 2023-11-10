@@ -54,7 +54,7 @@ const MyProducts = () => {
           </Sort>
         </ListCount>
       </div>
-      <Products products={products} />
+      <Products products={products} sortOption={sortOption} />
       {hasNextPage && <div ref={observerRef}>Observer</div>}
     </>
   );
