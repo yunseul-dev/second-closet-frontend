@@ -7,7 +7,7 @@ import MyHearts from './MyHearts';
 import { useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { userState } from '../../recoil/atom/userState';
-import { useSetRecoilState } from 'recoil';
+import { useSetRecoilState, useRecoilState } from 'recoil';
 import { isLoginState } from '../../recoil/atom/isLoginState';
 import { useNavigate } from 'react-router-dom';
 
@@ -26,7 +26,7 @@ interface DivPencilProp {
 const MyCloset = () => {
   const [category, setCategory] = useState('products');
   const queryClient = useQueryClient();
-  const setUser = useSetRecoilState(userState);
+  const [userId, setUserId] = useRecoilState(userState);
   const setIsLogin = useSetRecoilState(isLoginState);
   const navigate = useNavigate();
 
@@ -36,12 +36,21 @@ const MyCloset = () => {
     queryClient.refetchQueries();
   }, []);
 
-  const handleClick = async () => {
+  const handleSignoutClick = async () => {
     const isLogin = await axios.get('api/auth/signout', { withCredentials: true });
 
-    setUser(null);
+    setUserId(null);
     localStorage.removeItem('user');
     setIsLogin(isLogin);
+    navigate('/');
+  };
+
+  const handleWithdrawClick = async () => {
+    await axios.delete(`/api/users/withdraw/${userId}`);
+
+    setUserId(null);
+    localStorage.removeItem('user');
+    setIsLogin(false);
     navigate('/');
   };
 
@@ -64,11 +73,13 @@ const MyCloset = () => {
             <Divider>
               <RxDividerVertical />
             </Divider>
-            <TabName $bold={false}>회원 탈퇴</TabName>
+            <TabName $bold={false} onClick={handleWithdrawClick}>
+              회원 탈퇴
+            </TabName>
             <Divider>
               <RxDividerVertical />
             </Divider>
-            <TabName $bold={false} onClick={handleClick}>
+            <TabName $bold={false} onClick={handleSignoutClick}>
               로그아웃
             </TabName>
           </StoreAdmin>
