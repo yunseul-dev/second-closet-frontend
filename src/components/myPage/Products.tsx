@@ -83,6 +83,7 @@ const Products = ({ products, sortOption }: MyProductsProps) => {
         <Modal
           content={<DeleteProductModal closeModal={closeModal} handleDeleteClick={() => handleDeleteClick(deleteId)} />}
           closeModal={closeModal}
+          size="small"
         />
       )}
     </ItemContainer>

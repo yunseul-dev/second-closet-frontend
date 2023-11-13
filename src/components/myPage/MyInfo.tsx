@@ -73,9 +73,11 @@ const MyInfo = () => {
           </TabName>
         </StoreAdmin>
       </StoreContainer>
-      {isModalOpen && <Modal content={<WithdrawalModal closeModal={closeModal} />} closeModal={closeModal} />}
+      {isModalOpen && (
+        <Modal content={<WithdrawalModal closeModal={closeModal} />} closeModal={closeModal} size="small" />
+      )}
       {isInfoModalOpen && (
-        <Modal content={<AccountInfoEditModal closeModal={closeInfoModal} />} closeModal={closeInfoModal} />
+        <Modal content={<AccountInfoEditModal closeModal={closeInfoModal} />} closeModal={closeInfoModal} size="big" />
       )}
     </Container>
   );
