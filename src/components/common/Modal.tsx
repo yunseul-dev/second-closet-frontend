@@ -5,11 +5,12 @@ import { FaXmark } from 'react-icons/fa6';
 interface ModalProps {
   content: React.ReactNode;
   closeModal: () => void;
+  size: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ content, closeModal }) => (
+const Modal: React.FC<ModalProps> = ({ content, closeModal, size }) => (
   <Container>
-    <ModalInner>
+    <ModalInner size={size}>
       <XBtn onClick={closeModal}>
         <FaXmark />
       </XBtn>
@@ -33,10 +34,10 @@ const Container = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
 `;
 
-const ModalInner = styled.div`
+const ModalInner = styled.div<{ size: string }>`
   border: 1px solid;
-  width: 25%;
-  height: 200px;
+  width: ${props => (props.size === 'big' ? '30%' : '25%')};
+  height: ${props => (props.size === 'big' ? '250px' : '200px')};
   background-color: white;
   position: relative;
   padding: 20px;
