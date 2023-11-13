@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Modal from '../common/Modal';
 import WithdrawalModal from './WithdrawalModal';
+import AccountInfoEditModal from './AccountInfoEditModal';
 
 interface DivProp {
   $bold: boolean;
@@ -24,9 +25,13 @@ const MyInfo = () => {
   const navigate = useNavigate();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  const openInfoModal = () => setIsInfoModalOpen(true);
+  const closeInfoModal = () => setIsInfoModalOpen(false);
 
   const handleSignoutClick = async () => {
     const isLogin = await axios.get('api/auth/signout', { withCredentials: true });
@@ -51,7 +56,9 @@ const MyInfo = () => {
           <Divider>
             <RxDividerVertical />
           </Divider>
-          <TabName $bold={false}>회원정보 수정</TabName>
+          <TabName $bold={false} onClick={openInfoModal}>
+            회원정보 수정
+          </TabName>
           <Divider>
             <RxDividerVertical />
           </Divider>
@@ -67,6 +74,9 @@ const MyInfo = () => {
         </StoreAdmin>
       </StoreContainer>
       {isModalOpen && <Modal content={<WithdrawalModal closeModal={closeModal} />} closeModal={closeModal} />}
+      {isInfoModalOpen && (
+        <Modal content={<AccountInfoEditModal closeModal={closeInfoModal} />} closeModal={closeInfoModal} />
+      )}
     </Container>
   );
 };
