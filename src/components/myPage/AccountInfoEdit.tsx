@@ -53,7 +53,7 @@ const AccountInfoEdit = () => {
         </InfoContainer>
         <InfoContainer>
           <Label>이름</Label>
-          <Input value={userInfo?.userName} />
+          <Input defaultValue={userInfo?.userName} />
         </InfoContainer>
         <InfoContainer>
           <Label>비밀번호</Label>
@@ -69,11 +69,11 @@ const AccountInfoEdit = () => {
               </option>
             ))}
           </Select>
-          <BankInput value={userInfo?.account} />
+          <BankInput defaultValue={userInfo?.account} />
         </InfoContainer>
         <InfoContainer>
           <Label>주소</Label>
-          <Input value={userInfo?.address} />
+          <Input defaultValue={userInfo?.address} />
         </InfoContainer>
       </Content>
       <ButtonContainer>
