@@ -1,9 +1,18 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useRef, Dispatch, SetStateAction } from 'react';
 import PwEditModal from './PwEditModal';
 import useUserQuery from '../../hooks/queries/useUserQuery';
 import Modal from '../common/Modal';
 import WithdrawalModal from './WithdrawalModal';
+import axios from 'axios';
+
+interface UserData {
+  userId: string;
+  userName: string;
+  account: string;
+  bank: string;
+  address: string;
+}
 
 const banks = [
   '국민은행',
@@ -32,17 +41,55 @@ const banks = [
   '한국씨티은행',
 ];
 
-const AccountInfoEdit = () => {
+interface AccountInfoEditProps {
+  setIsInfoEdit: Dispatch<SetStateAction<string>>;
+}
+
+const AccountInfoEdit: React.FC<AccountInfoEditProps> = ({ setIsInfoEdit }) => {
   const { userInfo } = useUserQuery();
 
   const [isPwModalOpen, setIsPwModalOpen] = useState(false);
   const [isWdModalOpen, setIsWdModalOpen] = useState(false);
+
+  const userNameRef = useRef<HTMLInputElement>(null);
+  const addressRef = useRef<HTMLInputElement>(null);
+  const accountRef = useRef<HTMLInputElement>(null);
+  const bankRef = useRef<HTMLSelectElement>(null);
 
   const openPwModal = () => setIsPwModalOpen(true);
   const closePwModal = () => setIsPwModalOpen(false);
 
   const openWdModal = () => setIsWdModalOpen(true);
   const closeWdModal = () => setIsWdModalOpen(false);
+
+  const handleSubmit = async () => {
+    try {
+      const updatedData: Partial<UserData> = {};
+
+      if (userNameRef.current?.value !== userInfo?.productName) {
+        if (userNameRef.current?.value === '') {
+          updatedData.userName = userInfo.userId;
+        } else {
+          updatedData.userName = userNameRef.current?.value;
+        }
+      }
+      if (addressRef.current?.value !== userInfo?.address) {
+        updatedData.address = addressRef.current?.value;
+      }
+      if (accountRef.current?.value !== userInfo?.account) {
+        updatedData.account = accountRef.current?.value;
+      }
+      if (bankRef.current?.value !== userInfo?.bank) {
+        updatedData.bank = bankRef.current?.value;
+      }
+
+      console.log('updated! ', updatedData);
+      await axios.patch(`/api/users/edit/${userInfo?.userId}`, updatedData);
+      setIsInfoEdit('product');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Container>
@@ -53,7 +100,7 @@ const AccountInfoEdit = () => {
         </InfoContainer>
         <InfoContainer>
           <Label>이름</Label>
-          <Input defaultValue={userInfo?.userName} />
+          <Input defaultValue={userInfo?.userName} ref={userNameRef} />
         </InfoContainer>
         <InfoContainer>
           <Label>비밀번호</Label>
@@ -61,7 +108,7 @@ const AccountInfoEdit = () => {
         </InfoContainer>
         <InfoContainer>
           <Label>계좌번호</Label>
-          <Select defaultValue={userInfo?.bank}>
+          <Select defaultValue={userInfo?.bank} ref={bankRef}>
             <option value="">선택</option>
             {banks.map(bank => (
               <option key={bank} value={bank}>
@@ -69,18 +116,18 @@ const AccountInfoEdit = () => {
               </option>
             ))}
           </Select>
-          <BankInput defaultValue={userInfo?.account} />
+          <BankInput defaultValue={userInfo?.account} ref={accountRef} />
         </InfoContainer>
         <InfoContainer>
           <Label>주소</Label>
-          <Input defaultValue={userInfo?.address} />
+          <Input defaultValue={userInfo?.address} ref={addressRef} />
         </InfoContainer>
       </Content>
       <ButtonContainer>
         <WdBtn onClick={openWdModal}>회원 탈퇴</WdBtn>
         <Buttons>
           <XBtn>취소</XBtn>
-          <OBtn>수정</OBtn>
+          <OBtn onClick={handleSubmit}>수정</OBtn>
         </Buttons>
       </ButtonContainer>
       {isPwModalOpen && (
