@@ -36,6 +36,8 @@ const Container = styled.div`
 
 const ModalInner = styled.div<{ size: string }>`
   border: 1px solid;
+  min-width: 450px;
+  min-height: 200px;
   width: ${props => (props.size === 'big' ? '30%' : '25%')};
   height: ${props => (props.size === 'big' ? '250px' : '200px')};
   background-color: white;
