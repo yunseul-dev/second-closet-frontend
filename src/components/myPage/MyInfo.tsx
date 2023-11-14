@@ -1,14 +1,11 @@
 import styled from 'styled-components';
-import { PiPencilSimpleLineBold } from 'react-icons/pi';
 import { RxDividerVertical } from 'react-icons/rx';
 import axios from 'axios';
 import { userState } from '../../recoil/atom/userState';
 import { useSetRecoilState } from 'recoil';
 import { isLoginState } from '../../recoil/atom/isLoginState';
 import { useNavigate } from 'react-router-dom';
-import { Dispatch, useState, SetStateAction } from 'react';
-import Modal from '../common/Modal';
-import WithdrawalModal from './WithdrawalModal';
+import { Dispatch, SetStateAction } from 'react';
 import useUserQuery from '../../hooks/queries/useUserQuery';
 
 interface DivProp {
@@ -31,13 +28,8 @@ const MyInfo: React.FC<MyInfoProps> = ({ setIsInfoEdit, isInfoEdit }) => {
 
   const { userInfo } = useUserQuery();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
-  const handleProductsClick = () => setIsInfoEdit('상품');
-  const handleInfoClick = () => setIsInfoEdit('회원정보');
+  const handleProductsClick = () => setIsInfoEdit('product');
+  const handleInfoClick = () => setIsInfoEdit('userInfo');
 
   const handleSignoutClick = async () => {
     const isLogin = await axios.get('api/auth/signout', { withCredentials: true });
@@ -52,16 +44,16 @@ const MyInfo: React.FC<MyInfoProps> = ({ setIsInfoEdit, isInfoEdit }) => {
     <Container>
       <StoreContainer>
         <StoreInfo>
-          {isInfoEdit === '상품' ? <StoreName>{userInfo.userName}님의 옷장</StoreName> : <Title>계정 정보</Title>}
+          {isInfoEdit === 'product' ? <StoreName>{userInfo.userName}님의 옷장</StoreName> : <Title>계정 정보</Title>}
         </StoreInfo>
         <StoreAdmin>
-          <TabName $bold={isInfoEdit === '상품'} onClick={handleProductsClick}>
+          <TabName $bold={isInfoEdit === 'product'} onClick={handleProductsClick}>
             나의 상품
           </TabName>
           <Divider>
             <RxDividerVertical />
           </Divider>
-          <TabName $bold={isInfoEdit === '회원정보'} onClick={handleInfoClick}>
+          <TabName $bold={isInfoEdit === 'userInfo'} onClick={handleInfoClick}>
             회원정보 수정
           </TabName>
           <Divider>
@@ -72,9 +64,6 @@ const MyInfo: React.FC<MyInfoProps> = ({ setIsInfoEdit, isInfoEdit }) => {
           </TabName>
         </StoreAdmin>
       </StoreContainer>
-      {isModalOpen && (
-        <Modal content={<WithdrawalModal closeModal={closeModal} />} closeModal={closeModal} size="small" />
-      )}
     </Container>
   );
 };

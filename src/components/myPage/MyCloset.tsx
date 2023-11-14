@@ -5,12 +5,12 @@ import { useState } from 'react';
 import AccountInfoEdit from './AccountInfoEdit';
 
 const MyCloset = () => {
-  const [isInfoEdit, setIsInfoEdit] = useState('상품');
+  const [isInfoEdit, setIsInfoEdit] = useState('product');
 
   return (
     <Container>
       <MyInfo setIsInfoEdit={setIsInfoEdit} isInfoEdit={isInfoEdit} />
-      {isInfoEdit === '상품' ? <AboutProducts /> : <AccountInfoEdit />}
+      {isInfoEdit === 'product' ? <AboutProducts /> : <AccountInfoEdit setIsInfoEdit={setIsInfoEdit} />}
     </Container>
   );
 };
