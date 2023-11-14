@@ -53,7 +53,6 @@ const ListName = styled.div<DivNameProp>`
   justify-content: center;
   align-items: center;
   border: 1px solid #e6e6e6;
-
   font-weight: ${({ $clicked }) => $clicked && '600'};
   border: ${({ $clicked }) => $clicked && '1px solid #000'};
   border-bottom: ${({ $clicked }) => ($clicked ? 'none' : '1px solid #000')};
