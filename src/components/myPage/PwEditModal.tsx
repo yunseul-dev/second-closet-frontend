@@ -1,30 +1,88 @@
 import styled from 'styled-components';
+import { userState } from '../../recoil/atom/userState';
+import { useRecoilValue } from 'recoil';
+import { ChangePwSchema } from '../../utils/shema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm, Control, useController } from 'react-hook-form';
+import { useCallback, ChangeEvent } from 'react';
+import { debounce } from 'lodash';
+import axios from 'axios';
 
 interface ModalProps {
   closeModal: () => void;
 }
 
-const PwEditModal: React.FC<ModalProps> = ({ closeModal }) => {
+interface ChangePwFormData {
+  nowPassword: string;
+  newPassword: string;
+  passwordConfirm: string;
+}
+
+interface InputProps {
+  name: 'nowPassword' | 'newPassword' | 'passwordConfirm';
+  control: Control<ChangePwFormData>;
+  trigger: (field?: keyof ChangePwFormData | (keyof ChangePwFormData)[]) => void;
+  label: string;
+}
+
+const PasswordInput = ({ name, control, trigger, label }: InputProps) => {
+  const {
+    field: { onChange },
+    fieldState: { error },
+  } = useController({ name, control, defaultValue: '' });
+
+  const debouncedTrigger = useCallback(
+    debounce(() => {
+      trigger(name);
+      if (name === 'newPassword') trigger('passwordConfirm');
+    }, 100),
+    [trigger, name],
+  );
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    onChange(e);
+    debouncedTrigger();
+  };
+
   return (
-    <Container>
+    <InfoContainer>
+      <Label>{label}</Label>
+      <InputTab>
+        <Input type="password" id={name} name={name} autoComplete="off" onChange={handleChange} />
+        {error && <ErrorMsg>{error?.message}</ErrorMsg>}
+      </InputTab>
+    </InfoContainer>
+  );
+};
+
+const PwEditModal: React.FC<ModalProps> = ({ closeModal }) => {
+  const userId = useRecoilValue(userState);
+
+  const { control, trigger, handleSubmit } = useForm<ChangePwFormData>({
+    resolver: zodResolver(ChangePwSchema),
+  });
+
+  const onSubmit = async (data: ChangePwFormData) => {
+    try {
+      const res = await axios.patch(`/api/auth/changepw/${userId}`, data);
+      closeModal();
+      console.log('data', res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return (
+    <Container onSubmit={handleSubmit(onSubmit)}>
       <Title>비밀번호 변경</Title>
       <Content>
-        <InfoContainer>
-          <Label>현재 비밀번호</Label>
-          <Input type="password" />
-        </InfoContainer>
-        <InfoContainer>
-          <Label>새 비밀번호</Label>
-          <Input type="password" />
-        </InfoContainer>
-        <InfoContainer>
-          <Label>새 비밀번호 확인</Label>
-          <Input type="password" />
-        </InfoContainer>
+        <PasswordInput control={control} name="nowPassword" trigger={trigger} label="현재 비밀번호" />
+        <PasswordInput control={control} name="newPassword" trigger={trigger} label="새 비밀번호" />
+        <PasswordInput control={control} name="passwordConfirm" trigger={trigger} label="새 비밀번호 확인" />
       </Content>
       <ButtonContainer>
         <XBtn onClick={closeModal}>돌아가기</XBtn>
-        <OBtn>변경</OBtn>
+        <OBtn type="submit">변경</OBtn>
       </ButtonContainer>
     </Container>
   );
@@ -32,7 +90,7 @@ const PwEditModal: React.FC<ModalProps> = ({ closeModal }) => {
 
 export default PwEditModal;
 
-const Container = styled.div`
+const Container = styled.form`
   width: 100%;
   height: 100%;
   position: relative;
@@ -51,15 +109,22 @@ const Content = styled.div`
 const InfoContainer = styled.div`
   display: flex;
   width: 100%;
-  margin: 5px 0 5px 0;
+  margin-top: 5px;
+  height: 40px;
+`;
+
+const InputTab = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 65%;
 `;
 
 const Label = styled.div`
-  width: 30%;
+  width: 35%;
 `;
 
 const Input = styled.input`
-  width: 65%;
+  width: 100%;
 `;
 
 const ButtonContainer = styled.div`
@@ -84,4 +149,10 @@ const OBtn = styled(Button)`
 
 const XBtn = styled(Button)`
   background-color: white;
+`;
+
+const ErrorMsg = styled.span`
+  font-size: 13px;
+  padding: 2px 10px 0 10px;
+  color: #d40e0e;
 `;
