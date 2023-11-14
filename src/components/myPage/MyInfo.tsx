@@ -3,13 +3,13 @@ import { PiPencilSimpleLineBold } from 'react-icons/pi';
 import { RxDividerVertical } from 'react-icons/rx';
 import axios from 'axios';
 import { userState } from '../../recoil/atom/userState';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { isLoginState } from '../../recoil/atom/isLoginState';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { Dispatch, useState, SetStateAction } from 'react';
 import Modal from '../common/Modal';
 import WithdrawalModal from './WithdrawalModal';
-import AccountInfoEditModal from './AccountInfoEditModal';
+import useUserQuery from '../../hooks/queries/useUserQuery';
 
 interface DivProp {
   $bold: boolean;
@@ -19,19 +19,25 @@ interface DivPencilProp {
   size: number;
 }
 
-const MyInfo = () => {
-  const [userId, setUserId] = useRecoilState(userState);
+interface MyInfoProps {
+  setIsInfoEdit: Dispatch<SetStateAction<string>>;
+  isInfoEdit: string;
+}
+
+const MyInfo: React.FC<MyInfoProps> = ({ setIsInfoEdit, isInfoEdit }) => {
+  const setUserId = useSetRecoilState<string | null>(userState);
   const setIsLogin = useSetRecoilState(isLoginState);
   const navigate = useNavigate();
 
+  const { userInfo } = useUserQuery();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const openInfoModal = () => setIsInfoModalOpen(true);
-  const closeInfoModal = () => setIsInfoModalOpen(false);
+  const handleProductsClick = () => setIsInfoEdit('상품');
+  const handleInfoClick = () => setIsInfoEdit('회원정보');
 
   const handleSignoutClick = async () => {
     const isLogin = await axios.get('api/auth/signout', { withCredentials: true });
@@ -46,24 +52,17 @@ const MyInfo = () => {
     <Container>
       <StoreContainer>
         <StoreInfo>
-          <StoreName>{userId}'s 옷장</StoreName>
-          <Pencil size={20}>
-            <PiPencilSimpleLineBold />
-          </Pencil>
+          <StoreName>{userInfo.userName}'s 옷장</StoreName>
         </StoreInfo>
         <StoreAdmin>
-          <TabName $bold={true}>정보 관리</TabName>
-          <Divider>
-            <RxDividerVertical />
-          </Divider>
-          <TabName $bold={false} onClick={openInfoModal}>
-            회원정보 수정
+          <TabName $bold={isInfoEdit === '상품'} onClick={handleProductsClick}>
+            나의 상품
           </TabName>
           <Divider>
             <RxDividerVertical />
           </Divider>
-          <TabName $bold={false} onClick={openModal}>
-            회원 탈퇴
+          <TabName $bold={isInfoEdit === '회원정보'} onClick={handleInfoClick}>
+            회원정보 수정
           </TabName>
           <Divider>
             <RxDividerVertical />
@@ -75,9 +74,6 @@ const MyInfo = () => {
       </StoreContainer>
       {isModalOpen && (
         <Modal content={<WithdrawalModal closeModal={closeModal} />} closeModal={closeModal} size="small" />
-      )}
-      {isInfoModalOpen && (
-        <Modal content={<AccountInfoEditModal closeModal={closeInfoModal} />} closeModal={closeInfoModal} size="big" />
       )}
     </Container>
   );
