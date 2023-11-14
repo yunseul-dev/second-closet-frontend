@@ -1,58 +1,47 @@
 import styled from 'styled-components';
-import { Dispatch, SetStateAction } from 'react';
 
-interface UserInfo {
-  userId: string;
-  userName: string;
-  password: string;
-  account: string;
-  address: string;
+interface ModalProps {
+  closeModal: () => void;
 }
 
-interface PwEditProps {
-  handlePwClick: () => void;
-  userInfo: UserInfo;
-  setUserInfo: Dispatch<SetStateAction<UserInfo>>;
-}
-
-const PasswordEdit: React.FC<PwEditProps> = ({ handlePwClick, userInfo, setUserInfo }) => {
+const PwEditModal: React.FC<ModalProps> = ({ closeModal }) => {
   return (
-    <>
+    <Container>
+      <Title>비밀번호 변경</Title>
       <Content>
         <InfoContainer>
           <Label>현재 비밀번호</Label>
-          <Input
-            type="password"
-            value={userInfo?.password}
-            onChange={e => setUserInfo({ ...userInfo, password: e.target.value })}
-          />
+          <Input type="password" />
         </InfoContainer>
         <InfoContainer>
           <Label>새 비밀번호</Label>
-          <Input
-            type="password"
-            value={userInfo?.password}
-            onChange={e => setUserInfo({ ...userInfo, password: e.target.value })}
-          />
+          <Input type="password" />
         </InfoContainer>
         <InfoContainer>
           <Label>새 비밀번호 확인</Label>
-          <Input
-            type="password"
-            value={userInfo?.password}
-            onChange={e => setUserInfo({ ...userInfo, password: e.target.value })}
-          />
+          <Input type="password" />
         </InfoContainer>
       </Content>
       <ButtonContainer>
-        <XBtn onClick={handlePwClick}>돌아가기</XBtn>
+        <XBtn onClick={closeModal}>돌아가기</XBtn>
         <OBtn>변경</OBtn>
       </ButtonContainer>
-    </>
+    </Container>
   );
 };
 
-export default PasswordEdit;
+export default PwEditModal;
+
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  position: relative;
+`;
+
+const Title = styled.div`
+  font-size: 16px;
+  font-weight: 600;
+`;
 
 const Content = styled.div`
   font-size: 16px;
@@ -67,12 +56,10 @@ const InfoContainer = styled.div`
 
 const Label = styled.div`
   width: 30%;
-  font-weight: 600;
 `;
 
 const Input = styled.input`
-  width: 70%;
-  border: none;
+  width: 65%;
 `;
 
 const ButtonContainer = styled.div`
