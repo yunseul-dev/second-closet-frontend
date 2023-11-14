@@ -4,11 +4,12 @@ import { signUpOptionSchema } from '../../utils/shema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { debounce } from 'lodash';
-import { useCallback, ChangeEvent, Dispatch, SetStateAction } from 'react';
+import { useCallback, ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 
 interface SignUpOptionData {
   address: string;
   account: string;
+  bank: string;
 }
 
 interface InputProps {
@@ -17,6 +18,7 @@ interface InputProps {
   name: 'address' | 'account';
   trigger: any;
   isBank: boolean;
+  setSelectedBank: Dispatch<SetStateAction<string>>;
 }
 
 interface SignUpOptionProps {
@@ -56,7 +58,7 @@ const banks = [
   '한국씨티은행',
 ];
 
-const InputContainer = ({ placeholder, control, name, trigger, isBank }: InputProps) => {
+const InputContainer = ({ placeholder, control, name, trigger, isBank, setSelectedBank }: InputProps) => {
   const {
     field: { onChange },
     fieldState: { error },
@@ -78,12 +80,16 @@ const InputContainer = ({ placeholder, control, name, trigger, isBank }: InputPr
     debouncedTrigger();
   };
 
+  const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedBank(e.target.value);
+  };
+
   return (
     <InputWrapper>
       {isBank ? (
         <>
           <Bank>
-            <BankSelect>
+            <BankSelect onChange={handleSelectChange}>
               <option value="">선택</option>
               {banks.map(bank => (
                 <option key={bank} value={bank}>
@@ -122,7 +128,7 @@ const InputContainer = ({ placeholder, control, name, trigger, isBank }: InputPr
 };
 
 const SignUpOption = ({ userId, setUserId, setState }: SignUpOptionProps) => {
-  const { control, handleSubmit, trigger } = useForm<SignUpOptionData>({
+  const { control, handleSubmit, trigger, getValues } = useForm<SignUpOptionData>({
     resolver: zodResolver(signUpOptionSchema),
     defaultValues: {
       address: '',
@@ -130,11 +136,18 @@ const SignUpOption = ({ userId, setUserId, setState }: SignUpOptionProps) => {
     },
   });
 
+  const [selectedBank, setSelectedBank] = useState('');
+
   const clickSkipBtn = () => setState('signIn');
 
-  const onSubmit = async (data: SignUpOptionData) => {
+  const onSubmit = async () => {
     try {
-      console.log(data, 'data');
+      const data: SignUpOptionData = {
+        address: getValues('address'),
+        account: getValues('account'),
+        bank: selectedBank,
+      };
+
       await axios.patch(`api/users/personalInfo/${userId}`, data);
       setUserId(null);
       setState('signIn');
@@ -153,8 +166,22 @@ const SignUpOption = ({ userId, setUserId, setState }: SignUpOptionProps) => {
           <br />
           주소와 계좌번호를 입력해주세요!
         </Content>
-        <InputContainer placeholder={' 주소'} isBank={false} control={control} name={'address'} trigger={trigger} />
-        <InputContainer placeholder={'계좌번호'} isBank={true} control={control} name={'account'} trigger={trigger} />
+        <InputContainer
+          setSelectedBank={setSelectedBank}
+          placeholder={' 주소'}
+          isBank={false}
+          control={control}
+          name={'address'}
+          trigger={trigger}
+        />
+        <InputContainer
+          setSelectedBank={setSelectedBank}
+          placeholder={'계좌번호'}
+          isBank={true}
+          control={control}
+          name={'account'}
+          trigger={trigger}
+        />
         <SubmitButtonGroup>
           <SubmitBtn onClick={clickSkipBtn}>Skip</SubmitBtn>
           <SubmitBtn type="submit">Submit</SubmitBtn>
