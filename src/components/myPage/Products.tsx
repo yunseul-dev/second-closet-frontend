@@ -52,7 +52,7 @@ const Products = ({ products, sortOption }: MyProductsProps) => {
               <Image src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} />
             </ImageContainer>
             <ItemInfoContainer>
-              <div>
+              <Infos>
                 <ItemName>{productName}</ItemName>
                 <ItemInfo>
                   <div>
@@ -66,13 +66,13 @@ const Products = ({ products, sortOption }: MyProductsProps) => {
                 <MiniInfo>
                   {hearts} <AiOutlineHeart />
                 </MiniInfo>
-              </div>
+              </Infos>
               <BtnContainer>
                 <BtnWrapper onClick={() => handleEditClick(productId)}>
                   <Btn>수정</Btn>
                 </BtnWrapper>
                 <BtnWrapper onClick={() => openModal(productId)}>
-                  <Btn>삭제</Btn>
+                  <DeleteBtn>삭제</DeleteBtn>
                 </BtnWrapper>
               </BtnContainer>
             </ItemInfoContainer>
@@ -121,11 +121,14 @@ const ItemInfoContainer = styled.div`
   font-size: 14px;
   height: 60px;
   width: 55%;
-  padding: 10px 20px 10px 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+`;
+
+const Infos = styled.div`
+  padding: 10px 20px 10px 20px;
 `;
 
 const ItemInfo = styled.div`
@@ -164,7 +167,7 @@ const BtnContainer = styled.div`
 `;
 
 const BtnWrapper = styled.div`
-  width: 40%;
+  width: 35%;
 `;
 
 const Btn = styled.button`
@@ -172,4 +175,11 @@ const Btn = styled.button`
   height: 40px;
   width: 100%;
   border: solid 1px black;
+  font-weight: 600;
+`;
+
+const DeleteBtn = styled(Btn)`
+  background-color: #f98181;
+  color: #fff;
+  border: solid 1px #fd7272;
 `;
