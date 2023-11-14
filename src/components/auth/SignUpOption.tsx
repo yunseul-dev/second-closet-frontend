@@ -148,7 +148,7 @@ const SignUpOption = ({ userId, setUserId, setState }: SignUpOptionProps) => {
         bank: selectedBank,
       };
 
-      await axios.patch(`api/users/personalInfo/${userId}`, data);
+      await axios.patch(`api/users/edit/${userId}`, data);
       setUserId(null);
       setState('signIn');
     } catch (error) {
