@@ -52,7 +52,7 @@ const MyInfo: React.FC<MyInfoProps> = ({ setIsInfoEdit, isInfoEdit }) => {
     <Container>
       <StoreContainer>
         <StoreInfo>
-          <StoreName>{userInfo.userName}'s 옷장</StoreName>
+          {isInfoEdit === '상품' ? <StoreName>{userInfo.userName}님의 옷장</StoreName> : <Title>계정 정보</Title>}
         </StoreInfo>
         <StoreAdmin>
           <TabName $bold={isInfoEdit === '상품'} onClick={handleProductsClick}>
@@ -83,7 +83,7 @@ export default MyInfo;
 
 const Container = styled.div`
   width: 100%;
-  height: 80px;
+  height: 60px;
   display: flex;
   margin-bottom: 20px;
 `;
@@ -101,9 +101,9 @@ const StoreContainer = styled.div`
 
 const StoreInfo = styled.div`
   display: flex;
-  font-family: 'Gaegu';
   font-weight: 500;
   padding: 10px;
+  padding-top: 0;
 `;
 
 const StoreAdmin = styled.div`
@@ -115,9 +115,16 @@ const StoreAdmin = styled.div`
 const StoreName = styled.div`
   font-size: 40px;
   justify-content: center;
-  background-color: #fdecd0;
-  border-radius: 30px;
+  /* background-color: #fdecd0; */
+  /* border-radius: 30px; */
   padding: 5px;
+  font-family: 'Gaegu';
+`;
+
+const Title = styled.div`
+  font-size: 24px;
+  padding: 5px;
+  font-weight: 600;
 `;
 
 const Pencil = styled.div<DivPencilProp>`
