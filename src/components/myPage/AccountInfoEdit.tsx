@@ -22,7 +22,7 @@ const AccountInfoEdit = () => {
       <Content>
         <InfoContainer>
           <Label>아이디</Label>
-          <Input value={userInfo?.userId} />
+          <Input value={userInfo?.userId} readOnly />
         </InfoContainer>
         <InfoContainer>
           <Label>이름</Label>
