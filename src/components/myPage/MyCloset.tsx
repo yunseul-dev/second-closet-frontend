@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import MyInfo from './MyInfo';
 import AboutProducts from './AboutProducts';
 import { useState } from 'react';
-import AccountInfoEditModal from './AccountInfoEditModal';
+import AccountInfoEdit from './AccountInfoEdit';
 
 const MyCloset = () => {
   const [isInfoEdit, setIsInfoEdit] = useState('상품');
@@ -10,7 +10,7 @@ const MyCloset = () => {
   return (
     <Container>
       <MyInfo setIsInfoEdit={setIsInfoEdit} isInfoEdit={isInfoEdit} />
-      {isInfoEdit === '상품' ? <AboutProducts /> : <AccountInfoEditModal />}
+      {isInfoEdit === '상품' ? <AboutProducts /> : <AccountInfoEdit />}
     </Container>
   );
 };
