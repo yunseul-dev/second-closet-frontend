@@ -16,6 +16,7 @@ interface InputProps {
   control: Control<SignUpOptionData>;
   name: 'address' | 'account';
   trigger: any;
+  isBank: boolean;
 }
 
 interface SignUpOptionProps {
@@ -24,7 +25,38 @@ interface SignUpOptionProps {
   setState: Dispatch<SetStateAction<string>>;
 }
 
-const InputContainer = ({ placeholder, control, name, trigger }: InputProps) => {
+interface Input {
+  $bank: boolean;
+}
+
+const banks = [
+  '국민은행',
+  '기업은행',
+  '농협은행',
+  '신한은행',
+  '산업은행',
+  '우리은행',
+  '하나은행',
+  'SC제일은행',
+  '카카오뱅크',
+  '경남은행',
+  '광주은행',
+  '대구은행',
+  '부산은행',
+  '저축은행',
+  '새마을금고',
+  '수협은행',
+  '신협중앙회',
+  '우체국',
+  '전북은행',
+  '제주은행',
+  '케이뱅크',
+  '토스은행',
+  '산림조합중앙회',
+  '한국씨티은행',
+];
+
+const InputContainer = ({ placeholder, control, name, trigger, isBank }: InputProps) => {
   const {
     field: { onChange },
     fieldState: { error },
@@ -48,8 +80,43 @@ const InputContainer = ({ placeholder, control, name, trigger }: InputProps) => 
 
   return (
     <InputWrapper>
-      <Input id={name} name={name} placeholder={placeholder} type="text" autoComplete="off" onChange={handleChange} />
-      {error && <ErrorMsg>{error?.message}</ErrorMsg>}
+      {isBank ? (
+        <>
+          <Bank>
+            <BankSelect>
+              <option value="">선택</option>
+              {banks.map(bank => (
+                <option key={bank} value={bank}>
+                  {bank}
+                </option>
+              ))}
+            </BankSelect>
+            <Input
+              id={name}
+              $bank={isBank}
+              name={name}
+              placeholder={placeholder}
+              type="text"
+              autoComplete="off"
+              onChange={handleChange}
+            />
+          </Bank>
+          {error && <ErrorMsg>{error?.message}</ErrorMsg>}
+        </>
+      ) : (
+        <>
+          <Input
+            id={name}
+            $bank={isBank}
+            name={name}
+            placeholder={placeholder}
+            type="text"
+            autoComplete="off"
+            onChange={handleChange}
+          />
+          {error && <ErrorMsg>{error?.message}</ErrorMsg>}
+        </>
+      )}
     </InputWrapper>
   );
 };
@@ -67,6 +134,7 @@ const SignUpOption = ({ userId, setUserId, setState }: SignUpOptionProps) => {
 
   const onSubmit = async (data: SignUpOptionData) => {
     try {
+      console.log(data, 'data');
       await axios.patch(`api/users/personalInfo/${userId}`, data);
       setUserId(null);
       setState('signIn');
@@ -80,12 +148,13 @@ const SignUpOption = ({ userId, setUserId, setState }: SignUpOptionProps) => {
       <FormWrapper>
         <Title>Congratulations !</Title>
         <Content>
-          ${userId}님의 회원가입을 축하드립니다.
+          <UserName>{userId}</UserName>
+          님의 회원가입을 축하드립니다.
           <br />
           주소와 계좌번호를 입력해주세요!
         </Content>
-        <InputContainer placeholder={'주소'} control={control} name={'address'} trigger={trigger} />
-        <InputContainer placeholder={'은행 , 계좌번호'} control={control} name={'account'} trigger={trigger} />
+        <InputContainer placeholder={' 주소'} isBank={false} control={control} name={'address'} trigger={trigger} />
+        <InputContainer placeholder={'계좌번호'} isBank={true} control={control} name={'account'} trigger={trigger} />
         <SubmitButtonGroup>
           <SubmitBtn onClick={clickSkipBtn}>Skip</SubmitBtn>
           <SubmitBtn type="submit">Submit</SubmitBtn>
@@ -121,15 +190,44 @@ const Content = styled.div`
   padding: 10px 0 10px 0;
 `;
 
-const Input = styled.input`
-  width: 320px;
+const UserName = styled.span`
+  font-weight: 600;
+`;
+
+const Input = styled.input<Input>`
+  width: ${({ $bank }) => ($bank ? '200px' : '320px')};
   height: 40px;
-  border-radius: 20px;
+  border-radius: ${({ $bank }) => ($bank ? '0 20px 20px 0' : '20px')};
   border: none;
   padding: 10px;
   border: 1px solid gray;
   margin-bottom: 0;
   font-size: 16px;
+`;
+
+const ErrorMsg = styled.span`
+  font-size: 13px;
+  padding: 2px 10px 0 10px;
+  color: #d40e0e;
+`;
+
+const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+`;
+
+const Bank = styled.div`
+  display: flex;
+`;
+
+const BankSelect = styled.select`
+  width: 120px;
+  height: 40px;
+  border-radius: 20px 0 0 20px;
+  border: 1px solid gray;
+  font-size: 16px;
+  padding: 10px;
 `;
 
 const SubmitButtonGroup = styled.div`
@@ -149,17 +247,4 @@ const SubmitBtn = styled.button`
   border: 1px solid #f9c26a;
   background-color: #f6c26e;
   color: white;
-`;
-
-const ErrorMsg = styled.span`
-  font-size: 13px;
-  padding: 2px 10px 0 10px;
-  color: #d40e0e;
-`;
-
-const InputWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  margin: 10px;
 `;
