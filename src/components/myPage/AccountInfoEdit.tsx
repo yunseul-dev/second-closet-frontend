@@ -5,6 +5,33 @@ import useUserQuery from '../../hooks/queries/useUserQuery';
 import Modal from '../common/Modal';
 import WithdrawalModal from './WithdrawalModal';
 
+const banks = [
+  '국민은행',
+  '기업은행',
+  '농협은행',
+  '신한은행',
+  '산업은행',
+  '우리은행',
+  '하나은행',
+  'SC제일은행',
+  '카카오뱅크',
+  '경남은행',
+  '광주은행',
+  '대구은행',
+  '부산은행',
+  '저축은행',
+  '새마을금고',
+  '수협은행',
+  '신협중앙회',
+  '우체국',
+  '전북은행',
+  '제주은행',
+  '케이뱅크',
+  '토스은행',
+  '산림조합중앙회',
+  '한국씨티은행',
+];
+
 const AccountInfoEdit = () => {
   const { userInfo } = useUserQuery();
 
@@ -30,11 +57,19 @@ const AccountInfoEdit = () => {
         </InfoContainer>
         <InfoContainer>
           <Label>비밀번호</Label>
-          <button onClick={openPwModal}>비밀번호 수정</button>
+          <ChangePw onClick={openPwModal}>비밀번호 변경</ChangePw>
         </InfoContainer>
         <InfoContainer>
           <Label>계좌번호</Label>
-          <Input value={userInfo?.account} />
+          <Select defaultValue={userInfo?.bank}>
+            <option value="">선택</option>
+            {banks.map(bank => (
+              <option key={bank} value={bank}>
+                {bank}
+              </option>
+            ))}
+          </Select>
+          <BankInput value={userInfo?.account} />
         </InfoContainer>
         <InfoContainer>
           <Label>주소</Label>
@@ -88,6 +123,18 @@ const Input = styled.input`
   padding-left: 10px;
 `;
 
+const BankInput = styled(Input)`
+  width: 65%;
+`;
+
+const Select = styled.select`
+  width: 15%;
+`;
+
+const ChangePw = styled.button`
+  height: 40px;
+`;
+
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -105,6 +152,8 @@ const Button = styled.button`
   height: 55px;
   border: 1px solid;
   padding: 10px;
+  font-weight: 600;
+  font-size: 16px;
 `;
 
 const WdBtn = styled.div`
