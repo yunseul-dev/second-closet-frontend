@@ -16,10 +16,11 @@ interface InputProps {
   placeholder: string;
   control: Control<SignUpFormData>;
   name: 'userId' | 'password' | 'passwordConfirm';
-  trigger: any;
+  trigger: (field?: keyof SignUpFormData | (keyof SignUpFormData)[]) => void;
 }
 
 interface SignUpProps {
+  setUserId: Dispatch<SetStateAction<string | null>>;
   setState: Dispatch<SetStateAction<string>>;
 }
 
@@ -38,7 +39,7 @@ const InputContainer = ({ placeholder, control, name, trigger }: InputProps) => 
       trigger(name);
       if (name === 'password') trigger('passwordConfirm');
     }, 100),
-    [],
+    [trigger, name],
   );
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -61,7 +62,7 @@ const InputContainer = ({ placeholder, control, name, trigger }: InputProps) => 
   );
 };
 
-const SignUp = ({ setState }: SignUpProps) => {
+const SignUp = ({ setUserId, setState }: SignUpProps) => {
   const { control, handleSubmit, trigger } = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -73,7 +74,8 @@ const SignUp = ({ setState }: SignUpProps) => {
   const onSubmit = async (data: SignUpFormData) => {
     try {
       const { data: user } = await axios.post('api/auth/signup', data, { withCredentials: true });
-      console.log(user, '님의 회원가입을 축하드립니다.');
+      setUserId(user.userId);
+      console.log(user.userId, '님의 회원가입을 축하드립니다.');
       setState('signUpOption');
     } catch (error) {
       console.log(error);
