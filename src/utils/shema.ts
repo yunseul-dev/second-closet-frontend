@@ -20,8 +20,8 @@ const signUpSchema = z
   });
 
 const signUpOptionSchema = z.object({
-  address: z.string().regex(/.+/, '최소 한 글자 이상 입력하시오.'),
-  account: z.string().regex(/.+/, '최소 한 글자 이상 입력하시오.'),
+  address: z.string().min(1, '올바른 주소를 입력하세요.'),
+  account: z.string().regex(/^\d+$/, '올바른 계좌번호를 입력하세요.'),
 });
 
 export { signInSchema, signUpSchema, signUpOptionSchema };
