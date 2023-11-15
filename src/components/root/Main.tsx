@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import usePopularInfiniteQuery from '../../hooks/queries/usePopularInfiniteQuery';
 import useObserver from '../../hooks/useObserver';
-import { useCallback } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineHeart } from 'react-icons/ai';
 
@@ -14,12 +14,20 @@ interface Product {
 }
 
 const Main = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { data, hasNextPage, fetchNextPage } = usePopularInfiniteQuery();
   const navigate = useNavigate();
 
   const getNextPage = useCallback(() => {
+    if (isLoading || !hasNextPage) return;
+    setIsLoading(true);
     fetchNextPage();
-  }, [fetchNextPage]);
+    setIsLoading(false);
+  }, [fetchNextPage, isLoading, hasNextPage]);
+
+  useEffect(() => {
+    getNextPage();
+  }, [getNextPage]);
 
   const observerRef = useObserver(getNextPage);
 

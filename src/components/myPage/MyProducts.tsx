@@ -13,14 +13,18 @@ interface DivProp {
 
 const MyProducts = () => {
   const [sortOption, setSortOption] = useState<string>('all');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const userId = useRecoilValue(userState);
 
   const { products, hasNextPage, fetchNextPage } = useMyProductInfiiteQuery(userId.replace(/"/g, ''), sortOption);
 
   const getNextPage = useCallback(() => {
+    if (isLoading || !hasNextPage) return;
+    setIsLoading(true);
     fetchNextPage();
-  }, [fetchNextPage]);
+    setIsLoading(false);
+  }, [fetchNextPage, isLoading, hasNextPage]);
 
   useEffect(() => {
     getNextPage();

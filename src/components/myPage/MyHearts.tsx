@@ -12,12 +12,16 @@ interface DivProp {
 const MyHearts = () => {
   const handleOptionClick = (sortOption: string) => setSortOption(sortOption);
   const [sortOption, setSortOption] = useState<string>('all');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { products, fetchNextPage, hasNextPage } = useMyHeartsInfiniteQuery(sortOption);
 
   const getNextPage = useCallback(() => {
+    if (isLoading || !hasNextPage) return;
+    setIsLoading(true);
     fetchNextPage();
-  }, [fetchNextPage]);
+    setIsLoading(false);
+  }, [fetchNextPage, isLoading, hasNextPage]);
 
   useEffect(() => {
     getNextPage();

@@ -30,12 +30,16 @@ const CategoryItems = () => {
   const categoryParams = useParams();
   const categories = Object.values(categoryParams) as string[];
   const [sortOption, setSortOption] = useState<string>('latest');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { data, hasNextPage, fetchNextPage } = useCategoryInfiniteQuery(categories, sortOption);
 
   const getNextPage = useCallback(() => {
+    if (isLoading || !hasNextPage) return;
+    setIsLoading(true);
     fetchNextPage();
-  }, [fetchNextPage]);
+    setIsLoading(false);
+  }, [fetchNextPage, isLoading, hasNextPage]);
 
   useEffect(() => {
     getNextPage();
