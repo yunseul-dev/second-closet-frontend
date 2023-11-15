@@ -34,7 +34,7 @@ const MyProducts = () => {
     <>
       <div>
         <ListCount>
-          <div>전체 상품 86</div>
+          <div></div>
           <Sort>
             <SortTab $bold={sortOption === 'all'} onClick={() => handleOptionClick('all')}>
               전체
@@ -55,7 +55,7 @@ const MyProducts = () => {
         </ListCount>
       </div>
       <Products products={products} sortOption={sortOption} />
-      {hasNextPage && <div ref={observerRef}>Observer</div>}
+      {hasNextPage && <div ref={observerRef}>마지막 상품입니다.</div>}
     </>
   );
 };
