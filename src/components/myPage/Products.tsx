@@ -57,6 +57,9 @@ const Products = ({ products, sortOption }: MyProductsProps) => {
           <Item key={productId}>
             <ImageContainer onClick={() => handleClick(productId)} $sold={sold}>
               <Image src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} />
+              <Overlay $sold={sold}>
+                <Circle>판매완료</Circle>
+              </Overlay>
             </ImageContainer>
             <ItemInfoContainer>
               <ItemName>{productName}</ItemName>
@@ -111,18 +114,31 @@ const ImageContainer = styled.div<Div>`
   width: 45%;
   height: 100%;
   position: relative;
+`;
 
-  /* sold === true일 때, 투명한 레이어를 적용 */
-  ::after {
-    content: '';
-    display: ${({ $sold }) => ($sold ? 'block' : 'none')};
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-  }
+const Overlay = styled.div<Div>`
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: ${({ $sold }) => ($sold ? 'flex' : 'none')};
+  justify-content: center;
+  align-items: center;
+`;
+
+const Circle = styled.div`
+  color: white;
+  width: 80px;
+  height: 80px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Image = styled.img`
