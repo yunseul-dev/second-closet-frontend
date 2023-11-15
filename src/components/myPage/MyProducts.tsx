@@ -6,6 +6,7 @@ import { RxDividerVertical } from 'react-icons/rx';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/atom/userState';
 import Products from './Products';
+import Loading from '../skeletons/Loading';
 
 interface DivProp {
   $bold: boolean;
@@ -59,7 +60,11 @@ const MyProducts = () => {
         </ListCount>
       </div>
       <Products products={products} sortOption={sortOption} />
-      {hasNextPage && <div ref={observerRef}>마지막 상품입니다.</div>}
+      {hasNextPage && (
+        <div ref={observerRef}>
+          <Loading />
+        </div>
+      )}
     </>
   );
 };

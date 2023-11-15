@@ -4,6 +4,7 @@ import useObserver from '../../hooks/useObserver';
 import { useState, useCallback, useEffect } from 'react';
 import { RxDividerVertical } from 'react-icons/rx';
 import Hearts from './Hearts';
+import Loading from '../skeletons/Loading';
 
 interface DivProp {
   $bold: boolean;
@@ -54,7 +55,11 @@ const MyHearts = () => {
         </ListCount>
       </div>
       <Hearts products={products} sortOption={sortOption} />
-      {hasNextPage && <div ref={observerRef}>Observer</div>}
+      {hasNextPage && (
+        <div ref={observerRef}>
+          <Loading />
+        </div>
+      )}
     </>
   );
 };

@@ -4,6 +4,7 @@ import useObserver from '../../hooks/useObserver';
 import { useCallback, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineHeart } from 'react-icons/ai';
+import Loading from '../skeletons/Loading';
 
 interface Product {
   productId: number;
@@ -64,7 +65,11 @@ const Main = () => {
           );
         })}
       </ItemContainer>
-      {hasNextPage && <div ref={observerRef}>Observer</div>}
+      {hasNextPage && (
+        <div ref={observerRef}>
+          <Loading />
+        </div>
+      )}
     </>
   );
 };

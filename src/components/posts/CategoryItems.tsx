@@ -7,6 +7,7 @@ import useObserver from '../../hooks/useObserver';
 import formatTimeAgo from '../../utils/formatTimeAgo';
 import CategoryTab from '../common/CategoryTab';
 import { RxDividerVertical } from 'react-icons/rx';
+import Loading from '../skeletons/Loading';
 
 interface Product {
   productId: number;
@@ -135,7 +136,11 @@ const CategoryItems = () => {
             );
           })}
         </ItemContainer>
-        {hasNextPage && <div ref={observerRef}>Observer</div>}
+        {hasNextPage && (
+          <div ref={observerRef}>
+            <Loading />
+          </div>
+        )}
       </Items>
     </Container>
   );
