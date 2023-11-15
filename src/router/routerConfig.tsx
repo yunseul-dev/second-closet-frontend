@@ -8,12 +8,13 @@ import { Suspense } from 'react';
 import CategoryItemsPage from '../pages/CategoryItemsPage';
 import MyPage from '../pages/MyPage';
 import EditPostPage from '../pages/EditPostPage';
+import Loading from '../components/skeletons/Loading';
 
 const routerConfig = createBrowserRouter([
   {
     path: '/signin',
     element: (
-      <Suspense fallback={<div>...loading</div>}>
+      <Suspense fallback={<Loading />}>
         <AuthForm />
       </Suspense>
     ),
@@ -21,7 +22,7 @@ const routerConfig = createBrowserRouter([
   {
     path: '/',
     element: (
-      <Suspense fallback={<div>...loading</div>}>
+      <Suspense fallback={<Loading />}>
         <Root />
       </Suspense>
     ),
@@ -29,7 +30,7 @@ const routerConfig = createBrowserRouter([
   {
     path: '/detail/:id',
     element: (
-      <Suspense fallback={<div>...loading</div>}>
+      <Suspense fallback={<Loading />}>
         <DetailPage />
       </Suspense>
     ),
@@ -37,7 +38,7 @@ const routerConfig = createBrowserRouter([
   {
     path: '/category/:param1/:param2?/:param3?',
     element: (
-      <Suspense fallback={<div>...loading</div>}>
+      <Suspense fallback={<Loading />}>
         <CategoryItemsPage />
       </Suspense>
     ),
@@ -46,7 +47,7 @@ const routerConfig = createBrowserRouter([
   {
     path: '/createpost',
     element: (
-      <Suspense fallback={<div>...loading</div>}>
+      <Suspense fallback={<Loading />}>
         <AuthenticationGuard redirectTo="/signin" element={<CreatePostPage />} />
       </Suspense>
     ),
@@ -54,7 +55,7 @@ const routerConfig = createBrowserRouter([
   {
     path: '/mypage',
     element: (
-      <Suspense fallback={<div>...loading</div>}>
+      <Suspense fallback={<Loading />}>
         <AuthenticationGuard redirectTo="/signin" element={<MyPage />} />
       </Suspense>
     ),
@@ -62,7 +63,7 @@ const routerConfig = createBrowserRouter([
   {
     path: '/editpost/:id',
     element: (
-      <Suspense fallback={<div>...loading</div>}>
+      <Suspense fallback={<Loading />}>
         <AuthenticationGuard redirectTo="/signin" element={<EditPostPage />} />
       </Suspense>
     ),
