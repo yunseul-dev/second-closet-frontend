@@ -10,7 +10,8 @@ type ButtonProps = {
 };
 
 const AuthForm = () => {
-  const [state, setState] = useState('signUpOption');
+  const [state, setState] = useState('signIn');
+  const [userId, setUserId] = useState<null | string>(null);
 
   return (
     <Container>
@@ -18,20 +19,20 @@ const AuthForm = () => {
         <LuShirt />
         <Title>SecondCloset</Title>
       </FlexWrapper>
-      <CombinedSignBtns>
-        <AuthBtn $active={state === 'signIn'} onClick={() => setState('signIn')}>
-          Sign In
-        </AuthBtn>
-        <AuthBtn $active={state.includes('signUp')} onClick={() => setState('signUp')}>
-          Sign Up
-        </AuthBtn>
-      </CombinedSignBtns>
-      {state === 'signIn' ? (
-        <SignIn />
-      ) : state === 'signUp' ? (
-        <SignUp setState={setState} />
+      {state === 'signUpOption' ? (
+        <SignUpOption userId={userId} setUserId={setUserId} setState={setState} />
       ) : (
-        <SignUpOption setState={setState} />
+        <>
+          <CombinedSignBtns>
+            <AuthBtn $active={state === 'signIn'} onClick={() => setState('signIn')}>
+              Sign In
+            </AuthBtn>
+            <AuthBtn $active={state === 'signUp'} onClick={() => setState('signUp')}>
+              Sign Up
+            </AuthBtn>
+          </CombinedSignBtns>
+          {state === 'signIn' ? <SignIn /> : <SignUp setUserId={setUserId} setState={setState} />}
+        </>
       )}
     </Container>
   );
