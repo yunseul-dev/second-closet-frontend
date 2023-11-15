@@ -4,20 +4,16 @@ import useObserver from '../../hooks/useObserver';
 import { useState, useCallback, useEffect } from 'react';
 import { RxDividerVertical } from 'react-icons/rx';
 import Hearts from './Hearts';
-import { useRecoilValue } from 'recoil';
-import { userState } from '../../recoil/atom/userState';
 
 interface DivProp {
   $bold: boolean;
 }
 
 const MyHearts = () => {
-  const userId = useRecoilValue(userState);
-
   const handleOptionClick = (sortOption: string) => setSortOption(sortOption);
   const [sortOption, setSortOption] = useState<string>('all');
 
-  const { products, fetchNextPage, hasNextPage } = useMyHeartsInfiniteQuery(userId.replace(/"/g, ''), sortOption);
+  const { products, fetchNextPage, hasNextPage } = useMyHeartsInfiniteQuery(sortOption);
 
   const getNextPage = useCallback(() => {
     fetchNextPage();
@@ -33,7 +29,7 @@ const MyHearts = () => {
     <>
       <div>
         <ListCount>
-          <div>전체 상품 86</div>
+          <div></div>
           <Sort>
             <SortTab $bold={sortOption === 'all'} onClick={() => handleOptionClick('all')}>
               전체
