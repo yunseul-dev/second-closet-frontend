@@ -6,6 +6,7 @@ import useDeleteProductMutation from '../../hooks/mutations/useDeleteProductMuta
 import Modal from '../common/Modal';
 import DeleteProductModal from './DeleteProductModal';
 import { useState } from 'react';
+import { BsCartCheck, BsCartCheckFill } from 'react-icons/bs';
 
 interface Product {
   productId: number;
@@ -23,8 +24,14 @@ interface MyProductsProps {
   sortOption: string;
 }
 
+interface Div {
+  $sold: boolean;
+}
+
 const Products = ({ products, sortOption }: MyProductsProps) => {
   const navigate = useNavigate();
+
+  console.log('here! ', products);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<undefined | number>(undefined);
@@ -45,36 +52,31 @@ const Products = ({ products, sortOption }: MyProductsProps) => {
 
   return (
     <ItemContainer>
-      {products.map(({ productId, productName, imgs, price, delivery, hearts, createdAt }: Product) => {
+      {products.map(({ productId, productName, imgs, price, delivery, hearts, createdAt, sold }: Product) => {
         return (
           <Item key={productId}>
-            <ImageContainer onClick={() => handleClick(productId)}>
+            <ImageContainer onClick={() => handleClick(productId)} $sold={sold}>
               <Image src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} />
             </ImageContainer>
             <ItemInfoContainer>
-              <Infos>
-                <ItemName>{productName}</ItemName>
-                <ItemInfo>
-                  <div>
-                    <Price>{price}</Price>원
-                  </div>
-                  <div>{delivery ? '무료배송' : '배송비 별도'}</div>
-                </ItemInfo>
-                <MiniInfo>
-                  <div>{formatTimeAgo(createdAt)}</div>
-                </MiniInfo>
-                <MiniInfo>
-                  {hearts} <AiOutlineHeart />
-                </MiniInfo>
-              </Infos>
-              <BtnContainer>
-                <BtnWrapper onClick={() => handleEditClick(productId)}>
-                  <Btn>수정</Btn>
-                </BtnWrapper>
-                <BtnWrapper onClick={() => openModal(productId)}>
-                  <DeleteBtn>삭제</DeleteBtn>
-                </BtnWrapper>
-              </BtnContainer>
+              <ItemName>{productName}</ItemName>
+              <ItemInfo>
+                <div>
+                  <Price>{price}</Price>원
+                </div>
+                <div>{delivery ? '무료배송' : '배송비 별도'}</div>
+              </ItemInfo>
+              <MiniInfo>
+                <div>{formatTimeAgo(createdAt)}</div>
+              </MiniInfo>
+              <MiniInfo>
+                {hearts} <AiOutlineHeart />
+              </MiniInfo>
+              <Buttons>
+                <HeartBtn>{sold && <BsCartCheck />}</HeartBtn>
+                <TalkBtn onClick={() => handleEditClick(productId)}>수정하기</TalkBtn>
+                <BuyBtn onClick={() => openModal(productId)}>삭제하기</BuyBtn>
+              </Buttons>
             </ItemInfoContainer>
           </Item>
         );
@@ -91,7 +93,6 @@ const Products = ({ products, sortOption }: MyProductsProps) => {
 };
 
 export default Products;
-
 const ItemContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -106,9 +107,22 @@ const Item = styled.div`
   display: flex;
 `;
 
-const ImageContainer = styled.div`
+const ImageContainer = styled.div<Div>`
   width: 45%;
   height: 100%;
+  position: relative;
+
+  /* sold === true일 때, 투명한 레이어를 적용 */
+  ::after {
+    content: '';
+    display: ${({ $sold }) => ($sold ? 'block' : 'none')};
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
 `;
 
 const Image = styled.img`
@@ -121,14 +135,8 @@ const ItemInfoContainer = styled.div`
   font-size: 14px;
   height: 60px;
   width: 55%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-`;
-
-const Infos = styled.div`
   padding: 10px 20px 10px 20px;
+  position: relative;
 `;
 
 const ItemInfo = styled.div`
@@ -158,28 +166,40 @@ const Price = styled.span`
   font-weight: 600;
 `;
 
-const BtnContainer = styled.div`
+const Buttons = styled.div`
   display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  margin-top: auto;
   gap: 5px;
-`;
-
-const BtnWrapper = styled.div`
-  width: 35%;
-`;
-
-const Btn = styled.button`
-  background-color: white;
-  height: 40px;
+  margin-top: 10px;
+  position: absolute;
+  top: 235px;
+  right: 0;
+  justify-content: flex-end;
+  font-size: 16px;
   width: 100%;
-  border: solid 1px black;
-  font-weight: 600;
 `;
 
-const DeleteBtn = styled(Btn)`
-  background-color: #f98181;
-  color: #fff;
+const TalkBtn = styled.button`
+  width: 35%;
+  height: 40px;
+  border: solid 1px black;
+  font-weight: 700;
+  background-color: white;
+`;
+
+const BuyBtn = styled.button`
+  width: 35%;
+  height: 40px;
   border: solid 1px #fd7272;
+  font-weight: 700;
+  background-color: #f98181;
+  color: white;
+`;
+
+const HeartBtn = styled.button`
+  width: 15%;
+  height: 40px;
+  border: solid 1px black;
+  font-weight: 700;
+  background-color: white;
+  font-size: 20px;
 `;
