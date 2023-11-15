@@ -24,7 +24,9 @@ const useObserver = (fetchNextPage: () => void): MutableRefObject<HTMLDivElement
     observer.observe(observerRef.current);
 
     return () => {
-      observer.disconnect();
+      if (observerRef.current) {
+        observer.unobserve(observerRef.current);
+      }
     };
   }, [fetchNextPage]);
 
