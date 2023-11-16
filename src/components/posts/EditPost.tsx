@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import { Category } from '../../constants/Category';
 import { useParams } from 'react-router-dom';
 import useProductQuery from '../../hooks/queries/useProductQuery';
+import wearCounts from '../../constants/wearCounts';
+import { sizes, shoesSizes } from '../../constants/sizes';
 
 interface PostData {
   userId: string | null;
@@ -351,12 +353,9 @@ const EditPost = () => {
           </Name>
           <Select ref={countRef} defaultValue={productInfo?.count}>
             <option value="">선택</option>
-            <option value="새상품">새상품</option>
-            <option value="1회">1회</option>
-            <option value="2회">2회</option>
-            <option value="3회">3회</option>
-            <option value="4회">4회</option>
-            <option value="5회 이상">5회 이상</option>
+            {wearCounts.map(count => (
+              <option value={count}>{count}</option>
+            ))}
           </Select>
         </List>
         <List>
@@ -446,31 +445,16 @@ const EditPost = () => {
           {categories[0] === '신발' ? (
             <Select ref={sizeRef} defaultValue={productInfo?.size}>
               <option value="">선택</option>
-              <option value="225">225</option>
-              <option value="230">230</option>
-              <option value="235">235</option>
-              <option value="240">240</option>
-              <option value="245">245</option>
-              <option value="250">250</option>
-              <option value="255">255</option>
-              <option value="260">260</option>
-              <option value="265">265</option>
-              <option value="270">270</option>
-              <option value="275">275</option>
-              <option value="280">280</option>
-              <option value="285">285</option>
-              <option value="290">290</option>
-              <option value="Free">Free</option>
+              {shoesSizes.map(size => (
+                <option value={size.toLowerCase()}>{size}</option>
+              ))}
             </Select>
           ) : (
             <Select ref={sizeRef} defaultValue={productInfo?.size}>
               <option value="">선택</option>
-              <option value="xs">XS</option>
-              <option value="s">S</option>
-              <option value="m">M</option>
-              <option value="l">L</option>
-              <option value="xl">XL</option>
-              <option value="free">FREE</option>
+              {sizes.map(size => (
+                <option value={size.toLowerCase()}>{size}</option>
+              ))}
             </Select>
           )}
         </List>
