@@ -1,12 +1,13 @@
 import styled from 'styled-components';
+import { TbBasketOff, TbBasket } from 'react-icons/tb';
 import { AiOutlineHeart } from 'react-icons/ai';
-import formatTimeAgo from '../../utils/formatTimeAgo';
+import formatTimeAgo from '../../../utils/formatTimeAgo';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import useDeleteProductMutation from '../../hooks/mutations/useDeleteProductMutation';
-import Modal from '../common/Modal';
-import DeleteProductModal from './DeleteProductModal';
+import useDeleteProductMutation from '../../../hooks/mutations/useDeleteProductMutation';
+import Modal from '../../common/Modal';
+import DeleteProductModal from '../DeleteProductModal';
 import { useState } from 'react';
-import { BsCartCheck, BsCartCheckFill } from 'react-icons/bs';
 
 interface Product {
   productId: number;
@@ -19,8 +20,8 @@ interface Product {
   sold: boolean;
 }
 
-interface MyProductsProps {
-  products: Product[];
+interface ProductProps {
+  product: Product;
   sortOption: string;
 }
 
@@ -28,79 +29,68 @@ interface Div {
   $sold: boolean;
 }
 
-const Products = ({ products, sortOption }: MyProductsProps) => {
+const Product: React.FC<ProductProps> = ({
+  product: { productId, productName, imgs, price, delivery, hearts, createdAt, sold },
+  sortOption,
+}) => {
   const navigate = useNavigate();
 
-  console.log('here! ', products);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [deleteId, setDeleteId] = useState<undefined | number>(undefined);
 
-  const openModal = (productId: number) => {
-    setDeleteId(productId);
-    setIsModalOpen(true);
-  };
+  const openModal = () => setIsModalOpen(true);
+
   const closeModal = () => setIsModalOpen(false);
 
-  const { mutate: deleteProduct } = useDeleteProductMutation(sortOption, products.productId);
+  const { mutate: deleteProduct } = useDeleteProductMutation(sortOption, productId);
 
-  const handleClick = (productId: number) => navigate(`/detail/${productId}`);
+  const handleDeleteClick = async () => deleteProduct(productId);
 
-  const handleEditClick = (productId: number) => navigate(`/editpost/${productId}`);
+  const handleClick = () => navigate(`/detail/${productId}`);
 
-  const handleDeleteClick = async (productId: number) => deleteProduct(productId);
+  const handleEditClick = () => navigate(`/editpost/${productId}`);
 
   return (
-    <ItemContainer>
-      {products.map(({ productId, productName, imgs, price, delivery, hearts, createdAt, sold }: Product) => {
-        return (
-          <Item key={productId}>
-            <ImageContainer onClick={() => handleClick(productId)} $sold={sold}>
-              <Image src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} />
-              <Overlay $sold={sold}>
-                <Circle>판매완료</Circle>
-              </Overlay>
-            </ImageContainer>
-            <ItemInfoContainer>
-              <ItemName>{productName}</ItemName>
-              <ItemInfo>
-                <div>
-                  <Price>{price}</Price>원
-                </div>
-                <div>{delivery ? '무료배송' : '배송비 별도'}</div>
-              </ItemInfo>
-              <MiniInfo>
-                <div>{formatTimeAgo(createdAt)}</div>
-              </MiniInfo>
-              <MiniInfo>
-                {hearts} <AiOutlineHeart />
-              </MiniInfo>
-              <Buttons>
-                <HeartBtn>{sold && <BsCartCheck />}</HeartBtn>
-                <TalkBtn onClick={() => handleEditClick(productId)}>수정하기</TalkBtn>
-                <BuyBtn onClick={() => openModal(productId)}>삭제하기</BuyBtn>
-              </Buttons>
-            </ItemInfoContainer>
-          </Item>
-        );
-      })}
+    <>
+      <Item key={productId}>
+        <ImageContainer onClick={handleClick} $sold={sold}>
+          <Image src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} />
+          <Overlay $sold={sold}>
+            <Circle>판매완료</Circle>
+          </Overlay>
+        </ImageContainer>
+        <ItemInfoContainer>
+          <ItemName>{productName}</ItemName>
+          <ItemInfo>
+            <div>
+              <Price>{price}</Price>원
+            </div>
+            <div>{delivery ? '무료배송' : '배송비 별도'}</div>
+          </ItemInfo>
+          <MiniInfo>
+            <div>{formatTimeAgo(createdAt)}</div>
+          </MiniInfo>
+          <MiniInfo>
+            {hearts} <AiOutlineHeart />
+          </MiniInfo>
+          <Buttons>
+            <HeartBtn>{sold ? <TbBasketOff /> : <TbBasket />}</HeartBtn>
+            <TalkBtn onClick={handleEditClick}>수정하기</TalkBtn>
+            <BuyBtn onClick={openModal}>삭제하기</BuyBtn>
+          </Buttons>
+        </ItemInfoContainer>
+      </Item>
       {isModalOpen && (
         <Modal
-          content={<DeleteProductModal closeModal={closeModal} handleDeleteClick={() => handleDeleteClick(deleteId)} />}
+          content={<DeleteProductModal closeModal={closeModal} handleDeleteClick={handleDeleteClick} />}
           closeModal={closeModal}
           size="small"
         />
       )}
-    </ItemContainer>
+    </>
   );
 };
 
-export default Products;
-const ItemContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
-`;
+export default Product;
 
 const Item = styled.div`
   padding: 30px;

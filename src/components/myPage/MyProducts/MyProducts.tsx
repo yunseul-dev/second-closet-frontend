@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import useObserver from '../../hooks/useObserver';
+import useObserver from '../../../hooks/useObserver';
 import { useState, useCallback, useEffect } from 'react';
-import useMyProductInfiiteQuery from '../../hooks/queries/useMyProductInfiniteQuery';
+import useMyProductInfiiteQuery from '../../../hooks/queries/useMyProductInfiniteQuery';
 import { RxDividerVertical } from 'react-icons/rx';
 import { useRecoilValue } from 'recoil';
-import { userState } from '../../recoil/atom/userState';
+import { userState } from '../../../recoil/atom/userState';
 import Products from './Products';
-import Loading from '../skeletons/Loading';
+import Loading from '../../skeletons/Loading';
 
 interface DivProp {
   $bold: boolean;
