@@ -74,7 +74,7 @@ const DetailPost = () => {
     hearts,
   }: Product = productInfo;
 
-  const relatedItems: RelatedItems = useRelatedQuery(productId, categories[categories.length - 1]);
+  const relatedItems: RelatedItems = useRelatedQuery(productId, categories[1]);
 
   if (!productInfo) {
     return <div>Loading...</div>;
