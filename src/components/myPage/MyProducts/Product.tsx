@@ -6,8 +6,9 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import useDeleteProductMutation from '../../../hooks/mutations/useDeleteProductMutation';
 import Modal from '../../common/Modal';
-import DeleteProductModal from '../DeleteProductModal';
+import DeleteProductModal from './DeleteProductModal';
 import { useState } from 'react';
+import SoldModal from './SoldModal';
 
 interface Product {
   productId: number;
@@ -36,6 +37,7 @@ const Product: React.FC<ProductProps> = ({
   const navigate = useNavigate();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSoldModalOpen, setSoldIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
 
@@ -48,6 +50,10 @@ const Product: React.FC<ProductProps> = ({
   const handleClick = () => navigate(`/detail/${productId}`);
 
   const handleEditClick = () => navigate(`/editpost/${productId}`);
+
+  const openSoldModal = () => setSoldIsModalOpen(true);
+
+  const closeSoldModal = () => setSoldIsModalOpen(false);
 
   return (
     <>
@@ -73,7 +79,7 @@ const Product: React.FC<ProductProps> = ({
             {hearts} <AiOutlineHeart />
           </MiniInfo>
           <Buttons>
-            <HeartBtn>{sold ? <TbBasketOff /> : <TbBasket />}</HeartBtn>
+            <SoldBtn onClick={openSoldModal}>{sold ? <TbBasketOff /> : <TbBasket />}</SoldBtn>
             <TalkBtn onClick={handleEditClick}>수정하기</TalkBtn>
             <BuyBtn onClick={openModal}>삭제하기</BuyBtn>
           </Buttons>
@@ -83,6 +89,13 @@ const Product: React.FC<ProductProps> = ({
         <Modal
           content={<DeleteProductModal closeModal={closeModal} handleDeleteClick={handleDeleteClick} />}
           closeModal={closeModal}
+          size="small"
+        />
+      )}
+      {isSoldModalOpen && (
+        <Modal
+          content={<SoldModal closeModal={closeSoldModal} sold={sold} sortOption={sortOption} productId={productId} />}
+          closeModal={closeSoldModal}
           size="small"
         />
       )}
@@ -201,7 +214,7 @@ const BuyBtn = styled.button`
   color: white;
 `;
 
-const HeartBtn = styled.button`
+const SoldBtn = styled.button`
   width: 15%;
   height: 40px;
   border: solid 1px black;
