@@ -12,6 +12,7 @@ import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import List from './List';
 import Buttons from './Buttons';
+import useFileUpload from '../../../hooks/useFileUpload';
 
 type DivProps = {
   selected: boolean;
@@ -38,6 +39,7 @@ interface PostData {
 
 const Contents = () => {
   const navigate = useNavigate();
+  const { photoFiles, imgPrevUrls, handleFileChange, handleDeleteFile } = useFileUpload();
 
   const userId = useRecoilValue(userState);
   const productNameRef = useRef<HTMLInputElement>(null);
@@ -51,8 +53,6 @@ const Contents = () => {
   const [discount, setDiscount] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState('');
-  const [photoFiles, setPhotoFiles] = useState<File[]>([]);
-  const [imgPrevUrls, setImgPrevUrls] = useState<string[]>([]);
   const [canFace, setCanFace] = useState<boolean>(true);
 
   const [categories, setCategories] = useState<string[]>([]);
@@ -68,31 +68,6 @@ const Contents = () => {
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
-  };
-
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (photoFiles.length === 11) return;
-
-    const file = e.target.files && e.target.files[0];
-
-    if (file) {
-      // 파일 확장자 확인 -> 사진만 업로드
-      const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-      const fileExtension = file.name.split('.').pop()?.toLocaleLowerCase() || '';
-      const isImageFile = allowedExtensions.includes(fileExtension);
-
-      if (isImageFile) {
-        setPhotoFiles([...photoFiles, file]);
-
-        const reader = new FileReader();
-        reader.onload = () => {
-          setImgPrevUrls([...imgPrevUrls, reader.result as string]);
-        };
-        reader.readAsDataURL(file);
-      } else {
-        console.log('선택한 파일은 사진 파일이 아닙니다.');
-      }
-    }
   };
 
   const handleKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -111,15 +86,6 @@ const Contents = () => {
   const handleSecondCategoryClick = (category: string) => setCategories([categories[0], category]);
   const handleThirdCategoryClick = (category: string) => setCategories([categories[0], categories[1], category]);
   const handleTagXClick = (Xtag: string) => setTags(tags.filter(tag => tag !== Xtag));
-  const handleImgXClick = (idx: number) => {
-    const updatedImgPrevUrls = [...imgPrevUrls];
-    updatedImgPrevUrls.splice(idx, 1);
-    setImgPrevUrls(updatedImgPrevUrls);
-
-    const updatedPhotoFiles = [...photoFiles];
-    updatedPhotoFiles.splice(idx, 1);
-    setPhotoFiles(updatedPhotoFiles);
-  };
 
   const handleSubmit = async () => {
     try {
@@ -238,7 +204,7 @@ const Contents = () => {
                   <ImagePreview idx={idx + 1} key={idx}>
                     <Image src={imgPrevUrl} alt="Image Preview" />
                     <XImg>
-                      <FaXmark onClick={() => handleImgXClick(idx)} />
+                      <FaXmark onClick={() => handleDeleteFile(idx)} />
                     </XImg>
                   </ImagePreview>
                 );
