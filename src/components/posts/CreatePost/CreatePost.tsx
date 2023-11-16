@@ -4,10 +4,10 @@ import { AiOutlineCamera } from 'react-icons/ai';
 import { LiaAngleRightSolid } from 'react-icons/lia';
 import { FaXmark } from 'react-icons/fa6';
 import axios from 'axios';
-import { userState } from '../../recoil/atom/userState';
+import { userState } from '../../../recoil/atom/userState';
 import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import { Category } from '../../constants/Category';
+import { Category } from '../../../constants/Category';
 
 interface PostData {
   userId: string | null;
