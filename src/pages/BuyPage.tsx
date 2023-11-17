@@ -1,10 +1,10 @@
 import AppLayout from '../components/common/AppLayout';
-import BuyDialog from '../components/Dialog/BuyDialog';
+import Buy from '../components/Dialog/Buy';
 
 const BuyPage = () => {
   return (
     <AppLayout>
-      <BuyDialog />
+      <Buy />
     </AppLayout>
   );
 };
