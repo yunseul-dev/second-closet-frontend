@@ -22,34 +22,30 @@ const Dialog = () => {
   return (
     <Container>
       <Content ref={dialogRef} $focus={isFocused}>
-        <MyWords>
-          <ItemContainer>
-            <Item>
-              <ImageContainer>
-                <Image src="http://localhost:5023/api/products/uploads/1698573139386.jpg" />
-              </ImageContainer>
-              <ItemInfoContainer>
-                <ItemName>글로니 95 DESTROYED STRAIGHT FIT JEANS</ItemName>
-                <ItemInfo>
-                  <div>
-                    <Price>100,000</Price>원
-                  </div>
-                  <MiniInfo>
-                    <div>2주 전</div>
-                  </MiniInfo>
-                </ItemInfo>
-              </ItemInfoContainer>
-            </Item>
-            안녕하세요! 해당 상품 구매하고 싶습니다!
-          </ItemContainer>
-        </MyWords>
+        <Item>
+          <ImageContainer>
+            <Image src="http://localhost:5023/api/products/uploads/1698573139386.jpg" />
+          </ImageContainer>
+          <ItemInfoContainer>
+            <ItemName>글로니 95 DESTROYED STRAIGHT FIT JEANS</ItemName>
+            <ItemInfo>
+              <div>
+                <Price>100,000</Price>원
+              </div>
+              <MiniInfo>
+                <div>2주 전</div>
+              </MiniInfo>
+            </ItemInfo>
+          </ItemInfoContainer>
+        </Item>
+        <MyWords>안녕하세요! 해당 상품 구매하고 싶습니다!</MyWords>
         <User>
           <You /> alskfl
         </User>
         <YourWords>하나은행 0000000000으로 배송비 포함 10000원 입금 부탁드립니다!</YourWords>
         <MyWords>
           입금 완료했습니다! <br />
-          창원시 성산구 대암로 256 106동 104호로 보내주세요!
+          창원시 성산구 비음로 267 108동 4호로 보내주세요!
         </MyWords>
         <User>
           <You /> alskfl
@@ -106,20 +102,21 @@ const YourWords = styled.div`
   margin-bottom: 15px;
 `;
 
-const ItemContainer = styled.div``;
-
 const Item = styled.div`
-  width: 90%;
+  width: 70%;
   height: 250px;
   margin: 10px;
   border: 1px solid #e0e0e0c4;
   background-color: #fff;
   color: #000;
+  display: flex;
+  padding: 15px;
 `;
 
 const ImageContainer = styled.div`
-  width: 100%;
-  height: 200px;
+  width: 50%;
+  height: 220px;
+  border: 1px solid #e0e0e0c4;
 `;
 
 const Image = styled.img`
@@ -129,6 +126,7 @@ const Image = styled.img`
 `;
 
 const ItemInfoContainer = styled.div`
+  width: 50%;
   font-size: 14px;
   height: 60px;
   padding: 10px 20px 10px 20px;
