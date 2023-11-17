@@ -7,12 +7,16 @@ import useDeleteHeartMutation from '../../hooks/mutations/useDeleteHeartMutation
 import { userState } from '../../recoil/atom/userState';
 import { useRecoilValue } from 'recoil';
 
+interface Div {
+  $sold: boolean;
+}
 interface Product {
   productId: number;
   productName: string;
   imgs: string[];
   price: string;
   delivery: boolean;
+  discount: boolean;
   hearts: string[];
   createdAt: number;
   sold: boolean;
@@ -41,11 +45,14 @@ const Hearts = ({ products, sortOption }: MyProductsProps) => {
   };
   return (
     <ItemContainer>
-      {products.map(({ productId, productName, imgs, price, delivery, discount, hearts, createdAt }: Product) => {
+      {products.map(({ productId, productName, imgs, price, delivery, discount, hearts, createdAt, sold }: Product) => {
         return (
           <Item key={productId}>
             <ImageContainer onClick={() => handleClick(productId)}>
               <Image src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} />
+              <Overlay $sold={sold}>
+                <Circle>판매완료</Circle>
+              </Overlay>
             </ImageContainer>
             <ItemInfoContainer>
               <ItemName>{productName}</ItemName>
@@ -95,6 +102,7 @@ const Item = styled.div`
 const ImageContainer = styled.div`
   width: 45%;
   height: 100%;
+  position: relative;
 `;
 
 const Image = styled.img`
@@ -156,6 +164,10 @@ const TalkBtn = styled.button`
   border: solid 1px black;
   font-weight: 700;
   background-color: white;
+  &:disabled {
+    cursor: default;
+    border-color: #1010104d;
+  }
 `;
 
 const BuyBtn = styled.button`
@@ -173,4 +185,29 @@ const HeartBtn = styled.button`
   border: solid 1px black;
   font-weight: 700;
   background-color: white;
+`;
+
+const Overlay = styled.div<Div>`
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: ${({ $sold }) => ($sold ? 'flex' : 'none')};
+  justify-content: center;
+  align-items: center;
+`;
+
+const Circle = styled.div`
+  color: white;
+  width: 80px;
+  height: 80px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

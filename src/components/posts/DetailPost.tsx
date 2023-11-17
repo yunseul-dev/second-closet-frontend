@@ -199,7 +199,7 @@ const DetailPost = () => {
       <Bottom>
         <MiniTitle>연관 상품</MiniTitle>
         <Recs>
-          {relatedItems.map(({ productId, productName, imgs }) => (
+          {relatedItems.map(({ productId, productName, imgs }: RelatedItems) => (
             <Rec key={productId}>
               <Link to={`/detail/${productId}`}>
                 <RecImg>
@@ -348,6 +348,10 @@ const TalkBtn = styled.button`
   font-weight: 700;
   font-size: 18px;
   background-color: white;
+  &:disabled {
+    cursor: default;
+    border-color: #1010104d;
+  }
 `;
 
 const BuyBtn = styled.button`
