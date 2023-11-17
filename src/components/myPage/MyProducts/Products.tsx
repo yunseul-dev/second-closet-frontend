@@ -22,7 +22,7 @@ const Products = ({ products, sortOption }: MyProductsProps) => {
   return (
     <ItemContainer>
       {products.map((product: Products) => (
-        <Product product={product} sortOption={sortOption} />
+        <Product product={product} sortOption={sortOption} key={product.productId} />
       ))}
     </ItemContainer>
   );

@@ -75,14 +75,18 @@ const Contents = () => {
             <Select ref={sizeRef}>
               <option value="">선택</option>
               {shoesSizes.map(size => (
-                <option value={size.toLowerCase()}>{size}</option>
+                <option value={size.toLowerCase()} key={size}>
+                  {size}
+                </option>
               ))}
             </Select>
           ) : (
             <Select ref={sizeRef}>
               <option value="">선택</option>
               {sizes.map(size => (
-                <option value={size.toLowerCase()}>{size}</option>
+                <option value={size.toLowerCase()} key={size}>
+                  {size}
+                </option>
               ))}
             </Select>
           )}
