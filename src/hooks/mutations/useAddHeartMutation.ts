@@ -8,7 +8,7 @@ const addHeart = async ({ productId, userId }: { productId: number; userId: stri
 };
 
 const useAddHeartMutation = () => {
-  const userId = useRecoilValue(userState);
+  const userId = useRecoilValue(userState) || '';
 
   return useGenericMutation({
     queryKey: ['@ProductInfo', userId],
