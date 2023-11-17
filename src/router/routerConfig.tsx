@@ -9,6 +9,7 @@ import CategoryItemsPage from '../pages/CategoryItemsPage';
 import MyPage from '../pages/MyPage';
 import EditPostPage from '../pages/EditPostPage';
 import Loading from '../components/skeletons/Loading';
+import BuyPage from '../pages/BuyPage';
 
 const routerConfig = createBrowserRouter([
   {
@@ -65,6 +66,14 @@ const routerConfig = createBrowserRouter([
     element: (
       <Suspense fallback={<Loading />}>
         <AuthenticationGuard redirectTo="/signin" element={<EditPostPage />} />
+      </Suspense>
+    ),
+  },
+  {
+    path: '/buypage',
+    element: (
+      <Suspense fallback={<Loading />}>
+        <AuthenticationGuard redirectTo="/signin" element={<BuyPage />} />
       </Suspense>
     ),
   },
