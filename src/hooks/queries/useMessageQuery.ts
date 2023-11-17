@@ -24,7 +24,7 @@ const fetchProduct = async (id: number) => {
   return data;
 };
 
-const staleTime = 1000;
+const staleTime = 1000 * 3;
 
 const useMessageQuery = (messageId: number) => {
   const query = useQuery({
