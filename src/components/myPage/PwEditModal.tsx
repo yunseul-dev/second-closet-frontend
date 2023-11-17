@@ -64,9 +64,8 @@ const PwEditModal: React.FC<ModalProps> = ({ closeModal }) => {
 
   const onSubmit = async (data: ChangePwFormData) => {
     try {
-      const res = await axios.patch(`/api/auth/changepw/${userId}`, data);
+      await axios.patch(`/api/auth/changepw/${userId}`, data);
       closeModal();
-      console.log('data', res.data);
     } catch (error) {
       console.log(error);
     }

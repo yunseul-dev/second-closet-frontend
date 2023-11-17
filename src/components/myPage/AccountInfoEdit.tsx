@@ -83,7 +83,6 @@ const AccountInfoEdit: React.FC<AccountInfoEditProps> = ({ setIsInfoEdit }) => {
         updatedData.bank = bankRef.current?.value;
       }
 
-      console.log('updated! ', updatedData);
       await axios.patch(`/api/users/edit/${userInfo?.userId}`, updatedData);
       setIsInfoEdit('product');
     } catch (error) {
