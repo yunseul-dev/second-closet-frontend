@@ -1,20 +1,34 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, ChangeEvent, KeyboardEvent } from 'react';
 import styled from 'styled-components';
-import { FaCircleUser } from 'react-icons/fa6';
 import { HiMiniPaperAirplane } from 'react-icons/hi2';
-import useMessageQuery from '../../hooks/queries/useMessageQuery';
-import formatTimeAgo from '../../utils/formatTimeAgo';
+import useMessageQuery from '../../../hooks/queries/useMessageQuery';
+import formatTimeAgo from '../../../utils/formatTimeAgo';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../../../recoil/atom/userState';
+import MyWords from './MyWords';
+import YourWords from './YourWords';
+import axios from 'axios';
 
 type DivProps = {
   $focus: boolean;
 };
 
-const Dialog = () => {
-  const [isFocused, setIsFocused] = useState(false);
+type Message = {
+  senderId: string;
+  message: string;
+  timestamp: number;
+};
 
+const Dialog = () => {
+  const userId = useRecoilValue(userState);
+
+  const [isFocused, setIsFocused] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
+  const [textValue, setTextValue] = useState('');
 
   const { messageInfo } = useMessageQuery(1);
+
+  const { messageId, messages, productInfo } = messageInfo;
 
   useEffect(() => {
     const { current } = dialogRef;
@@ -23,45 +37,59 @@ const Dialog = () => {
     }
   });
 
+  const handleEnterKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+
+      axios.patch(`/api/messages/update/${messageId}`, {
+        senderId: userId,
+        message: textValue,
+      });
+
+      setTextValue('');
+    }
+  };
+
+  const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setTextValue(e.target.value);
+  };
+
   return (
     <Container>
       <Content ref={dialogRef} $focus={isFocused}>
         <Item>
           <ImageContainer>
-            <Image src="http://localhost:5023/api/products/uploads/1698573139386.jpg" />
+            <Image src={`http://localhost:5023/api/products/uploads/${productInfo.img}`} />
           </ImageContainer>
           <ItemInfoContainer>
-            <ItemName>{messageInfo.productInfo.productName}</ItemName>
+            <ItemName>{productInfo.productName}</ItemName>
             <ItemInfo>
               <div>
-                <Price>{messageInfo.productInfo.price}</Price>원
+                <Price>{productInfo.price}</Price>원
               </div>
               <MiniInfo>
-                <div>{formatTimeAgo(messageInfo.productInfo.createdAt)}</div>
+                <div>{formatTimeAgo(productInfo.createdAt)}</div>
               </MiniInfo>
             </ItemInfo>
           </ItemInfoContainer>
         </Item>
-        <MyWords>안녕하세요! 해당 상품 구매하고 싶습니다!</MyWords>
-        <User>
-          <You /> alskfl
-        </User>
-        <YourWords>하나은행 0000000000으로 배송비 포함 10000원 입금 부탁드립니다!</YourWords>
-        <MyWords>
-          입금 완료했습니다! <br />
-          창원시 성산구 비음로 267 108동 4호로 보내주세요!
-        </MyWords>
-        <User>
-          <You /> alskfl
-        </User>
-        <YourWords>네! 운송장 번호는 cj 택배 105526485352 입니다.</YourWords>
-        <MyWords>네 확인했습니다!</MyWords>
+        {messages.map(({ senderId, message, timestamp }: Message) => {
+          if (senderId === userId) {
+            return <MyWords words={message} key={timestamp} />;
+          } else {
+            return <YourWords senderId={senderId} words={message} key={timestamp} />;
+          }
+        })}
       </Content>
       <Input>
         <TextArea
+          value={textValue}
+          onChange={handleTextChange}
           placeholder="메세지를 입력하세요."
           onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}></TextArea>
+          onBlur={() => setIsFocused(false)}
+          onKeyDown={handleEnterKeyDown}
+        />
         <PaperAirplane />
       </Input>
     </Container>
@@ -85,25 +113,6 @@ const Content = styled.div<DivProps>`
   flex-direction: column;
   height: ${({ $focus }) => ($focus ? 'calc(100vh - 180px - 130px)' : 'calc(100vh - 180px - 80px)')};
   overflow: auto;
-`;
-
-const MyWords = styled.div`
-  background-color: #ff4d24;
-  display: inline-flex;
-  align-self: flex-end;
-  padding: 10px;
-  border-radius: 10px 10px 0 10px;
-  margin-bottom: 15px;
-  color: #fff;
-`;
-
-const YourWords = styled.div`
-  background-color: rgba(255, 77, 36, 0.3);
-  display: inline-flex;
-  align-self: flex-start;
-  padding: 10px;
-  border-radius: 0 10px 10px 10px;
-  margin-bottom: 15px;
 `;
 
 const Item = styled.div`
@@ -164,11 +173,6 @@ const Price = styled.span`
   font-weight: 600;
 `;
 
-const You = styled(FaCircleUser)`
-  color: #ff4d24;
-  margin-right: 5px;
-`;
-
 const Input = styled.div`
   position: absolute;
   bottom: 0;
@@ -200,10 +204,4 @@ const PaperAirplane = styled(HiMiniPaperAirplane)`
   bottom: 15px;
   transform: translateY(-50%);
   color: #c9d1e9;
-`;
-
-const User = styled.div`
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
 `;
