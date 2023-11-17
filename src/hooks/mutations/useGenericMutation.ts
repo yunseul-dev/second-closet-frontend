@@ -3,7 +3,7 @@ import { useQueryClient, useMutation, MutationFunction } from '@tanstack/react-q
 interface UseGenericMutationOptions<TData, TVariables> {
   queryKey: string[];
   mutationFn: MutationFunction<TData, TVariables>;
-  onMutate: (variables: TVariables) => TData;
+  onMutate?: (variables: TVariables) => unknown;
 }
 
 const useGenericMutation = <TData, TVariables>({
@@ -18,15 +18,15 @@ const useGenericMutation = <TData, TVariables>({
 
     async onMutate(variables: TVariables) {
       await queryClient.cancelQueries({ queryKey: queryKey });
-      const previousHearts = queryClient.getQueryData<TData>(queryKey);
+      const previousData = queryClient.getQueryData<TData>(queryKey);
 
       queryClient.setQueryData<TData>(queryKey, expected(variables));
 
-      return { previousHearts };
+      return { previousData };
     },
 
     onError(err, variables, context) {
-      queryClient.setQueryData(queryKey, context?.previousHearts);
+      queryClient.setQueryData(queryKey, context?.previousData);
     },
 
     onSettled() {
