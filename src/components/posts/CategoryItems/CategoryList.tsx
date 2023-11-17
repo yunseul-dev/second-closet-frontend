@@ -58,7 +58,7 @@ const LinkTag = styled(Link)<LinkProp>`
   border: 1px solid #e0e0e0;
   background-color: ${({ $clicked }) => $clicked && '#ff4d24'};
   color: ${({ $clicked }) => $clicked && '#fff'};
-  font-weight: ${({ $clicked }) => $clicked && '600'};
+  font-weight: ${({ $clicked }) => $clicked && '700'};
 `;
 
 const Div = styled.div`
@@ -70,7 +70,7 @@ const Div = styled.div`
 const MiniCategory = styled.div`
   width: 100%;
   height: 100%;
-  font-size: 12px;
+  font-size: 14px;
   text-align: center;
   display: flex;
   align-items: center;
