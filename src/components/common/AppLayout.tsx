@@ -1,9 +1,9 @@
 import Header from './Header';
-import React from 'react';
+import { ReactNode } from 'react';
 import styled from 'styled-components';
 
 type LayoutProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 const AppLayout = ({ children }: LayoutProps) => {
@@ -20,7 +20,7 @@ export default AppLayout;
 const LayoutContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 60%;
+  width: 1240px;
   min-width: 1024px;
   height: 100vh;
 `;
@@ -28,6 +28,5 @@ const LayoutContainer = styled.div`
 const Container = styled.div`
   flex-grow: 1;
   width: 100%;
-  overflow: auto;
   margin-top: 30px;
 `;
