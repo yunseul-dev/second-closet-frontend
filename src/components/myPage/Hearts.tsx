@@ -27,7 +27,7 @@ const Hearts = ({ products, sortOption }: MyProductsProps) => {
   const navigate = useNavigate();
   const [id, setId] = useState(0);
 
-  const userId = useRecoilValue(userState);
+  const userId = useRecoilValue(userState) || '';
 
   const handleClick = (productId: number) => {
     navigate(`/detail/${productId}`);
@@ -41,7 +41,7 @@ const Hearts = ({ products, sortOption }: MyProductsProps) => {
   };
   return (
     <ItemContainer>
-      {products.map(({ productId, productName, imgs, price, delivery, hearts, createdAt }: Product) => {
+      {products.map(({ productId, productName, imgs, price, delivery, discount, hearts, createdAt }: Product) => {
         return (
           <Item key={productId}>
             <ImageContainer onClick={() => handleClick(productId)}>
@@ -65,7 +65,7 @@ const Hearts = ({ products, sortOption }: MyProductsProps) => {
                 <HeartBtn onClick={() => handleHeartClick(productId, userId)}>
                   <AiFillHeart />
                 </HeartBtn>
-                <TalkBtn>문의하기</TalkBtn>
+                <TalkBtn disabled={!discount}>문의하기</TalkBtn>
                 <BuyBtn>구매하기</BuyBtn>
               </Buttons>
             </ItemInfoContainer>

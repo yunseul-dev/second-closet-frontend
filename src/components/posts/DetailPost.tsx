@@ -177,7 +177,7 @@ const DetailPost = () => {
               <HeartBtn onClick={handleHeartClick}>
                 {userName && hearts.includes(userName) ? <AiFillHeart /> : <AiOutlineHeart />}
               </HeartBtn>
-              <TalkBtn>문의하기</TalkBtn>
+              <TalkBtn disabled={!discount}>문의하기</TalkBtn>
               <BuyBtn>구매하기</BuyBtn>
             </Buttons>
           </InfoWrapper>
