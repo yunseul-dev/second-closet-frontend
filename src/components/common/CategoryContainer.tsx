@@ -109,11 +109,10 @@ const CategoryList = styled.div`
   z-index: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   font-size: 16px;
   background-color: white;
   padding: 5px;
+  padding-top: 20px;
 `;
 const CategoryItem = styled.div<DivProps>`
   font-size: 14px;
@@ -122,6 +121,5 @@ const CategoryItem = styled.div<DivProps>`
   background-color: ${({ $hovered }) => $hovered && '#ededed'};
   border-radius: 10px;
   display: flex;
-  align-items: center;
   justify-content: center;
 `;
