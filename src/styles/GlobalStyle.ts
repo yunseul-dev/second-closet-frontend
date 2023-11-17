@@ -1,22 +1,100 @@
 import { createGlobalStyle } from 'styled-components';
 
-import gaeguBold from '../assets/fonts/Gaegu-Bold.ttf';
-import gaeguLight from '../assets/fonts/Gaegu-Light.ttf';
-import gaeguRegular from '../assets/fonts/Gaegu-Regular.ttf';
+import blackWoff from '../assets/fonts/Pretendard-Black.woff';
+import blackWoff2 from '../assets/fonts/Pretendard-Black.woff2';
 
-import nanumRegular from '../assets/fonts/NanumPenScript-Regular.ttf';
+import boldWoff from '../assets/fonts/Pretendard-Bold.woff';
+import boldWoff2 from '../assets/fonts/Pretendard-Bold.woff2';
+import extraBoldWoff from '../assets/fonts/Pretendard-ExtraBold.woff';
+import extraBoldWoff2 from '../assets/fonts/Pretendard-ExtraBold.woff2';
 
-import bubblegumsans from '../assets/fonts/BubblegumSans-Regular.ttf';
+import lightWoff from '../assets/fonts/Pretendard-Light.woff';
+import lightWoff2 from '../assets/fonts/Pretendard-Light.woff2';
+import extraLightWoff from '../assets/fonts/Pretendard-ExtraLight.woff';
+import extraLightWoff2 from '../assets/fonts/Pretendard-ExtraLight.woff2';
 
-import gamjaflowerRegular from '../assets/fonts/GamjaFlower-Regular.ttf';
+import mediumWoff from '../assets/fonts/Pretendard-Medium.woff';
+import mediumWoff2 from '../assets/fonts/Pretendard-Medium.woff2';
+
+import regularWoff from '../assets/fonts/Pretendard-Regular.woff';
+import regularWoff2 from '../assets/fonts/Pretendard-Regular.woff2';
+
+import semiBoldWoff from '../assets/fonts/Pretendard-SemiBold.woff';
+import semiBoldWoff2 from '../assets/fonts/Pretendard-SemiBold.woff2';
+
+import thinWoff from '../assets/fonts/Pretendard-Thin.woff';
+import thinWoff2 from '../assets/fonts/Pretendard-Thin.woff2';
 
 const GlobalStyle = createGlobalStyle`
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 100;
+  src: local('Pretendard Thin'), url(${thinWoff}) format('woff'),url(${thinWoff2}) format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 200;
+  src: local('Pretendard Extra Bold'),url(${extraLightWoff}) format('woff'),url(${extraLightWoff2}) format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 300;
+  src: local('Pretendard Light'), url(${lightWoff}) format('woff'),url(${lightWoff2}) format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 400;
+  src: local('Pretendard Reglar'), url(${regularWoff}) format('woff'),url(${regularWoff2}) format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 500;
+  src: local('Pretendard Medium'), url(${mediumWoff}) format('woff'),url(${mediumWoff2}) format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 600;
+  src: local('Pretendard Semi Bold'), url(${semiBoldWoff}) format('woff'),url(${semiBoldWoff2}) format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 700;
+  src: local('Pretendard Bold'), url(${boldWoff}) format('woff'),url(${boldWoff2}) format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 800;
+  src: local('Pretendard Extra Bold'), url(${extraBoldWoff}) format('woff'),url(${extraBoldWoff2}) format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 900;
+  src: local('Pretendard Black'), url(${blackWoff}) format('woff'),url(${blackWoff2}) format('woff2');
+  font-display: swap;
+}
+
   #root{
     min-height: 100vh;
     width: 100%;
-    font-size: 2rem;
-    font-family: 'Noto Sans KR', sans-serif;
-
+    font-size: 16px;
+    font-family: 'Pretendard', sans-serif;
+    font-weight: 500;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -33,7 +111,6 @@ const GlobalStyle = createGlobalStyle`
     min-height: 100%;
     width: 100%;
     
-
     background-color: var(--bg-color);
     color: var(--font-color);
     display: flex;
@@ -89,52 +166,6 @@ const GlobalStyle = createGlobalStyle`
   height: 1px;
   margin: -1px;
 }
-
-@font-face {
-  font-family: 'Gaegu';
-  font-weight: 700;
-  src: local('Gaegu'), url(${gaeguBold}) format('truetype');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Gaegu';
-  font-weight: 400;
-  src: local('Gaegu'), url(${gaeguLight}) format('truetype');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Gaegu';
-  font-weight: 500;
-  src: local('Gaegu'), url(${gaeguRegular}) format('truetype');
-  font-display: swap;
-}
-
-
-@font-face {
-  font-family: 'Nanum Pen Script';
-  font-weight: 500;
-  src: local('Nanum Pen Script'), url(${nanumRegular}) format('truetype');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Bubble Gum Sans';
-  font-weight: 500;
-  src: local('Bubble Gum Sans'), url(${bubblegumsans}) format('truetype');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Gamja Flower';
-  font-weight: 500;
-  src: local('Gamja Flower'), url(${gamjaflowerRegular}) format('truetype');
-  font-display: swap;
-}
-
-
-
 `;
 
 export default GlobalStyle;
