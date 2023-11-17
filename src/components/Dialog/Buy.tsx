@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Dialog from './Dialog';
+import Dialog from './Dialog/Dialog';
 import MessageList from './MessageList';
 
 const Buy = () => {
