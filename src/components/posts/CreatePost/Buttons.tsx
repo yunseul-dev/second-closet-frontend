@@ -33,7 +33,7 @@ const SubmitBtn = styled.button`
   height: 55px;
   font-size: 20px;
   font-weight: 600;
-  background-color: #fc7b7b;
+  background-color: #ff4d24;
   color: white;
 `;
 

@@ -210,8 +210,8 @@ const WdBtn = styled.div`
 `;
 
 const OBtn = styled(Button)`
-  background-color: #f98181;
-  border: solid 1px #fd7272;
+  background-color: #ff4d24;
+  border: solid 1px #fe4218;
   color: white;
 `;
 

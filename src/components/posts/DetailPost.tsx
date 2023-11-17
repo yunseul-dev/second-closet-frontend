@@ -356,7 +356,7 @@ const BuyBtn = styled.button`
   border: solid 1px #fd7272;
   font-weight: 700;
   font-size: 18px;
-  background-color: #f98181;
+  background-color: #ff4d24;
   color: white;
 `;
 

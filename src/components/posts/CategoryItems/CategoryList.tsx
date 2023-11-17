@@ -56,7 +56,8 @@ const LinkTag = styled(Link)<LinkProp>`
   width: 20%;
   height: 48px;
   border: 1px solid #e0e0e0;
-  background-color: ${({ $clicked }) => $clicked && '#fee4e4'};
+  background-color: ${({ $clicked }) => $clicked && '#ff4d24'};
+  color: ${({ $clicked }) => $clicked && '#fff'};
   font-weight: ${({ $clicked }) => $clicked && '600'};
 `;
 

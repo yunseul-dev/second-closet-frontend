@@ -112,7 +112,7 @@ const CategoryBox = styled.div`
 const CategoryItem = styled.div<DivProps>`
   padding: 10px;
   height: 45px;
-  background-color: ${({ selected }) => selected && '#fee4e4'};
+  background-color: ${({ selected }) => selected && 'rgba(255, 77, 36, 0.3)'};
   font-weight: ${({ selected }) => selected && '600'};
   text-align: center;
   border-radius: 10px;
@@ -121,7 +121,7 @@ const CategoryItem = styled.div<DivProps>`
 const CategoryView = styled.div`
   margin-top: 10px;
   font-weight: 600;
-  color: #f98181;
+  color: #ff4d24;
 `;
 
 const SelectedCategory = styled.span`
