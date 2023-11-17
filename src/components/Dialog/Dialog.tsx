@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { FaCircleUser } from 'react-icons/fa6';
 import { HiMiniPaperAirplane } from 'react-icons/hi2';
+import useMessageQuery from '../../hooks/queries/useMessageQuery';
+import formatTimeAgo from '../../utils/formatTimeAgo';
 
 type DivProps = {
   $focus: boolean;
@@ -11,6 +13,8 @@ const Dialog = () => {
   const [isFocused, setIsFocused] = useState(false);
 
   const dialogRef = useRef<HTMLDivElement>(null);
+
+  const { messageInfo } = useMessageQuery(1);
 
   useEffect(() => {
     const { current } = dialogRef;
@@ -27,13 +31,13 @@ const Dialog = () => {
             <Image src="http://localhost:5023/api/products/uploads/1698573139386.jpg" />
           </ImageContainer>
           <ItemInfoContainer>
-            <ItemName>글로니 95 DESTROYED STRAIGHT FIT JEANS</ItemName>
+            <ItemName>{messageInfo.productInfo.productName}</ItemName>
             <ItemInfo>
               <div>
-                <Price>100,000</Price>원
+                <Price>{messageInfo.productInfo.price}</Price>원
               </div>
               <MiniInfo>
-                <div>2주 전</div>
+                <div>{formatTimeAgo(messageInfo.productInfo.createdAt)}</div>
               </MiniInfo>
             </ItemInfo>
           </ItemInfoContainer>
