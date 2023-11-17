@@ -7,16 +7,10 @@ import { useRecoilValue } from 'recoil';
 import { userState } from '../../../recoil/atom/userState';
 import MyWords from './MyWords';
 import YourWords from './YourWords';
-import axios from 'axios';
+import useSendMessageMutation from '../../../hooks/mutations/useSendMessageMutation';
 
 type DivProps = {
   $focus: boolean;
-};
-
-type Message = {
-  senderId: string;
-  message: string;
-  timestamp: number;
 };
 
 const Dialog = () => {
@@ -30,6 +24,8 @@ const Dialog = () => {
 
   const { messageId, messages, productInfo } = messageInfo;
 
+  const { mutate: sendMessage } = useSendMessageMutation(messageId);
+
   useEffect(() => {
     const { current } = dialogRef;
     if (current) {
@@ -41,10 +37,7 @@ const Dialog = () => {
     if (e.key === 'Enter') {
       e.preventDefault();
 
-      axios.patch(`/api/messages/update/${messageId}`, {
-        senderId: userId,
-        message: textValue,
-      });
+      sendMessage({ messageId, userId, textValue });
 
       setTextValue('');
     }
@@ -73,7 +66,7 @@ const Dialog = () => {
             </ItemInfo>
           </ItemInfoContainer>
         </Item>
-        {messages.map(({ senderId, message, timestamp }: Message) => {
+        {messages.map(({ senderId, message, timestamp }) => {
           if (senderId === userId) {
             return <MyWords words={message} key={timestamp} />;
           } else {
