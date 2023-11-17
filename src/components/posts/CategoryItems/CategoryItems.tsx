@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import useCategoryInfiniteQuery from '../../../hooks/queries/useCategoryInfiniteQuery';
 import { useCallback, useState, useEffect } from 'react';
 import useObserver from '../../../hooks/useObserver';
@@ -8,10 +8,6 @@ import Loading from '../../skeletons/Loading';
 import SortTabs from './SortTabs';
 import Items from './Items';
 import CategoryList from './CategoryList';
-
-interface LinkProp {
-  $clicked: boolean;
-}
 
 interface Product {
   productId: number;
@@ -68,36 +64,6 @@ export default CategoryItems;
 const Container = styled.div`
   margin-bottom: 20px;
   padding: 10px;
-`;
-
-const CategoryLists = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  padding-top: 20px;
-`;
-
-const LinkTag = styled(Link)<LinkProp>`
-  width: 20%;
-  height: 48px;
-  border: 1px solid #e0e0e0;
-  background-color: ${({ $clicked }) => $clicked && '#fee4e4'};
-  font-weight: ${({ $clicked }) => $clicked && '600'};
-`;
-
-const Div = styled.div`
-  width: 20%;
-  height: 48px;
-  border: 1px solid #e0e0e0;
-`;
-
-const MiniCategory = styled.div`
-  width: 100%;
-  height: 100%;
-  font-size: 12px;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 const ItemsContainer = styled.div``;
