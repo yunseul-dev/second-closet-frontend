@@ -5,6 +5,7 @@ import { useCallback, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineHeart } from 'react-icons/ai';
 import Loading from '../skeletons/Loading';
+import { BsBalloonHeartFill } from 'react-icons/bs';
 
 interface Product {
   productId: number;
@@ -16,7 +17,11 @@ interface Product {
 
 const Main = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { data, hasNextPage, fetchNextPage } = usePopularInfiniteQuery();
+  const { data, hasNextPage, fetchNextPage } = usePopularInfiniteQuery() as {
+    data: Product[];
+    hasNextPage: boolean;
+    fetchNextPage: () => void;
+  };
   const navigate = useNavigate();
 
   const getNextPage = useCallback(() => {
@@ -39,9 +44,11 @@ const Main = () => {
   return (
     <>
       <Banner>
-        <BannerMent>옷장 속에 잠자는 옷을 깨워 새 옷장을 찾아주세요.</BannerMent>
+        <BannerImg src="/assets/image/Banner.jpg" alt="배너 이미지"></BannerImg>
       </Banner>
-      <Title>오늘의 인기 상품</Title>
+      <Title>
+        오늘의 인기 상품 <BsBalloonHeartFill />
+      </Title>
       <ItemContainer>
         {data.map(({ productId, productName, imgs, hearts, price }: Product) => {
           return (
@@ -78,23 +85,26 @@ export default Main;
 
 const Banner = styled.div`
   width: 100%;
-  height: 250px;
+  height: 276px;
   background-color: #fdecd0;
   justify-content: center;
   align-items: center;
   display: flex;
 `;
 
-const BannerMent = styled.div`
-  font-family: 'Gaegu';
-  font-size: 48px;
-  font-weight: 400;
+const BannerImg = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const Title = styled.div`
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 700;
   margin: 20px 0;
+  color: #ff4d24;
+  display: flex;
+  align-items: center;
 `;
 
 const ItemContainer = styled.div`
@@ -103,9 +113,9 @@ const ItemContainer = styled.div`
 `;
 
 const Item = styled.div`
-  width: 22%;
+  width: 24%;
   height: 300px;
-  margin: 10px;
+  margin: 5px;
   border: 1px solid #e0e0e0c4;
 `;
 
