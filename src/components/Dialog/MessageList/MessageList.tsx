@@ -1,13 +1,8 @@
 import styled from 'styled-components';
-import React, { Dispatch, SetStateAction } from 'react';
 import List from './List';
 import useMessagesQuery from '../../../hooks/queries/useMessagesQuery';
 
-interface MessageListProps {
-  setClicked: Dispatch<SetStateAction<number | null>>;
-}
-
-const MessageList: React.FC<MessageListProps> = ({ setClicked }) => {
+const MessageList = () => {
   const { messagesInfo: messages } = useMessagesQuery('all');
 
   return (
@@ -15,7 +10,7 @@ const MessageList: React.FC<MessageListProps> = ({ setClicked }) => {
       <Title>전체 대화</Title>
       <Lists>
         {messages.map((message, idx) => (
-          <List key={idx} setClicked={setClicked} message={message} />
+          <List key={idx} message={message} />
         ))}
       </Lists>
     </Container>
@@ -29,7 +24,7 @@ const Container = styled.div`
   position: absolute;
   left: 0;
   width: 35%;
-  height: calc(100vh - 180px);
+  height: calc(100vh - 190px);
   border-right: 1px solid #ececec;
 `;
 
@@ -40,7 +35,7 @@ const Title = styled.div`
 `;
 
 const Lists = styled.div`
-  height: calc(100vh - 180px - 80px);
+  height: calc(100vh - 190px - 80px);
   overflow-y: scroll;
 
   &::-webkit-scrollbar {

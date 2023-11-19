@@ -1,15 +1,13 @@
 import styled from 'styled-components';
-import React from 'react';
+import { useParams } from 'react-router-dom';
 
 import NotSelectedMessage from './NotSelectedMessage';
 import SelectedMessage from './SelectedMessage';
 
-interface DialogProps {
-  id: number | null;
-}
+const Dialog = () => {
+  const { id } = useParams();
 
-const Dialog: React.FC<DialogProps> = ({ id }) => {
-  return <Container>{id ? <SelectedMessage id={id} /> : <NotSelectedMessage />}</Container>;
+  return <Container>{id ? <SelectedMessage /> : <NotSelectedMessage />}</Container>;
 };
 
 export default Dialog;
@@ -19,6 +17,6 @@ const Container = styled.div`
   left: 35%;
   position: relative;
   width: 65%;
-  height: calc(100vh - 180px);
+  height: calc(100vh - 190px);
   padding: 20px;
 `;
