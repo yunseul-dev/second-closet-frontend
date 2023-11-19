@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { BiStoreAlt } from 'react-icons/bi';
 import React, { Dispatch, SetStateAction } from 'react';
-import formatTimeAgo from '../../../utils/formatTimeAgo';
-
+import formatDate from '../../../utils/formatDate';
 interface Message {
   senerId: string;
   message: string;
@@ -30,7 +29,7 @@ const List: React.FC<ListProps> = ({ setClicked, message }) => {
         <User>{partner}</User>
         <Content>
           <LastMent>{messages[messages.length - 1].message}</LastMent>
-          <Date>{formatTimeAgo(messages[messages.length - 1].timestamp)}</Date>
+          <Day>{formatDate(messages[messages.length - 1].timestamp)}</Day>
         </Content>
       </You>
     </Container>
@@ -81,4 +80,4 @@ const LastMent = styled.div`
   text-overflow: ellipsis;
 `;
 
-const Date = styled.div``;
+const Day = styled.div``;

@@ -78,9 +78,9 @@ const SelectedMessage: React.FC<DialogProps> = ({ id }) => {
         </Item>
         {messages.map(({ senderId, message, timestamp }) => {
           if (senderId === userId) {
-            return <MyWords words={message} key={timestamp} />;
+            return <MyWords words={message} key={timestamp} timestamp={timestamp} />;
           } else {
-            return <YourWords senderId={senderId} words={message} key={timestamp} />;
+            return <YourWords senderId={senderId} words={message} key={timestamp} timestamp={timestamp} />;
           }
         })}
       </Content>

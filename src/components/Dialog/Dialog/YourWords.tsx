@@ -1,19 +1,24 @@
 import styled from 'styled-components';
 import { FaCircleUser } from 'react-icons/fa6';
 import React from 'react';
+import formatDate from '../../../utils/formatDate';
 
 interface YourWordsProps {
   senderId: string;
   words: string;
+  timestamp: number;
 }
 
-const YourWords: React.FC<YourWordsProps> = ({ senderId, words }) => {
+const YourWords: React.FC<YourWordsProps> = ({ senderId, words, timestamp }) => {
   return (
     <>
       <User>
         <You /> {senderId}
       </User>
-      <Container>{words}</Container>
+      <Container>
+        <Content>{words}</Content>
+        <Day>{formatDate(timestamp)}</Day>
+      </Container>
     </>
   );
 };
@@ -32,9 +37,20 @@ const User = styled.div`
 `;
 
 const Container = styled.div`
-  background-color: rgba(255, 77, 36, 0.3);
   display: inline-flex;
   align-self: flex-start;
+  align-items: center;
+`;
+
+const Day = styled.div`
+  font-size: 14px;
+  margin-left: 5px;
+  color: #a5a5a5;
+`;
+
+const Content = styled.div`
+  background-color: rgba(255, 77, 36, 0.3);
+
   padding: 10px;
   border-radius: 0 10px 10px 10px;
   margin-bottom: 15px;
