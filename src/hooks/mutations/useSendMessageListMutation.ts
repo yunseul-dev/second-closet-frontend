@@ -11,7 +11,7 @@ type LatesMessage = {
 interface Message {
   messageId: string;
   partner: string;
-  latesMessage: LatesMessage;
+  messages: LatesMessage[];
 }
 
 const useSendMessageListMutation = (sortOption: string) => {
@@ -20,14 +20,23 @@ const useSendMessageListMutation = (sortOption: string) => {
   return useGenericMutation({
     queryKey: ['@MyMessages', sortOption],
     onMutate({ messageId, partner, textValue }: { messageId: string; partner: string; textValue: string }) {
-      return (messagesInfo: Message[]) => [
-        ...messagesInfo,
-        {
-          messageId: messageId,
-          parterner: partner,
-          messages: { senderId: userId, message: textValue, timestamp: Date.now() },
-        },
-      ];
+      return (messagesInfo: Message[]) =>
+        messagesInfo.map(message =>
+          message.messageId === messageId
+            ? {
+                messageId: messageId,
+                partner: partner,
+                messages: [
+                  ...message.messages,
+                  {
+                    senderId: userId,
+                    message: textValue,
+                    timestamp: Date.now(),
+                  },
+                ],
+              }
+            : message,
+        );
     },
   });
 };
