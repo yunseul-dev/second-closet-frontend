@@ -8,6 +8,7 @@ import React, { useState, useRef, useEffect, ChangeEvent, KeyboardEvent } from '
 
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../../recoil/atom/userState';
+import useSendMessageListMutation from '../../../hooks/mutations/useSendMessageListMutation';
 
 import useSendMessageMutation from '../../../hooks/mutations/useSendMessageMutation';
 
@@ -35,15 +36,18 @@ const SelectedMessage: React.FC<DialogProps> = ({ id }) => {
 
   const { messageInfo } = useMessageQuery(id);
 
-  const { messageId, messages, productInfo } = messageInfo;
+  const { messageId, buyerId, sellerId, messages, productInfo } = messageInfo;
+
+  const partner = [buyerId, sellerId].find(id => id !== userId);
 
   const { mutate: sendMessage } = useSendMessageMutation(messageId);
+  const { mutate: sendListMessage } = useSendMessageListMutation('all');
 
   const handleEnterKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-
       sendMessage({ messageId, userId, textValue });
+      sendListMessage({ messageId, partner, textValue });
 
       setTextValue('');
     }
