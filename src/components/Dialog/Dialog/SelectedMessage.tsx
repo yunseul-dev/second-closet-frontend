@@ -4,7 +4,8 @@ import YourWords from './YourWords';
 import formatTimeAgo from '../../../utils/formatTimeAgo';
 import { HiMiniPaperAirplane } from 'react-icons/hi2';
 import useMessageQuery from '../../../hooks/queries/useMessageQuery';
-import React, { useState, useRef, useEffect, ChangeEvent, KeyboardEvent } from 'react';
+import { useState, useRef, useEffect, ChangeEvent, KeyboardEvent } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../../recoil/atom/userState';
@@ -16,14 +17,13 @@ type DivProps = {
   $focus: boolean;
 };
 
-interface DialogProps {
-  id: number;
-}
+const SelectedMessage = () => {
+  const { id } = useParams();
 
-const SelectedMessage: React.FC<DialogProps> = ({ id }) => {
   const userId = useRecoilValue(userState);
   const [isFocused, setIsFocused] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
+  const [textValue, setTextValue] = useState('');
 
   useEffect(() => {
     const { current } = dialogRef;
@@ -32,9 +32,7 @@ const SelectedMessage: React.FC<DialogProps> = ({ id }) => {
     }
   });
 
-  const [textValue, setTextValue] = useState('');
-
-  const { messageInfo } = useMessageQuery(id);
+  const { messageInfo } = useMessageQuery(+id);
 
   const { messageId, buyerId, sellerId, messages, productInfo } = messageInfo;
 
