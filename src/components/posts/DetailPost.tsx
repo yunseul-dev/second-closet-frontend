@@ -6,17 +6,18 @@ import { LuClock3 } from 'react-icons/lu';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/atom/userState';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import useAddHeartMutation from '../../hooks/mutations/useAddHeartMutation';
 import useDeleteHeartMutation from '../../hooks/mutations/useDeleteMutation';
 import useProductQuery from '../../hooks/queries/useProductQuery';
 import formatTimeAgo from '../../utils/formatTimeAgo';
 import useRelatedQuery from '../../hooks/queries/useRelatedQuery';
 import CategoryTab from '../common/CategoryTab';
+import axios from 'axios';
 
 type Product = {
   productId: number;
-  userId: string;
+  sellerId: string;
   productName: string;
   imgs: string[];
   categories: string[];
@@ -45,8 +46,10 @@ interface BtnProps {
 
 const DetailPost = () => {
   const userName = useRecoilValue(userState);
-
+  const navigate = useNavigate();
   const { id } = useParams();
+
+  const userId = useRecoilValue(userState);
 
   const [imgNum, setImgNum] = useState(0);
   const [imgHovered, setImgHovered] = useState(false);
@@ -57,7 +60,7 @@ const DetailPost = () => {
 
   const {
     productId,
-    userId,
+    sellerId,
     productName,
     imgs,
     categories,
@@ -112,6 +115,33 @@ const DetailPost = () => {
 
   const handleMouseLeave = () => {
     setImgHovered(false);
+  };
+
+  const handleTalkClick = async (
+    productId: number,
+    sellerId: string,
+    productName: string,
+    price: string,
+    delivery: boolean,
+    discount: boolean,
+    createdAt: number,
+    img: string,
+  ) => {
+    const { data } = await axios.post(`/api/messages/post`, {
+      productId: productId,
+      buyerId: userId,
+      sellerId: sellerId,
+      productInfo: {
+        productName: productName,
+        price: price,
+        delivery: delivery,
+        discount: discount,
+        createdAt: createdAt,
+        img: img,
+      },
+    });
+
+    navigate(`/buypage/${data.id}`);
   };
 
   return (
@@ -177,7 +207,13 @@ const DetailPost = () => {
               <HeartBtn onClick={handleHeartClick}>
                 {userName && hearts.includes(userName) ? <AiFillHeart /> : <AiOutlineHeart />}
               </HeartBtn>
-              <TalkBtn disabled={!discount}>문의하기</TalkBtn>
+              <TalkBtn
+                disabled={!discount}
+                onClick={() =>
+                  handleTalkClick(productId, sellerId, productName, price, delivery, discount, createdAt, imgs[0])
+                }>
+                문의하기
+              </TalkBtn>
               <BuyBtn>구매하기</BuyBtn>
             </Buttons>
           </InfoWrapper>

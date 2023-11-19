@@ -6,12 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import useDeleteHeartMutation from '../../hooks/mutations/useDeleteHeartMutation';
 import { userState } from '../../recoil/atom/userState';
 import { useRecoilValue } from 'recoil';
+import axios from 'axios';
 
 interface Div {
   $sold: boolean;
 }
 interface Product {
   productId: number;
+  sellerId: string;
   productName: string;
   imgs: string[];
   price: string;
@@ -43,42 +45,78 @@ const Hearts = ({ products, sortOption }: MyProductsProps) => {
     setId(productId);
     deleteHeart({ productId, userId });
   };
+
+  const handleTalkClick = async (
+    productId: number,
+    sellerId: string,
+    productName: string,
+    price: string,
+    delivery: boolean,
+    discount: boolean,
+    createdAt: number,
+    img: string,
+  ) => {
+    const { data } = await axios.post(`/api/messages/post`, {
+      productId: productId,
+      buyerId: userId,
+      sellerId: sellerId,
+      productInfo: {
+        productName: productName,
+        price: price,
+        delivery: delivery,
+        discount: discount,
+        createdAt: createdAt,
+        img: img,
+      },
+    });
+
+    navigate(`/buypage/${data.id}`);
+  };
+
   return (
     <ItemContainer>
-      {products.map(({ productId, productName, imgs, price, delivery, discount, hearts, createdAt, sold }: Product) => {
-        return (
-          <Item key={productId}>
-            <ImageContainer onClick={() => handleClick(productId)}>
-              <Image src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} />
-              <Overlay $sold={sold}>
-                <Circle>판매완료</Circle>
-              </Overlay>
-            </ImageContainer>
-            <ItemInfoContainer>
-              <ItemName>{productName}</ItemName>
-              <ItemInfo>
-                <div>
-                  <Price>{price}</Price>원
-                </div>
-                <div>{delivery ? '무료배송' : '배송비 별도'}</div>
-              </ItemInfo>
-              <MiniInfo>
-                <div>{formatTimeAgo(createdAt)}</div>
-              </MiniInfo>
-              <MiniInfo>
-                {hearts.length} <AiOutlineHeart />
-              </MiniInfo>
-              <Buttons>
-                <HeartBtn onClick={() => handleHeartClick(productId, userId)}>
-                  <AiFillHeart />
-                </HeartBtn>
-                <TalkBtn disabled={!discount}>문의하기</TalkBtn>
-                <BuyBtn>구매하기</BuyBtn>
-              </Buttons>
-            </ItemInfoContainer>
-          </Item>
-        );
-      })}
+      {products.map(
+        ({ productId, sellerId, productName, imgs, price, delivery, discount, hearts, createdAt, sold }: Product) => {
+          return (
+            <Item key={productId}>
+              <ImageContainer onClick={() => handleClick(productId)}>
+                <Image src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} />
+                <Overlay $sold={sold}>
+                  <Circle>판매완료</Circle>
+                </Overlay>
+              </ImageContainer>
+              <ItemInfoContainer>
+                <ItemName>{productName}</ItemName>
+                <ItemInfo>
+                  <div>
+                    <Price>{price}</Price>원
+                  </div>
+                  <div>{delivery ? '무료배송' : '배송비 별도'}</div>
+                </ItemInfo>
+                <MiniInfo>
+                  <div>{formatTimeAgo(createdAt)}</div>
+                </MiniInfo>
+                <MiniInfo>
+                  {hearts.length} <AiOutlineHeart />
+                </MiniInfo>
+                <Buttons>
+                  <HeartBtn onClick={() => handleHeartClick(productId, userId)}>
+                    <AiFillHeart />
+                  </HeartBtn>
+                  <TalkBtn
+                    disabled={!discount}
+                    onClick={() =>
+                      handleTalkClick(productId, sellerId, productName, price, delivery, discount, createdAt, imgs[0])
+                    }>
+                    문의하기
+                  </TalkBtn>
+                  <BuyBtn>구매하기</BuyBtn>
+                </Buttons>
+              </ItemInfoContainer>
+            </Item>
+          );
+        },
+      )}
     </ItemContainer>
   );
 };
