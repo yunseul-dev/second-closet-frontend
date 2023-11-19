@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import formatDate from '../../../utils/formatDate';
-import { times } from 'lodash';
 
 interface MyWordsProps {
   words: string;
