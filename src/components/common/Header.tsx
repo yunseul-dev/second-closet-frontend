@@ -85,7 +85,7 @@ const Container = styled.header`
   position: fixed;
   top: 0;
   width: 1240px;
-  height: 160px;
+  height: 170px;
   z-index: 999;
   padding-bottom: 10px;
   border-bottom: 1px solid #d4d4d4;
@@ -94,7 +94,7 @@ const Container = styled.header`
 
 const FirstContainer = styled.div`
   display: flex;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   width: 100%;
 `;
 
@@ -130,8 +130,6 @@ const CategoryList = styled.div`
 const CategoryName = styled.div`
   font-size: 14px;
   font-weight: 700;
-  /* color: #747373; */
-  /* color: #ff4d24; */
   display: flex;
   width: 20%;
   align-items: center;
