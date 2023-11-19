@@ -8,7 +8,11 @@ interface Product {
   productName: string;
   imgs: string[];
   price: string;
-  createdAt: string;
+  delivery: boolean;
+  discount: boolean;
+  hearts: string[];
+  createdAt: number;
+  sold: boolean;
 }
 
 interface FetchResponse {
