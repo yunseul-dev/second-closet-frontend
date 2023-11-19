@@ -5,6 +5,7 @@ import { userState } from '../../recoil/atom/userState';
 
 interface Product {
   productId: number;
+  sellerId: string;
   productName: string;
   imgs: string[];
   price: string;
