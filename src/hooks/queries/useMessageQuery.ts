@@ -15,12 +15,15 @@ type Messages = {
 
 interface Message {
   messageId: string;
+  sellerId: string;
+  buyerId: string;
   messages: Messages[];
   productInfo: ProductInfo;
 }
 
-const fetchProduct = async (id: number) => {
-  const { data } = await axios.get(`/api/messages/${id}`);
+const fetchMessage = async (id: number) => {
+  const { data } = await axios.get(`/api/messages/message/${id}`);
+
   return data;
 };
 
@@ -29,7 +32,7 @@ const staleTime = 1000 * 3;
 const useMessageQuery = (messageId: number) => {
   const query = useQuery({
     queryKey: ['@MessageInfo', messageId],
-    queryFn: () => fetchProduct(messageId),
+    queryFn: () => fetchMessage(messageId),
     staleTime,
   });
 
