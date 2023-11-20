@@ -10,7 +10,6 @@ import useChatSocket from '../../../hooks/mutations/useChatSocket';
 
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../../recoil/atom/userState';
-import useSendMessageListMutation from '../../../hooks/mutations/useSendMessageListMutation';
 import useSendMessage from '../../../hooks/mutations/useSendMessage';
 
 type DivProps = {
@@ -40,22 +39,18 @@ const SelectedMessage = () => {
 
   const { messageInfo } = useMessageQuery(+id);
 
-  const { messageId, buyerId, sellerId, messages, productInfo } = messageInfo;
-
-  const partner = [buyerId, sellerId].find(id => id !== userId);
+  const { messageId, messages, productInfo } = messageInfo;
 
   const [chatMessages, setChatMessages] = useState<Messages[]>(messages);
 
   useChatSocket(messageId, setChatMessages);
 
   const sendMessage = useSendMessage();
-  const { mutate: sendListMessage } = useSendMessageListMutation('all');
 
   const handleEnterKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       sendMessage({ messageId, userId, textValue });
-      sendListMessage({ messageId, partner, textValue });
       setTextValue('');
     }
   };
