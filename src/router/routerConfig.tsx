@@ -70,7 +70,7 @@ const routerConfig = createBrowserRouter([
     ),
   },
   {
-    path: '/buypage',
+    path: '/buypage/:id?',
     element: (
       <Suspense fallback={<Loading />}>
         <AuthenticationGuard redirectTo="/signin" element={<BuyPage />} />
