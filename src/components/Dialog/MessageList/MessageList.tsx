@@ -1,9 +1,43 @@
 import styled from 'styled-components';
 import List from './List';
-import useMessagesQuery from '../../../hooks/queries/useMessagesQuery';
+import useChatSocketList from '../../../hooks/mutations/useChatSocketList';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { userState } from '../../../recoil/atom/userState';
+import { useRecoilValue } from 'recoil';
+
+type Message = {
+  senderId: string;
+  message: string;
+  timestamp: number;
+};
+
+interface NewMessage {
+  messageId: number;
+  partner: string | undefined;
+  messages: Message[];
+}
+
+const fetchMessages = async (userId: string) => {
+  const { data } = await axios.get(`/api/messages/${userId}`);
+  return data;
+};
 
 const MessageList = () => {
-  const { messagesInfo: messages } = useMessagesQuery('all');
+  const userId = useRecoilValue(userState) || '';
+  const [messages, setMessages] = useState<NewMessage[]>([]);
+  useChatSocketList(setMessages);
+
+  useEffect(() => {
+    const fetchInitialMessages = async () => {
+      const initialMessages = await fetchMessages(userId);
+      setMessages(initialMessages);
+    };
+
+    fetchInitialMessages();
+  }, []);
+
+  console.log('here', messages);
 
   return (
     <Container>

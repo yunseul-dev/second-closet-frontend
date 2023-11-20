@@ -7,18 +7,10 @@ type Message = {
   timestamp: number;
 };
 
-interface Messages {
-  messageId: number;
-  partner: string;
-  buyerId: string;
-  sellerId: string;
-  messages: Message[];
-}
-
 interface NewMessage {
   messageId: number;
   partner: string | undefined;
-  messages: Messages[];
+  messages: Message[];
 }
 
 const useChatSocketList = (setMessages: Dispatch<SetStateAction<NewMessage[]>>) => {
