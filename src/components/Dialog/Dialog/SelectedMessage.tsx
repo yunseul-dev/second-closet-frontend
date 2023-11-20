@@ -6,15 +6,21 @@ import { HiMiniPaperAirplane } from 'react-icons/hi2';
 import useMessageQuery from '../../../hooks/queries/useMessageQuery';
 import { useState, useRef, useEffect, ChangeEvent, KeyboardEvent } from 'react';
 import { useParams } from 'react-router-dom';
+import useChatSocket from '../../../hooks/mutations/useChatSocket';
 
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../../recoil/atom/userState';
 import useSendMessageListMutation from '../../../hooks/mutations/useSendMessageListMutation';
-
-import useSendMessageMutation from '../../../hooks/mutations/useSendMessageMutation';
+import useSendMessage from '../../../hooks/mutations/useSendMessage';
 
 type DivProps = {
   $focus: boolean;
+};
+
+type Messages = {
+  senderId: string;
+  message: string;
+  timestamp: number;
 };
 
 const SelectedMessage = () => {
@@ -38,7 +44,11 @@ const SelectedMessage = () => {
 
   const partner = [buyerId, sellerId].find(id => id !== userId);
 
-  const { mutate: sendMessage } = useSendMessageMutation(messageId);
+  const [chatMessages, setChatMessages] = useState<Messages[]>(messages);
+
+  useChatSocket(messageId, setChatMessages);
+
+  const sendMessage = useSendMessage();
   const { mutate: sendListMessage } = useSendMessageListMutation('all');
 
   const handleEnterKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -46,7 +56,6 @@ const SelectedMessage = () => {
       e.preventDefault();
       sendMessage({ messageId, userId, textValue });
       sendListMessage({ messageId, partner, textValue });
-
       setTextValue('');
     }
   };
@@ -74,7 +83,7 @@ const SelectedMessage = () => {
             </ItemInfo>
           </ItemInfoContainer>
         </Item>
-        {messages.map(({ senderId, message, timestamp }) => {
+        {chatMessages.map(({ senderId, message, timestamp }) => {
           if (senderId === userId) {
             return <MyWords words={message} key={timestamp} timestamp={timestamp} />;
           } else {
