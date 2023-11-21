@@ -21,7 +21,7 @@ const Header = () => {
 
   const handleLogoClick = () => navigate('/');
   const handleSigninClick = () => navigate('/signin');
-  const handleMessageClick = () => navigate('/buypage');
+  const handleMessageClick = () => navigate('/chatpage');
   const handleCreatepostClick = () => navigate('/createpost');
   const handleMypageClick = () => navigate('/mypage');
 

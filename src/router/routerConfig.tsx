@@ -70,7 +70,7 @@ const routerConfig = createBrowserRouter([
     ),
   },
   {
-    path: '/buypage/:id?',
+    path: '/chatpage/:id?',
     element: (
       <Suspense fallback={<Loading />}>
         <AuthenticationGuard redirectTo="/signin" element={<BuyPage />} />

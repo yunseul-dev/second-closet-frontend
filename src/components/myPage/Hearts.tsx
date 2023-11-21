@@ -57,7 +57,6 @@ const Hearts = ({ products, sortOption }: MyProductsProps) => {
     img: string,
   ) => {
     const { data } = await axios.post(`/api/messages/post`, {
-      state: 'talk',
       productId: productId,
       buyerId: userId,
       sellerId: sellerId,
@@ -71,35 +70,7 @@ const Hearts = ({ products, sortOption }: MyProductsProps) => {
       },
     });
 
-    navigate(`/buypage/talk/${data.id}`);
-  };
-
-  const handleBuyClick = async (
-    productId: number,
-    sellerId: string,
-    productName: string,
-    price: string,
-    delivery: boolean,
-    discount: boolean,
-    createdAt: number,
-    img: string,
-  ) => {
-    const { data } = await axios.post(`/api/messages/post`, {
-      productId: productId,
-      state: 'buy',
-      buyerId: userId,
-      sellerId: sellerId,
-      productInfo: {
-        productName: productName,
-        price: price,
-        delivery: delivery,
-        discount: discount,
-        createdAt: createdAt,
-        img: img,
-      },
-    });
-
-    navigate(`/buypage/buy/${data.id}`);
+    navigate(`/chatpage/${data.id}`);
   };
 
   return (
@@ -139,12 +110,7 @@ const Hearts = ({ products, sortOption }: MyProductsProps) => {
                     }>
                     문의하기
                   </TalkBtn>
-                  <BuyBtn
-                    onClick={() =>
-                      handleBuyClick(productId, sellerId, productName, price, delivery, discount, createdAt, imgs[0])
-                    }>
-                    구매하기
-                  </BuyBtn>
+                  <BuyBtn>구매하기</BuyBtn>
                 </Buttons>
               </ItemInfoContainer>
             </Item>
@@ -216,6 +182,22 @@ const MiniInfo = styled.div`
 const Price = styled.span`
   font-size: 18px;
   font-weight: 600;
+`;
+
+const MyPageBtn = styled.div`
+  display: flex;
+  margin-top: 10px;
+  position: absolute;
+  bottom: 0;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 100%;
+  font-weight: 700;
+  font-size: 16px;
+  background-color: #ff4d24;
+  color: white;
+  top: 235px;
 `;
 
 const Buttons = styled.div`

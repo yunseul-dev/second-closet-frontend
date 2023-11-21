@@ -77,6 +77,8 @@ const DetailPost = () => {
     hearts,
   }: Product = productInfo;
 
+  console.log(productInfo);
+
   const relatedItems: RelatedItems = useRelatedQuery(productId, categories[1]);
 
   if (!productInfo) {
@@ -119,7 +121,6 @@ const DetailPost = () => {
 
   const handleTalkClick = async () => {
     const { data } = await axios.post(`/api/messages/post`, {
-      state: 'talk',
       productId: productId,
       buyerId: userId,
       sellerId: sellerId,
@@ -133,27 +134,10 @@ const DetailPost = () => {
       },
     });
 
-    navigate(`/buypage/talk/${data.id}`);
+    navigate(`/chatpage/${data.id}`);
   };
 
-  const handleBuyClick = async () => {
-    const { data } = await axios.post(`/api/messages/post`, {
-      productId: productId,
-      state: 'buy',
-      buyerId: userId,
-      sellerId: sellerId,
-      productInfo: {
-        productName: productName,
-        price: price,
-        delivery: delivery,
-        discount: discount,
-        createdAt: createdAt,
-        img: imgs[0],
-      },
-    });
-
-    navigate(`/buypage/buy/${data.id}`);
-  };
+  const handleMyPageClick = () => navigate('/mypage');
 
   return (
     <ContainerWrapper>
@@ -214,20 +198,24 @@ const DetailPost = () => {
                 </List>
               </Infos>
             </InfoContainer>
-            <Buttons>
-              <HeartBtn onClick={handleHeartClick}>
-                {userName && hearts.includes(userName) ? <AiFillHeart /> : <AiOutlineHeart />}
-              </HeartBtn>
-              <TalkBtn disabled={!discount} onClick={handleTalkClick}>
-                문의하기
-              </TalkBtn>
-              <BuyBtn onClick={handleBuyClick}>구매하기</BuyBtn>
-            </Buttons>
+            {sellerId === userId ? (
+              <MyPageBtn onClick={handleMyPageClick}>내 상점 관리</MyPageBtn>
+            ) : (
+              <Buttons>
+                <HeartBtn onClick={handleHeartClick}>
+                  {userName && hearts.includes(userName) ? <AiFillHeart /> : <AiOutlineHeart />}
+                </HeartBtn>
+                <TalkBtn disabled={!discount} onClick={handleTalkClick}>
+                  문의하기
+                </TalkBtn>
+                <BuyBtn>구매하기</BuyBtn>
+              </Buttons>
+            )}
           </InfoWrapper>
         </SubmitConatiner>
         <ExplainContainer>
           <MiniTitle>
-            판매자 <SellerName>{userId}</SellerName> 님의 코멘트
+            판매자 <SellerName>{sellerId}</SellerName> 님의 코멘트
           </MiniTitle>
           <Explain>
             {description}
@@ -374,6 +362,20 @@ const InfoName = styled.div`
 `;
 
 const Info = styled.div``;
+
+const MyPageBtn = styled.div`
+  display: flex;
+  margin-top: 10px;
+  position: relative;
+  bottom: 0;
+  justify-content: center;
+  align-items: center;
+  height: 8vh;
+  font-weight: 700;
+  font-size: 18px;
+  background-color: #ff4d24;
+  color: white;
+`;
 
 const Buttons = styled.div`
   display: flex;
