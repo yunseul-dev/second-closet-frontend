@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 import { useState, useRef, Dispatch, SetStateAction } from 'react';
 import PwEditModal from './PwEditModal';
-import useUserQuery from '../../hooks/queries/useUserQuery';
-import Modal from '../common/Modal';
+import useUserQuery from '../../../hooks/queries/useUserQuery';
+import Modal from '../../common/Modal';
 import WithdrawalModal from './WithdrawalModal';
 import axios from 'axios';
+import { banks } from '../../../constants/banks';
+import InfoContainer from './InfoContainer';
 
 interface UserData {
   userId: string;
@@ -13,33 +15,6 @@ interface UserData {
   bank: string;
   address: string;
 }
-
-const banks = [
-  '국민은행',
-  '기업은행',
-  '농협은행',
-  '신한은행',
-  '산업은행',
-  '우리은행',
-  '하나은행',
-  'SC제일은행',
-  '카카오뱅크',
-  '경남은행',
-  '광주은행',
-  '대구은행',
-  '부산은행',
-  '저축은행',
-  '새마을금고',
-  '수협은행',
-  '신협중앙회',
-  '우체국',
-  '전북은행',
-  '제주은행',
-  '케이뱅크',
-  '토스은행',
-  '산림조합중앙회',
-  '한국씨티은행',
-];
 
 interface AccountInfoEditProps {
   setIsInfoEdit: Dispatch<SetStateAction<string>>;
@@ -93,20 +68,16 @@ const AccountInfoEdit: React.FC<AccountInfoEditProps> = ({ setIsInfoEdit }) => {
   return (
     <Container>
       <Content>
-        <InfoContainer>
-          <Label>아이디</Label>
+        <InfoContainer name="아이디">
           <Input value={userInfo?.userId} readOnly />
         </InfoContainer>
-        <InfoContainer>
-          <Label>이름</Label>
+        <InfoContainer name="이름">
           <Input defaultValue={userInfo?.userName} ref={userNameRef} />
         </InfoContainer>
-        <InfoContainer>
-          <Label>비밀번호</Label>
+        <InfoContainer name="비밀번호">
           <ChangePw onClick={openPwModal}>비밀번호 변경</ChangePw>
         </InfoContainer>
-        <InfoContainer>
-          <Label>계좌번호</Label>
+        <InfoContainer name="계좌번호">
           <Select defaultValue={userInfo?.bank} ref={bankRef}>
             <option value="">선택</option>
             {banks.map(bank => (
@@ -117,8 +88,7 @@ const AccountInfoEdit: React.FC<AccountInfoEditProps> = ({ setIsInfoEdit }) => {
           </Select>
           <BankInput defaultValue={userInfo?.account} ref={accountRef} />
         </InfoContainer>
-        <InfoContainer>
-          <Label>주소</Label>
+        <InfoContainer name="주소">
           <Input defaultValue={userInfo?.address} ref={addressRef} />
         </InfoContainer>
       </Content>
@@ -149,17 +119,6 @@ const Container = styled.div`
 const Content = styled.div`
   font-size: 16px;
   margin-top: 15px;
-`;
-
-const InfoContainer = styled.div`
-  display: flex;
-  width: 100%;
-  margin: 30px 0 30px 0;
-`;
-
-const Label = styled.div`
-  width: 20%;
-  font-size: 18px;
 `;
 
 const Input = styled.input`

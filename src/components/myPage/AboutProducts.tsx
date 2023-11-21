@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import MyProducts from './MyProducts/MyProducts';
-import MyHearts from './MyHearts';
+import MyHearts from './MyHearts/MyHearts';
 import { useQueryClient } from '@tanstack/react-query';
 import styled from 'styled-components';
 

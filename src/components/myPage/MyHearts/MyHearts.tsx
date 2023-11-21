@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import useMyHeartsInfiniteQuery from '../../hooks/queries/useMyHeartsInfiniteQuery';
-import useObserver from '../../hooks/useObserver';
+import useMyHeartsInfiniteQuery from '../../../hooks/queries/useMyHeartsInfiniteQuery';
+import useObserver from '../../../hooks/useObserver';
 import { useState, useCallback, useEffect } from 'react';
 import { RxDividerVertical } from 'react-icons/rx';
 import Hearts from './Hearts';
-import Loading from '../skeletons/Loading';
+import Loading from '../../skeletons/Loading';
 
 interface DivProp {
   $bold: boolean;

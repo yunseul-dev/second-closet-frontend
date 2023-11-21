@@ -1,17 +1,17 @@
-import styled from 'styled-components';
-import formatTimeAgo from '../../utils/formatTimeAgo';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import useDeleteHeartMutation from '../../hooks/mutations/useDeleteHeartMutation';
-import { userState } from '../../recoil/atom/userState';
+import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import axios from 'axios';
-
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import { BsSuitHeart, BsSuitHeartFill } from 'react-icons/bs';
+import formatTimeAgo from '../../../utils/formatTimeAgo';
+import useDeleteHeartMutation from '../../../hooks/mutations/useDeleteHeartMutation';
+import { userState } from '../../../recoil/atom/userState';
 
 interface Div {
   $sold: boolean;
 }
+
 interface Product {
   productId: number;
   sellerId: string;
@@ -25,22 +25,23 @@ interface Product {
   sold: boolean;
 }
 
-interface MyProductsProps {
-  products: Product[];
+interface MyHeartProps {
+  product: Product;
   sortOption: string;
 }
 
-const Hearts = ({ products, sortOption }: MyProductsProps) => {
+const Heart: React.FC<MyHeartProps> = ({ product, sortOption }) => {
+  const { productId, sellerId, productName, imgs, price, delivery, discount, hearts, createdAt, sold } = product;
+
+  const userId = useRecoilValue(userState) || '';
   const navigate = useNavigate();
   const [id, setId] = useState(0);
 
-  const userId = useRecoilValue(userState) || '';
+  const { mutate: deleteHeart } = useDeleteHeartMutation(sortOption, id);
 
   const handleClick = (productId: number) => {
     navigate(`/detail/${productId}`);
   };
-
-  const { mutate: deleteHeart } = useDeleteHeartMutation(sortOption, id);
 
   const handleHeartClick = (productId: number, userId: string) => {
     setId(productId);
@@ -75,60 +76,46 @@ const Hearts = ({ products, sortOption }: MyProductsProps) => {
   };
 
   return (
-    <ItemContainer>
-      {products.map(
-        ({ productId, sellerId, productName, imgs, price, delivery, discount, hearts, createdAt, sold }: Product) => {
-          return (
-            <Item key={productId}>
-              <ImageContainer onClick={() => handleClick(productId)}>
-                <Image src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} />
-                <Overlay $sold={sold}>
-                  <Circle>판매완료</Circle>
-                </Overlay>
-              </ImageContainer>
-              <ItemInfoContainer>
-                <ItemName>{productName}</ItemName>
-                <ItemInfo>
-                  <div>
-                    <Price>{price}</Price>원
-                  </div>
-                  <div>{delivery ? '무료배송' : '배송비 별도'}</div>
-                </ItemInfo>
-                <MiniInfo>
-                  <div>{formatTimeAgo(createdAt)}</div>
-                </MiniInfo>
-                <MiniInfo>
-                  {hearts.length} <BsSuitHeart />
-                </MiniInfo>
-                <Buttons>
-                  <HeartBtn onClick={() => handleHeartClick(productId, userId)}>
-                    <BsSuitHeartFill />
-                  </HeartBtn>
-                  <TalkBtn
-                    disabled={!discount}
-                    onClick={() =>
-                      handleTalkClick(productId, sellerId, productName, price, delivery, discount, createdAt, imgs[0])
-                    }>
-                    문의하기
-                  </TalkBtn>
-                  <BuyBtn>구매하기</BuyBtn>
-                </Buttons>
-              </ItemInfoContainer>
-            </Item>
-          );
-        },
-      )}
-    </ItemContainer>
+    <Item key={productId}>
+      <ImageContainer onClick={() => handleClick(productId)}>
+        <Image src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} />
+        <Overlay $sold={sold}>
+          <Circle>판매완료</Circle>
+        </Overlay>
+      </ImageContainer>
+      <ItemInfoContainer>
+        <ItemName>{productName}</ItemName>
+        <ItemInfo>
+          <div>
+            <Price>{price}</Price>원
+          </div>
+          <div>{delivery ? '무료배송' : '배송비 별도'}</div>
+        </ItemInfo>
+        <MiniInfo>
+          <div>{formatTimeAgo(createdAt)}</div>
+        </MiniInfo>
+        <MiniInfo>
+          {hearts.length} <BsSuitHeart />
+        </MiniInfo>
+        <Buttons>
+          <HeartBtn onClick={() => handleHeartClick(productId, userId)}>
+            <BsSuitHeartFill />
+          </HeartBtn>
+          <TalkBtn
+            disabled={!discount}
+            onClick={() =>
+              handleTalkClick(productId, sellerId, productName, price, delivery, discount, createdAt, imgs[0])
+            }>
+            문의하기
+          </TalkBtn>
+          <BuyBtn>구매하기</BuyBtn>
+        </Buttons>
+      </ItemInfoContainer>
+    </Item>
   );
 };
 
-export default Hearts;
-
-const ItemContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
-`;
+export default Heart;
 
 const Item = styled.div`
   padding: 30px;

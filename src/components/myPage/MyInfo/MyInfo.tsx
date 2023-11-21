@@ -1,19 +1,17 @@
 import styled from 'styled-components';
 import { RxDividerVertical } from 'react-icons/rx';
 import axios from 'axios';
-import { userState } from '../../recoil/atom/userState';
+import { userState } from '../../../recoil/atom/userState';
 import { useSetRecoilState } from 'recoil';
-import { isLoginState } from '../../recoil/atom/isLoginState';
+import { isLoginState } from '../../../recoil/atom/isLoginState';
 import { useNavigate } from 'react-router-dom';
 import { Dispatch, SetStateAction } from 'react';
-import useUserQuery from '../../hooks/queries/useUserQuery';
+import useUserQuery from '../../../hooks/queries/useUserQuery';
+import { BiCloset } from 'react-icons/bi';
+import { RiHomeHeartLine } from 'react-icons/ri';
 
 interface DivProp {
   $bold: boolean;
-}
-
-interface DivPencilProp {
-  size: number;
 }
 
 interface MyInfoProps {
@@ -44,7 +42,14 @@ const MyInfo: React.FC<MyInfoProps> = ({ setIsInfoEdit, isInfoEdit }) => {
     <Container>
       <StoreContainer>
         <StoreInfo>
-          {isInfoEdit === 'product' ? <StoreName>{userInfo.userName}님의 옷장</StoreName> : <Title>계정 정보</Title>}
+          {isInfoEdit === 'product' ? (
+            <StoreName>
+              <div> {userInfo.userName}님의 옷장 </div>
+              <RiHomeHeartLine />
+            </StoreName>
+          ) : (
+            <Title>계정 정보</Title>
+          )}
         </StoreInfo>
         <StoreAdmin>
           <TabName $bold={isInfoEdit === 'product'} onClick={handleProductsClick}>
@@ -102,23 +107,19 @@ const StoreAdmin = styled.div`
 `;
 
 const StoreName = styled.div`
-  font-size: 40px;
+  font-size: 32px;
+  display: flex;
   justify-content: center;
-  /* background-color: #fdecd0; */
-  /* border-radius: 30px; */
-  padding: 5px;
-  font-family: 'Gaegu';
+  align-items: center;
+  color: #ff4d24;
+  margin-top: 10px;
+  padding: 10px;
 `;
 
 const Title = styled.div`
   font-size: 24px;
   padding: 5px;
   font-weight: 600;
-`;
-
-const Pencil = styled.div<DivPencilProp>`
-  margin: 5px;
-  font-size: ${({ size }) => size && `${size}px`};
 `;
 
 const Divider = styled.div`

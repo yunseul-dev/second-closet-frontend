@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import React from 'react';
 import axios from 'axios';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { userState } from '../../recoil/atom/userState';
-import { isLoginState } from '../../recoil/atom/isLoginState';
+import { userState } from '../../../recoil/atom/userState';
+import { isLoginState } from '../../../recoil/atom/isLoginState';
 import { useNavigate } from 'react-router-dom';
 
 interface WithDrawalProps {
