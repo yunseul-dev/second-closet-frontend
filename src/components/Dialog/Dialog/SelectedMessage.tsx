@@ -6,11 +6,11 @@ import { HiMiniPaperAirplane } from 'react-icons/hi2';
 import useMessageQuery from '../../../hooks/queries/useMessageQuery';
 import { useState, useRef, useEffect, ChangeEvent, KeyboardEvent } from 'react';
 import { useParams } from 'react-router-dom';
-import useChatSocket from '../../../hooks/mutations/useChatSocket';
+import useChatSocket from '../../../hooks/useChatSocket';
 
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../../recoil/atom/userState';
-import useSendMessage from '../../../hooks/mutations/useSendMessage';
+import useSendMessage from '../../../hooks/useSendMessage';
 
 type DivProps = {
   $focus: boolean;
@@ -37,7 +37,7 @@ const SelectedMessage = () => {
     }
   });
 
-  const { messageInfo } = useMessageQuery(+id);
+  const { messageInfo } = useMessageQuery(id);
 
   const { messageId, messages, productInfo } = messageInfo;
 

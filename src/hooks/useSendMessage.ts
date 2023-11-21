@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { SocketContext } from '../../main';
+import { SocketContext } from '../main';
 
 const useSendMessage = () => {
   const socket = useContext(SocketContext);

@@ -1,36 +1,44 @@
 import styled from 'styled-components';
 import { BiStoreAlt } from 'react-icons/bi';
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import formatDate from '../../../utils/formatDate';
+import { useNavigate } from 'react-router-dom';
+
 interface Message {
-  senerId: string;
+  senderId: string;
   message: string;
   timestamp: number;
 }
 
 interface ListProps {
-  setClicked: Dispatch<SetStateAction<number | null>>;
   message: {
     messageId: number;
-    partner: string;
+    productId: number;
+    partner: string | undefined;
     messages: Message[];
   };
 }
 
-const List: React.FC<ListProps> = ({ setClicked, message }) => {
+const List: React.FC<ListProps> = ({ message }) => {
+  const navigate = useNavigate();
+
   const { messageId, partner, messages } = message;
 
-  const handleClick = () => setClicked(messageId);
+  const handleClick = () => {
+    navigate(`/chatpage/${messageId}`);
+  };
 
   return (
     <Container onClick={handleClick}>
       <ClosetIcon />
       <You>
         <User>{partner}</User>
-        <Content>
-          <LastMent>{messages[messages.length - 1].message}</LastMent>
-          <Day>{formatDate(messages[messages.length - 1].timestamp)}</Day>
-        </Content>
+        {messages.length && (
+          <Content>
+            <LastMent>{messages[messages.length - 1].message}</LastMent>
+            <Day>{formatDate(messages[messages.length - 1].timestamp)}</Day>
+          </Content>
+        )}
       </You>
     </Container>
   );

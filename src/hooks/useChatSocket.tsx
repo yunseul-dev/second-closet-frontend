@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useContext, useEffect } from 'react';
-import { SocketContext } from '../../main';
+import { SocketContext } from '../main';
 
 type Messages = {
   senderId: string;

@@ -21,7 +21,7 @@ interface Message {
   productInfo: ProductInfo;
 }
 
-const fetchMessage = async (id: number) => {
+const fetchMessage = async (id: string | undefined) => {
   const { data } = await axios.get(`/api/messages/message/${id}`);
 
   return data;
@@ -29,7 +29,7 @@ const fetchMessage = async (id: number) => {
 
 const staleTime = 1000 * 3;
 
-const useMessageQuery = (messageId: number) => {
+const useMessageQuery = (messageId: string | undefined) => {
   const query = useQuery({
     queryKey: ['@MessageInfo', messageId],
     queryFn: () => fetchMessage(messageId),

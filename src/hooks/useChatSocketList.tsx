@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useContext, useEffect } from 'react';
-import { SocketContext } from '../../main';
+import { SocketContext } from '../main';
 
 type Message = {
   senderId: string;
@@ -9,6 +9,7 @@ type Message = {
 
 interface NewMessage {
   messageId: number;
+  productId: string;
   partner: string | undefined;
   messages: Message[];
 }

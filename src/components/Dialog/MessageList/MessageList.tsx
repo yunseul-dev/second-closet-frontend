@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import List from './List';
-import useChatSocketList from '../../../hooks/mutations/useChatSocketList';
+import useChatSocketList from '../../../hooks/useChatSocketList';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { userState } from '../../../recoil/atom/userState';
@@ -14,6 +14,7 @@ type Message = {
 
 interface NewMessage {
   messageId: number;
+  productId: string;
   partner: string | undefined;
   messages: Message[];
 }
@@ -36,8 +37,6 @@ const MessageList = () => {
 
     fetchInitialMessages();
   }, []);
-
-  console.log('here', messages);
 
   return (
     <Container>
