@@ -1,6 +1,7 @@
 import Header from './Header';
 import { ReactNode } from 'react';
 import styled from 'styled-components';
+import ArrowUpBtn from './ArrowUpBtn';
 
 type LayoutProps = {
   children: ReactNode;
@@ -8,10 +9,13 @@ type LayoutProps = {
 
 const AppLayout = ({ children }: LayoutProps) => {
   return (
-    <LayoutContainer>
-      <Header />
-      <Container>{children}</Container>
-    </LayoutContainer>
+    <>
+      <LayoutContainer>
+        <Header />
+        <Container>{children}</Container>
+      </LayoutContainer>
+      <ArrowUpBtn />
+    </>
   );
 };
 
