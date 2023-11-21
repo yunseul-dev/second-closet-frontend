@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { LiaHeartSolid } from 'react-icons/lia';
-import { AiFillAlert, AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+import { AiFillAlert } from 'react-icons/ai';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { LuClock3 } from 'react-icons/lu';
 import { useState } from 'react';
@@ -14,6 +14,8 @@ import formatTimeAgo from '../../utils/formatTimeAgo';
 import useRelatedQuery from '../../hooks/queries/useRelatedQuery';
 import CategoryTab from '../common/CategoryTab';
 import axios from 'axios';
+
+import { BsSuitHeart, BsSuitHeartFill } from 'react-icons/bs';
 
 type Product = {
   productId: number;
@@ -203,7 +205,7 @@ const DetailPost = () => {
             ) : (
               <Buttons>
                 <HeartBtn onClick={handleHeartClick}>
-                  {userName && hearts.includes(userName) ? <AiFillHeart /> : <AiOutlineHeart />}
+                  {userName && hearts.includes(userName) ? <BsSuitHeartFill /> : <BsSuitHeart />}
                 </HeartBtn>
                 <TalkBtn disabled={!discount} onClick={handleTalkClick}>
                   문의하기
@@ -414,7 +416,7 @@ const HeartBtn = styled.button`
   height: 8vh;
   border: solid 1px black;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 24px;
   background-color: white;
 `;
 
@@ -453,9 +455,10 @@ const Bottom = styled.div`
 const Recs = styled.div`
   display: flex;
 `;
+
 const Rec = styled.div`
-  width: 20%;
-  height: 20vh;
+  width: 21%;
+  height: 200px;
   padding: 10px;
 `;
 

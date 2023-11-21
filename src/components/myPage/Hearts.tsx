@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import formatTimeAgo from '../../utils/formatTimeAgo';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +6,8 @@ import useDeleteHeartMutation from '../../hooks/mutations/useDeleteHeartMutation
 import { userState } from '../../recoil/atom/userState';
 import { useRecoilValue } from 'recoil';
 import axios from 'axios';
+
+import { BsSuitHeart, BsSuitHeartFill } from 'react-icons/bs';
 
 interface Div {
   $sold: boolean;
@@ -97,11 +98,11 @@ const Hearts = ({ products, sortOption }: MyProductsProps) => {
                   <div>{formatTimeAgo(createdAt)}</div>
                 </MiniInfo>
                 <MiniInfo>
-                  {hearts.length} <AiOutlineHeart />
+                  {hearts.length} <BsSuitHeart />
                 </MiniInfo>
                 <Buttons>
                   <HeartBtn onClick={() => handleHeartClick(productId, userId)}>
-                    <AiFillHeart />
+                    <BsSuitHeartFill />
                   </HeartBtn>
                   <TalkBtn
                     disabled={!discount}
@@ -184,22 +185,6 @@ const Price = styled.span`
   font-weight: 600;
 `;
 
-const MyPageBtn = styled.div`
-  display: flex;
-  margin-top: 10px;
-  position: absolute;
-  bottom: 0;
-  justify-content: center;
-  align-items: center;
-  height: 40px;
-  width: 100%;
-  font-weight: 700;
-  font-size: 16px;
-  background-color: #ff4d24;
-  color: white;
-  top: 235px;
-`;
-
 const Buttons = styled.div`
   display: flex;
   gap: 5px;
@@ -237,8 +222,8 @@ const HeartBtn = styled.button`
   width: 15%;
   height: 40px;
   border: solid 1px black;
-  font-weight: 700;
   background-color: white;
+  font-size: 16px;
 `;
 
 const Overlay = styled.div<Div>`
