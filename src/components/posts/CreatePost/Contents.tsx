@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { sizes, shoesSizes } from '../../../constants/sizes';
 import wearCounts from '../../../constants/wearCounts';
-import List from './List';
+import List from '../List';
 import Buttons from './Buttons';
 import CategoryTab from './CategoryTab';
 import ImgFiles from './ImgFiles';
@@ -104,7 +104,7 @@ const Contents = () => {
           <Tags tags={tags} setTags={setTags} inputValue={inputValue} setInputValue={setInputValue} />
         </List>
       </Lists>
-      <Buttons handleSubmit={handleSubmit} handleImsiSubmit={handleImsiSubmit} />
+      <Buttons handleSubmit={handleSubmit} handleImsiSubmit={handleImsiSubmit} cancle="임시저장" submit="등록하기" />
     </>
   );
 };
