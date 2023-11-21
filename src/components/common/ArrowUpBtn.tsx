@@ -22,17 +22,16 @@ export default ArrowUpBtn;
 
 const ArrowUpButton = styled.button`
   position: fixed;
-  right: 100px;
-  bottom: 20px;
-  width: 40px;
-  height: 40px;
+  bottom: 10px;
+  width: 45px;
+  height: 45px;
   background-color: #fff;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 1);
   animation: blink 1s infinite alternate;
 
   @keyframes blink {
@@ -40,7 +39,7 @@ const ArrowUpButton = styled.button`
       opacity: 1;
     }
     100% {
-      opacity: 0.3;
+      opacity: 0.2;
     }
   }
 `;
