@@ -117,17 +117,9 @@ const DetailPost = () => {
     setImgHovered(false);
   };
 
-  const handleTalkClick = async (
-    productId: number,
-    sellerId: string,
-    productName: string,
-    price: string,
-    delivery: boolean,
-    discount: boolean,
-    createdAt: number,
-    img: string,
-  ) => {
+  const handleTalkClick = async () => {
     const { data } = await axios.post(`/api/messages/post`, {
+      state: 'talk',
       productId: productId,
       buyerId: userId,
       sellerId: sellerId,
@@ -137,11 +129,30 @@ const DetailPost = () => {
         delivery: delivery,
         discount: discount,
         createdAt: createdAt,
-        img: img,
+        img: imgs[0],
       },
     });
 
-    navigate(`/buypage/${data.id}`);
+    navigate(`/buypage/talk/${data.id}`);
+  };
+
+  const handleBuyClick = async () => {
+    const { data } = await axios.post(`/api/messages/post`, {
+      productId: productId,
+      state: 'buy',
+      buyerId: userId,
+      sellerId: sellerId,
+      productInfo: {
+        productName: productName,
+        price: price,
+        delivery: delivery,
+        discount: discount,
+        createdAt: createdAt,
+        img: imgs[0],
+      },
+    });
+
+    navigate(`/buypage/buy/${data.id}`);
   };
 
   return (
@@ -207,14 +218,10 @@ const DetailPost = () => {
               <HeartBtn onClick={handleHeartClick}>
                 {userName && hearts.includes(userName) ? <AiFillHeart /> : <AiOutlineHeart />}
               </HeartBtn>
-              <TalkBtn
-                disabled={!discount}
-                onClick={() =>
-                  handleTalkClick(productId, sellerId, productName, price, delivery, discount, createdAt, imgs[0])
-                }>
+              <TalkBtn disabled={!discount} onClick={handleTalkClick}>
                 문의하기
               </TalkBtn>
-              <BuyBtn>구매하기</BuyBtn>
+              <BuyBtn onClick={handleBuyClick}>구매하기</BuyBtn>
             </Buttons>
           </InfoWrapper>
         </SubmitConatiner>

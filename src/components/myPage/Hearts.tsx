@@ -57,6 +57,7 @@ const Hearts = ({ products, sortOption }: MyProductsProps) => {
     img: string,
   ) => {
     const { data } = await axios.post(`/api/messages/post`, {
+      state: 'talk',
       productId: productId,
       buyerId: userId,
       sellerId: sellerId,
@@ -70,7 +71,35 @@ const Hearts = ({ products, sortOption }: MyProductsProps) => {
       },
     });
 
-    navigate(`/buypage/${data.id}`);
+    navigate(`/buypage/talk/${data.id}`);
+  };
+
+  const handleBuyClick = async (
+    productId: number,
+    sellerId: string,
+    productName: string,
+    price: string,
+    delivery: boolean,
+    discount: boolean,
+    createdAt: number,
+    img: string,
+  ) => {
+    const { data } = await axios.post(`/api/messages/post`, {
+      productId: productId,
+      state: 'buy',
+      buyerId: userId,
+      sellerId: sellerId,
+      productInfo: {
+        productName: productName,
+        price: price,
+        delivery: delivery,
+        discount: discount,
+        createdAt: createdAt,
+        img: img,
+      },
+    });
+
+    navigate(`/buypage/buy/${data.id}`);
   };
 
   return (
@@ -110,7 +139,12 @@ const Hearts = ({ products, sortOption }: MyProductsProps) => {
                     }>
                     문의하기
                   </TalkBtn>
-                  <BuyBtn>구매하기</BuyBtn>
+                  <BuyBtn
+                    onClick={() =>
+                      handleBuyClick(productId, sellerId, productName, price, delivery, discount, createdAt, imgs[0])
+                    }>
+                    구매하기
+                  </BuyBtn>
                 </Buttons>
               </ItemInfoContainer>
             </Item>
