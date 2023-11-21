@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { debounce } from 'lodash';
 import { useCallback, ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
+import { banks } from '../../constants/banks';
 
 interface SignUpOptionData {
   address: string;
@@ -30,33 +31,6 @@ interface SignUpOptionProps {
 interface Input {
   $bank: boolean;
 }
-
-const banks = [
-  '국민은행',
-  '기업은행',
-  '농협은행',
-  '신한은행',
-  '산업은행',
-  '우리은행',
-  '하나은행',
-  'SC제일은행',
-  '카카오뱅크',
-  '경남은행',
-  '광주은행',
-  '대구은행',
-  '부산은행',
-  '저축은행',
-  '새마을금고',
-  '수협은행',
-  '신협중앙회',
-  '우체국',
-  '전북은행',
-  '제주은행',
-  '케이뱅크',
-  '토스은행',
-  '산림조합중앙회',
-  '한국씨티은행',
-];
 
 const InputContainer = ({ placeholder, control, name, trigger, isBank, setSelectedBank }: InputProps) => {
   const {
