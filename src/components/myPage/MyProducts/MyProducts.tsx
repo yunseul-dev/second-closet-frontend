@@ -16,7 +16,7 @@ const MyProducts = () => {
   const [sortOption, setSortOption] = useState<string>('all');
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const userId = useRecoilValue(userState);
+  const userId = useRecoilValue(userState) || '';
 
   const { products, hasNextPage, fetchNextPage } = useMyProductInfiiteQuery(userId.replace(/"/g, ''), sortOption);
 
