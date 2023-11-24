@@ -20,7 +20,15 @@ interface PostData {
   facetoface: boolean;
 }
 
-export const useProductForm = () => {
+interface ProductInfoProps extends PostData {
+  imgs: string[];
+}
+
+interface EditProps extends PostData {
+  imgs?: string[][];
+}
+
+export const useProductForm = (productInfo?: ProductInfoProps) => {
   const navigate = useNavigate();
   const userId = useRecoilValue(userState);
 
@@ -29,24 +37,39 @@ export const useProductForm = () => {
   const countRef = useRef<HTMLSelectElement>(null);
   const sizeRef = useRef<HTMLSelectElement>(null);
   const commentRef = useRef<HTMLTextAreaElement>(null);
-
-  const [price, setPrice] = useState('');
-  const [exchangeOption, setExchangeOption] = useState<boolean>(false);
-  const [delivery, setDelivery] = useState(true);
-  const [discount, setDiscount] = useState(false);
-  const [tags, setTags] = useState<string[]>([]);
+  const [price, setPrice] = useState(productInfo?.price || '');
+  const [exchangeOption, setExchangeOption] = useState<boolean>(productInfo?.exchange || false);
+  const [delivery, setDelivery] = useState(productInfo?.delivery || true);
+  const [discount, setDiscount] = useState(productInfo?.discount || false);
+  const [tags, setTags] = useState<string[]>(productInfo?.tags || []);
   const [inputValue, setInputValue] = useState('');
-  const [canFace, setCanFace] = useState<boolean>(false);
-  const [categories, setCategories] = useState<string[]>([]);
+  const [canFace, setCanFace] = useState<boolean>(productInfo?.facetoface || false);
+  const [categories, setCategories] = useState<string[]>(productInfo?.categories || []);
+  const [prevImgs, setPrevImgs] = useState<string[][]>([productInfo?.imgs, []]);
+
+  const appendPhotoFiles = (formData: FormData) => {
+    if (photoFiles) {
+      photoFiles.forEach(file => {
+        formData.append('photo', file);
+      });
+    }
+  };
+
+  const checkRequiredFields = () => {
+    return (
+      productNameRef.current?.value &&
+      (imgPrevUrls.length || prevImgs.length) &&
+      categories.length &&
+      sizeRef.current?.value &&
+      countRef.current?.value &&
+      price
+    );
+  };
 
   const createFormData = () => {
     const formData = new FormData();
 
-    if (photoFiles) {
-      photoFiles.map(file => {
-        formData.append('photo', file);
-      });
-    }
+    appendPhotoFiles(formData);
 
     const data: PostData = {
       userId: userId,
@@ -72,14 +95,7 @@ export const useProductForm = () => {
     try {
       const formData = createFormData();
 
-      if (
-        productNameRef.current?.value &&
-        imgPrevUrls.length &&
-        categories.length &&
-        countRef.current?.value &&
-        price &&
-        sizeRef.current?.value
-      ) {
+      if (checkRequiredFields()) {
         await axios.post('/api/products/post', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -94,18 +110,90 @@ export const useProductForm = () => {
     }
   };
 
+  const handleEditSubmit = async (id: string | undefined) => {
+    try {
+      const formData = new FormData();
+
+      appendPhotoFiles(formData);
+
+      const updatedData: Partial<EditProps> = {};
+
+      if (productNameRef.current?.value !== productInfo?.productName) {
+        updatedData.productName = productNameRef.current?.value;
+      }
+
+      if (countRef.current?.value !== productInfo?.count) {
+        updatedData.count = countRef.current?.value;
+      }
+
+      if (categories !== productInfo?.categories) {
+        updatedData.categories = categories;
+      }
+
+      if (price !== productInfo?.price) {
+        updatedData.price = price;
+      }
+
+      if (discount !== productInfo?.discount) {
+        updatedData.discount = discount;
+      }
+
+      if (delivery !== productInfo?.delivery) {
+        updatedData.delivery = delivery;
+      }
+
+      if (exchangeOption !== productInfo?.exchange) {
+        updatedData.exchange = exchangeOption;
+      }
+
+      if (commentRef.current?.value !== productInfo?.description) {
+        updatedData.description = commentRef.current?.value;
+      }
+
+      if (tags !== productInfo?.tags) {
+        updatedData.tags = tags;
+      }
+
+      if (sizeRef.current?.value !== productInfo?.size) {
+        updatedData.size = sizeRef.current?.value;
+      }
+
+      if (canFace !== productInfo?.facetoface) {
+        updatedData.facetoface = canFace;
+      }
+
+      if (prevImgs !== productInfo?.imgs) {
+        updatedData.imgs = prevImgs;
+      }
+
+      formData.append('data', JSON.stringify(updatedData));
+
+      if (
+        productNameRef.current?.value &&
+        (imgPrevUrls.length || prevImgs.length) &&
+        categories.length &&
+        sizeRef.current?.value &&
+        countRef.current?.value
+      ) {
+        await axios.patch(`/api/products/edit/${id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        navigate('/mypage');
+      } else {
+        console.log('모든 항목을 입력해주세요');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleImsiSubmit = async () => {
     try {
       const formData = createFormData();
 
-      if (
-        productNameRef.current?.value ||
-        imgPrevUrls.length ||
-        categories.length ||
-        sizeRef.current?.value ||
-        countRef.current?.value ||
-        price
-      ) {
+      if (checkRequiredFields()) {
         await axios.post('/api/products/post', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -145,7 +233,10 @@ export const useProductForm = () => {
     setCanFace,
     categories,
     setCategories,
-    handleSubmit,
+    prevImgs,
+    setPrevImgs,
     handleImsiSubmit,
+    handleSubmit,
+    handleEditSubmit,
   };
 };
