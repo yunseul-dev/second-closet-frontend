@@ -4,13 +4,15 @@ import styled from 'styled-components';
 interface ButtonsProps {
   handleSubmit: () => void;
   handleImsiSubmit: () => void;
+  cancle: string;
+  submit: string;
 }
 
-const Buttons: React.FC<ButtonsProps> = ({ handleSubmit, handleImsiSubmit }) => {
+const Buttons: React.FC<ButtonsProps> = ({ handleSubmit, handleImsiSubmit, cancle, submit }) => {
   return (
     <Container>
-      <ImsiBtn onClick={handleImsiSubmit}>임시저장</ImsiBtn>
-      <SubmitBtn onClick={handleSubmit}>등록하기</SubmitBtn>
+      <ImsiBtn onClick={handleImsiSubmit}>{cancle}</ImsiBtn>
+      <SubmitBtn onClick={handleSubmit}>{submit}</SubmitBtn>
     </Container>
   );
 };

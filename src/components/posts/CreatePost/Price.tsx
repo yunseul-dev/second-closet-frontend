@@ -5,9 +5,10 @@ interface PriceProps {
   setDiscount: Dispatch<SetStateAction<boolean>>;
   price: string;
   setPrice: Dispatch<SetStateAction<string>>;
+  discount?: boolean;
 }
 
-const Price: React.FC<PriceProps> = ({ setDiscount, price, setPrice }) => {
+const Price: React.FC<PriceProps> = ({ setDiscount, price, setPrice, discount }) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const numValue = parseInt(e.target.value.replace(/,/g, ''), 10);
     if (!isNaN(numValue)) {
@@ -21,7 +22,7 @@ const Price: React.FC<PriceProps> = ({ setDiscount, price, setPrice }) => {
     <PriceContainer>
       <Input type="text" placeholder="가격을 입력해주세요." value={price} onChange={handleChange} />원
       <PriceSuggestion>
-        <input type="checkbox" onChange={e => setDiscount(e.target.checked)} />
+        <input type="checkbox" onChange={e => setDiscount(e.target.checked)} defaultChecked={discount} />
         가격 제안받기
       </PriceSuggestion>
     </PriceContainer>
