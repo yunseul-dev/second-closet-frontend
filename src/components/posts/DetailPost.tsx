@@ -58,7 +58,7 @@ const DetailPost = () => {
   const { mutate: addHeart } = useAddHeartMutation();
   const { mutate: deleteHeart } = useDeleteHeartMutation();
 
-  const { productInfo } = useProductQuery(id, {});
+  const { productInfo } = useProductQuery(id);
 
   const {
     productId,
@@ -78,8 +78,6 @@ const DetailPost = () => {
     createdAt,
     hearts,
   }: Product = productInfo;
-
-  console.log(productInfo);
 
   const relatedItems: RelatedItems = useRelatedQuery(productId, categories[1]);
 
