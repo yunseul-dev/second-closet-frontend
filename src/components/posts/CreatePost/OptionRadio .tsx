@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
 interface OptionRadioProps {
   name: string;
   state: boolean;
-  setState: (delivery: boolean) => void;
+  setState: Dispatch<SetStateAction<boolean>>;
 }
 
 const OptionRadio: React.FC<OptionRadioProps> = ({ name, state, setState }) => {
