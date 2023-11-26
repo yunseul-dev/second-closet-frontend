@@ -1,7 +1,6 @@
-import styled from 'styled-components';
-import { RxDividerVertical } from 'react-icons/rx';
 import React from 'react';
-
+import styled from 'styled-components';
+import { RxDividerVertical } from '../../../utils/icons';
 interface SortTabsProps {
   setSortOption: (sortOption: string) => void;
   sortOption: string;

@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import useObserver from '../../../hooks/useObserver';
 import { useState, useCallback, useEffect } from 'react';
-import useMyProductInfiiteQuery from '../../../hooks/queries/useMyProductInfiniteQuery';
-import { RxDividerVertical } from 'react-icons/rx';
+import { useMyProductInfiniteQuery } from '../../../hooks/queries';
+import { useObserver } from '../../../hooks';
+import { RxDividerVertical } from '../../../utils/icons';
 import { useRecoilValue } from 'recoil';
-import { userState } from '../../../recoil/atom/userState';
-import Products from './Products';
+import { userState } from '../../../recoil/atom';
+import { Products } from '.';
 import Loading from '../../skeletons/Loading';
 
 interface DivProp {
@@ -18,7 +18,7 @@ const MyProducts = () => {
 
   const userId = useRecoilValue(userState) || '';
 
-  const { products, hasNextPage, fetchNextPage } = useMyProductInfiiteQuery(userId.replace(/"/g, ''), sortOption);
+  const { products, hasNextPage, fetchNextPage } = useMyProductInfiniteQuery(userId.replace(/"/g, ''), sortOption);
 
   const getNextPage = useCallback(() => {
     if (isLoading || !hasNextPage) return;

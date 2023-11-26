@@ -1,11 +1,11 @@
 import { styled } from 'styled-components';
 import { useForm, useController, Control } from 'react-hook-form';
-import { signUpOptionSchema } from '../../utils/shema';
+import { signUpOptionSchema } from '../../../utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { debounce } from 'lodash';
 import { useCallback, ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
-import { banks } from '../../constants/banks';
+import { banks } from '../../../constants';
 
 interface SignUpOptionData {
   address: string;

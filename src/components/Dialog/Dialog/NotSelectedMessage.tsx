@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { LuMessagesSquare } from 'react-icons/lu';
+import { LuMessagesSquare } from '../../../utils/icons';
 
 const NotSelectedMessage = () => {
   return (

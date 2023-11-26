@@ -1,12 +1,10 @@
+import axios from 'axios';
 import styled from 'styled-components';
 import { useState, useRef, Dispatch, SetStateAction } from 'react';
-import PwEditModal from './PwEditModal';
-import useUserQuery from '../../../hooks/queries/useUserQuery';
-import Modal from '../../common/Modal';
-import WithdrawalModal from './WithdrawalModal';
-import axios from 'axios';
-import { banks } from '../../../constants/banks';
-import InfoContainer from './InfoContainer';
+import { PwEditModal, WithdrawalModal, InfoContainer } from '.';
+import { useUserQuery } from '../../../hooks/queries';
+import Modal from '../../common/Modal/Modal';
+import { banks } from '../../../constants';
 
 interface UserData {
   userId: string;

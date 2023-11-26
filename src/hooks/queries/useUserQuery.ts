@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
-import { userState } from '../../recoil/atom/userState';
+import { userState } from '../../recoil/atom';
 import axios from 'axios';
 
 const staleTime = 1000 * 3;

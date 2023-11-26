@@ -1,4 +1,4 @@
-import useGenericMutation from './useGenericMutation';
+import { useGenericMutation } from '.';
 import axios from 'axios';
 
 const addSold = async (productId: number) => {

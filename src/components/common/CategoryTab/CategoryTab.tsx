@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { LiaHomeSolid, LiaAngleRightSolid } from 'react-icons/lia';
-import { Category } from '../../constants/Category';
+import { LiaHomeSolid, LiaAngleRightSolid } from '../../../utils/icons';
+import { Category } from '../../../constants';
 import { useNavigate } from 'react-router-dom';
 import { ChangeEvent } from 'react';
 

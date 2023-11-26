@@ -18,12 +18,13 @@ const TitleContainer = styled.div`
   border-bottom: 2px solid black;
 `;
 
-const MiniTitle = styled.div`
-  font-size: medium;
-  color: red;
+const TitleName = styled.div`
+  font-size: 26px;
+  font-weight: 400;
 `;
 
-const TitleName = styled.div`
-  font-size: 32px;
-  font-weight: 600;
+const MiniTitle = styled.div`
+  margin-left: 20px;
+  font-size: 16px;
+  color: red;
 `;

@@ -1,10 +1,10 @@
+import { useState, useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
+import axios from 'axios';
 import styled from 'styled-components';
 import List from './List';
-import useChatSocketList from '../../../hooks/useChatSocketList';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useChatSocketList } from '../../../hooks';
 import { userState } from '../../../recoil/atom/userState';
-import { useRecoilValue } from 'recoil';
 
 type Message = {
   senderId: string;

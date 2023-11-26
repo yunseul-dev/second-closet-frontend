@@ -3,10 +3,10 @@ import { useRecoilValue } from 'recoil';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { BsSuitHeart, BsSuitHeartFill } from 'react-icons/bs';
-import formatTimeAgo from '../../../utils/formatTimeAgo';
-import useDeleteHeartMutation from '../../../hooks/mutations/useDeleteHeartMutation';
-import { userState } from '../../../recoil/atom/userState';
+import { BsSuitHeart, BsSuitHeartFill } from '../../../utils/icons';
+import { formatTimeAgo } from '../../../utils';
+import { useDeleteHeartMutation } from '../../../hooks/mutations';
+import { userState } from '../../../recoil/atom';
 
 interface Div {
   $sold: boolean;

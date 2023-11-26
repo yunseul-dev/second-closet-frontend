@@ -45,4 +45,4 @@ const Category: CategoryType = {
   },
 };
 
-export { Category };
+export default Category;

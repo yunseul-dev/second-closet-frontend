@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-
-import NotSelectedMessage from './NotSelectedMessage';
-import SelectedMessage from './SelectedMessage';
+import { NotSelectedMessage, SelectedMessage } from '.';
 
 const Dialog = () => {
   const { id } = useParams();

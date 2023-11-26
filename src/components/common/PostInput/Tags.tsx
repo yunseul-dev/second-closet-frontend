@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FaXmark } from 'react-icons/fa6';
+import { FaXmark } from '../../../utils/icons';
 import React, { ChangeEvent, KeyboardEvent, Dispatch, SetStateAction } from 'react';
 
 interface TagsProps {

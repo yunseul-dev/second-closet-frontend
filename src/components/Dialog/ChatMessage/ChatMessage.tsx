@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import Dialog from './Dialog/Dialog';
-import MessageList from './MessageList/MessageList';
+import Dialog from '../Dialog/Dialog';
+import MessageList from '../MessageList/MessageList';
 
-const Buy = () => {
+const ChatMessage = () => {
   return (
     <Container>
       <MessageList />
@@ -11,7 +11,7 @@ const Buy = () => {
   );
 };
 
-export default Buy;
+export default ChatMessage;
 
 const Container = styled.div`
   position: relative;

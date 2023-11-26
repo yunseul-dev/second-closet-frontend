@@ -1,11 +1,10 @@
-import { styled } from 'styled-components';
-import usePopularInfiniteQuery from '../../hooks/queries/usePopularInfiniteQuery';
-import useObserver from '../../hooks/useObserver';
 import { useCallback, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AiOutlineHeart } from 'react-icons/ai';
+import { styled } from 'styled-components';
+import { usePopularInfiniteQuery } from '../../hooks/queries';
+import { useObserver } from '../../hooks';
+import { AiOutlineHeart, BsBalloonHeartFill } from '../../utils/icons';
 import Loading from '../skeletons/Loading';
-import { BsBalloonHeartFill } from 'react-icons/bs';
 
 interface Product {
   productId: number;

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import useGenericMutation from './useGenericMutation';
+import { useGenericMutation } from '.';
 
 const deleteProduct = async (productId: number) => await axios.delete(`/api/products/delete/${productId}`);
 

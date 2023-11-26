@@ -1,18 +1,11 @@
-import styled from 'styled-components';
-import { FaXmark } from 'react-icons/fa6';
-import { useParams } from 'react-router-dom';
-import useProductQuery from '../../../hooks/queries/useProductQuery';
-import wearCounts from '../../../constants/wearCounts';
-import { sizes, shoesSizes } from '../../../constants/sizes';
-import List from '../List';
-import CategoryTab from '../CreatePost/CategoryTab';
-import OptionRadio from '../CreatePost/OptionRadio ';
-import Tags from '../CreatePost/Tags';
-import Buttons from '../CreatePost/Buttons';
-import Price from '../CreatePost/Price';
-import { useProductForm } from '../../../hooks/useProductForm';
-import ImgFiles from '../CreatePost/ImgFiles';
 import { useEffect } from 'react';
+import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
+import { FaXmark } from '../../../utils/icons';
+import { sizes, shoesSizes, wearCounts } from '../../../constants';
+import { useProductQuery } from '../../../hooks/queries';
+import { useProductForm } from '../../../hooks';
+import { List, CategoryTab, OptionRadio, Tags, Buttons, Price, ImgFiles } from '../../common/PostInput';
 
 type ImgProps = {
   idx: number;
@@ -22,8 +15,6 @@ const Contents = () => {
   const { id } = useParams();
 
   const { productInfo } = useProductQuery(id);
-
-  console.log('productInfo: ', productInfo);
 
   useEffect(() => {
     setPrice(productInfo?.price);

@@ -3,7 +3,7 @@ import useFileUpload from './useFileUpload';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useRecoilValue } from 'recoil';
-import { userState } from '../recoil/atom/userState';
+import { userState } from '../recoil/atom';
 
 interface PostData {
   userId: string | null;
@@ -28,7 +28,7 @@ interface EditProps extends PostData {
   imgs?: string[][];
 }
 
-export const useProductForm = (productInfo?: ProductInfoProps) => {
+const useProductForm = (productInfo?: ProductInfoProps) => {
   const navigate = useNavigate();
   const userId = useRecoilValue(userState);
 
@@ -240,3 +240,5 @@ export const useProductForm = (productInfo?: ProductInfoProps) => {
     handleEditSubmit,
   };
 };
+
+export default useProductForm;

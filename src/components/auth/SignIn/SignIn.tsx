@@ -1,12 +1,16 @@
 import { styled } from 'styled-components';
 import { useForm, useController, Control } from 'react-hook-form';
-import { signUpSchema } from '../../utils/shema';
+import { signInSchema } from '../../../utils/shema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
-import { useCallback, ChangeEvent, Dispatch, SetStateAction } from 'react';
+import { useCallback, ChangeEvent } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { userState } from '../../../recoil/atom/userState';
+import { isLoginState } from '../../../recoil/atom/isLoginState';
 
-interface SignUpFormData {
+interface SignInFormData {
   userId: string;
   password: string;
   passwordConfirm: string;
@@ -14,14 +18,9 @@ interface SignUpFormData {
 
 interface InputProps {
   placeholder: string;
-  control: Control<SignUpFormData>;
+  control: Control<SignInFormData>;
   name: 'userId' | 'password' | 'passwordConfirm';
-  trigger: (field?: keyof SignUpFormData | (keyof SignUpFormData)[]) => void;
-}
-
-interface SignUpProps {
-  setUserId: Dispatch<SetStateAction<string | null>>;
-  setState: Dispatch<SetStateAction<string>>;
+  trigger: any;
 }
 
 const InputContainer = ({ placeholder, control, name, trigger }: InputProps) => {
@@ -37,9 +36,9 @@ const InputContainer = ({ placeholder, control, name, trigger }: InputProps) => 
   const debouncedTrigger = useCallback(
     debounce(() => {
       trigger(name);
-      if (name === 'password') trigger('passwordConfirm');
+      if (name === 'password') trigger('confirmPassword');
     }, 100),
-    [trigger, name],
+    [],
   );
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -62,21 +61,25 @@ const InputContainer = ({ placeholder, control, name, trigger }: InputProps) => 
   );
 };
 
-const SignUp = ({ setUserId, setState }: SignUpProps) => {
-  const { control, handleSubmit, trigger } = useForm<SignUpFormData>({
-    resolver: zodResolver(signUpSchema),
+const SignIn = () => {
+  const navigate = useNavigate();
+  const setUser = useSetRecoilState(userState);
+  const setIsLogin = useSetRecoilState(isLoginState);
+
+  const { control, handleSubmit, trigger } = useForm<SignInFormData>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
       userId: '',
       password: '',
     },
   });
 
-  const onSubmit = async (data: SignUpFormData) => {
+  const onSubmit = async (data: SignInFormData) => {
     try {
-      const { data: user } = await axios.post('api/auth/signup', data, { withCredentials: true });
-      setUserId(user.userId);
-      console.log(user.userId, '님의 회원가입을 축하드립니다.');
-      setState('signUpOption');
+      const { data: userId } = await axios.post('api/auth/signin', data, { withCredentials: true });
+      setUser(userId);
+      setIsLogin(true);
+      navigate('/');
     } catch (error) {
       console.log(error);
     }
@@ -87,14 +90,13 @@ const SignUp = ({ setUserId, setState }: SignUpProps) => {
       <FormWrapper>
         <InputContainer placeholder={'아이디'} control={control} name={'userId'} trigger={trigger} />
         <InputContainer placeholder={'비밀번호'} control={control} name={'password'} trigger={trigger} />
-        <InputContainer placeholder={'비밀번호 확인'} control={control} name={'passwordConfirm'} trigger={trigger} />
-        <SubmitBtn type="submit">Sign up</SubmitBtn>
+        <SubmitBtn type="submit">Sign In</SubmitBtn>
       </FormWrapper>
     </form>
   );
 };
 
-export default SignUp;
+export default SignIn;
 
 const FormWrapper = styled.div`
   display: flex;
@@ -102,22 +104,19 @@ const FormWrapper = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #fdecd0;
-  padding: 20px;
-  border-top-left-radius: 20px;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  padding: 10px;
   width: 360px;
 `;
 
 const Input = styled.input`
   width: 320px;
   height: 40px;
+  margin-bottom: 10px;
   border-radius: 20px;
-  border: none;
   padding: 10px;
-  border: 1px solid gray;
   margin-bottom: 0;
   font-size: 16px;
+  border: 1px solid gray;
 `;
 
 const SubmitBtn = styled.button`
@@ -126,12 +125,12 @@ const SubmitBtn = styled.button`
   margin-top: 10px;
   border-radius: 20px;
   font-weight: 700;
-  font-size: 16px;
   border: none;
   padding: 10px;
-  border: 1px solid #f9c26a;
   background-color: #f6c26e;
+  border: 1px solid #f9c26a;
   color: white;
+  font-size: 16px;
 `;
 
 const ErrorMsg = styled.span`

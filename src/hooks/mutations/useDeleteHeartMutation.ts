@@ -1,4 +1,4 @@
-import useGenericMutation from './useGenericMutation';
+import { useGenericMutation } from '.';
 import axios from 'axios';
 
 const deleteHeart = async ({ productId, userId }: { productId: number; userId: string }) => {

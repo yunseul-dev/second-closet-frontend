@@ -1,4 +1,4 @@
-import AppLayout from '../components/common/AppLayout';
+import { AppLayout } from '../components/common/AppLayout';
 import Main from '../components/root/Main';
 
 const Root = () => {

@@ -1,9 +1,9 @@
-import { styled } from 'styled-components';
-import { Link } from 'react-router-dom';
-import { HiArrowLongRight } from 'react-icons/hi2';
-import useRecommendQuery from '../../hooks/queries/useRecommendQuery';
 import { useState } from 'react';
-import { Category } from '../../constants/Category';
+import { Link } from 'react-router-dom';
+import { styled } from 'styled-components';
+import { HiArrowLongRight } from '../../../utils/icons';
+import { useRecommendQuery } from '../../../hooks/queries';
+import { Category } from '../../../constants';
 
 type DivProps = {
   $hovered: boolean;

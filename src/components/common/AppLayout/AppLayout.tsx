@@ -1,7 +1,6 @@
-import Header from './Header';
 import { ReactNode } from 'react';
 import styled from 'styled-components';
-import ArrowUpBtn from './ArrowUpBtn';
+import { Header, ArrowUpBtn } from '.';
 
 type LayoutProps = {
   children: ReactNode;

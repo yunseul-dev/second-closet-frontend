@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaXmark } from 'react-icons/fa6';
+import { FaXmark } from '../../../utils/icons';
 
 interface ModalProps {
   content: React.ReactNode;

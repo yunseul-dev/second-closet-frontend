@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { HiArrowUp } from 'react-icons/hi';
-import useYScroll from '../../hooks/useScrollY';
+import { HiArrowUp } from '../../../utils/icons';
+import { useYScroll } from '../../../hooks';
 
 const ArrowUpBtn = ({ boundary = 300 }) => {
   const yPos = useYScroll();

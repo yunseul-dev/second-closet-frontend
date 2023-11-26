@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import formatTimeAgo from '../../../utils/formatTimeAgo';
-import { useNavigate } from 'react-router-dom';
 import React from 'react';
+import styled from 'styled-components';
+import { formatTimeAgo } from '../../../utils';
+import { useNavigate } from 'react-router-dom';
 
 interface Product {
   productId: number;

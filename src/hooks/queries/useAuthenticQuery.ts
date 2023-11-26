@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { userState } from '../../recoil/atom/userState';
-import { isLoginState } from '../../recoil/atom/isLoginState';
+import { userState, isLoginState } from '../../recoil/atom';
 import axios from 'axios';
 import { useEffect } from 'react';
 

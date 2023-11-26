@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Heart from './Heart';
+import { Heart } from '.';
 
 interface Product {
   productId: number;

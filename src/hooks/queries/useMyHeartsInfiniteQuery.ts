@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useRecoilValue } from 'recoil';
-import { userState } from '../../recoil/atom/userState';
+import { userState } from '../../recoil/atom';
 
 interface Product {
   productId: number;

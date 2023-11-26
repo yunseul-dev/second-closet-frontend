@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import useMyHeartsInfiniteQuery from '../../../hooks/queries/useMyHeartsInfiniteQuery';
-import useObserver from '../../../hooks/useObserver';
+import { useMyHeartsInfiniteQuery } from '../../../hooks/queries';
+import { useObserver } from '../../../hooks';
 import { useState, useCallback, useEffect } from 'react';
-import { RxDividerVertical } from 'react-icons/rx';
-import Hearts from './Hearts';
+import { RxDividerVertical } from '../../../utils/icons';
+import { Hearts } from '.';
 import Loading from '../../skeletons/Loading';
 
 interface DivProp {

@@ -1,13 +1,11 @@
+import { useCallback, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import useCategoryInfiniteQuery from '../../../hooks/queries/useCategoryInfiniteQuery';
-import { useCallback, useState, useEffect } from 'react';
-import useObserver from '../../../hooks/useObserver';
-import CategoryTab from '../../common/CategoryTab';
+import { useCategoryInfiniteQuery } from '../../../hooks/queries';
+import { useObserver } from '../../../hooks';
+import CategoryTab from '../../common/CategoryTab/CategoryTab';
 import Loading from '../../skeletons/Loading';
-import SortTabs from './SortTabs';
-import Items from './Items';
-import CategoryList from './CategoryList';
+import { SortTabs, Items, CategoryList } from '.';
 
 interface Product {
   productId: number;

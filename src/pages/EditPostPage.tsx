@@ -1,4 +1,4 @@
-import AppLayout from '../components/common/AppLayout';
+import { AppLayout } from '../components/common/AppLayout';
 import EditPost from '../components/posts/EditPost/EditPost';
 
 const EditPostPage = () => {

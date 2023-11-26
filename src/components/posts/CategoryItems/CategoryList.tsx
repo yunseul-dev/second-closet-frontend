@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { Category } from '../../../constants/Category';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { Category } from '../../../constants';
 
 interface CategoryListProps {
   categories: string[];

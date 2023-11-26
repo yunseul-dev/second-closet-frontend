@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import useDeleteSoldMutation from '../../../hooks/mutations/useDeleteSoldMutation';
-import useAddSoldMutation from '../../../hooks/mutations/useAddSoldMutation';
+import { useDeleteSoldMutation, useAddSoldMutation } from '../../../hooks/mutations';
 
 interface SoldModalProps {
   closeModal: () => void;

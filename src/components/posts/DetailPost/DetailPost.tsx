@@ -1,21 +1,22 @@
-import styled from 'styled-components';
-import { LiaHeartSolid } from 'react-icons/lia';
-import { AiFillAlert } from 'react-icons/ai';
-import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
-import { LuClock3 } from 'react-icons/lu';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { userState } from '../../recoil/atom/userState';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import useAddHeartMutation from '../../hooks/mutations/useAddHeartMutation';
-import useDeleteHeartMutation from '../../hooks/mutations/useDeleteMutation';
-import useProductQuery from '../../hooks/queries/useProductQuery';
-import formatTimeAgo from '../../utils/formatTimeAgo';
-import useRelatedQuery from '../../hooks/queries/useRelatedQuery';
-import CategoryTab from '../common/CategoryTab';
 import axios from 'axios';
-
-import { BsSuitHeart, BsSuitHeartFill } from 'react-icons/bs';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import {
+  LiaHeartSolid,
+  AiFillAlert,
+  BsSuitHeart,
+  BsSuitHeartFill,
+  FaAngleLeft,
+  FaAngleRight,
+  LuClock3,
+} from '../../../utils/icons';
+import { userState } from '../../../recoil/atom';
+import { useAddHeartMutation, useDeleteHeartMutation } from '../../../hooks/mutations';
+import { useProductQuery, useRelatedQuery } from '../../../hooks/queries';
+import { formatTimeAgo } from '../../../utils';
+import CategoryTab from '../../common/CategoryTab/CategoryTab';
 
 type Product = {
   productId: number;

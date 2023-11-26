@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { LiaAngleRightSolid } from 'react-icons/lia';
-import { Category } from '../../../constants/Category';
+import { LiaAngleRightSolid } from '../../../utils/icons';
+import { Category } from '../../../constants';
 
 interface CategoryTabProps {
   categories: string[];

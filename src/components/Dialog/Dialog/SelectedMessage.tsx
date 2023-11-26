@@ -1,16 +1,13 @@
-import styled from 'styled-components';
-import MyWords from './MyWords';
-import YourWords from './YourWords';
-import formatTimeAgo from '../../../utils/formatTimeAgo';
-import { HiMiniPaperAirplane } from 'react-icons/hi2';
-import useMessageQuery from '../../../hooks/queries/useMessageQuery';
 import { useState, useRef, useEffect, ChangeEvent, KeyboardEvent } from 'react';
-import { useParams } from 'react-router-dom';
-import useChatSocket from '../../../hooks/useChatSocket';
-
 import { useRecoilValue } from 'recoil';
-import { userState } from '../../../recoil/atom/userState';
-import useSendMessage from '../../../hooks/useSendMessage';
+import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import { MyWords, YourWords } from '.';
+import { formatTimeAgo } from '../../../utils';
+import { HiMiniPaperAirplane } from '../../../utils/icons';
+import { userState } from '../../../recoil/atom';
+import { useChatSocket, useSendMessage } from '../../../hooks';
+import { useMessageQuery } from '../../../hooks/queries';
 
 type DivProps = {
   $focus: boolean;

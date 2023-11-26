@@ -1,14 +1,7 @@
 import styled from 'styled-components';
-import { sizes, shoesSizes } from '../../../constants/sizes';
-import wearCounts from '../../../constants/wearCounts';
-import List from '../List';
-import Buttons from './Buttons';
-import CategoryTab from './CategoryTab';
-import ImgFiles from './ImgFiles';
-import OptionRadio from './OptionRadio ';
-import Tags from './Tags';
-import { useProductForm } from '../../../hooks/useProductForm';
-import Price from './Price';
+import { sizes, shoesSizes, wearCounts } from '../../../constants';
+import { useProductForm } from '../../../hooks';
+import { List, CategoryTab, OptionRadio, Tags, Buttons, Price, ImgFiles } from '../../common/PostInput';
 
 const Contents = () => {
   const {

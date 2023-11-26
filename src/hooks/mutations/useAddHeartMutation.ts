@@ -1,6 +1,6 @@
-import useGenericMutation from './useGenericMutation';
+import { useGenericMutation } from '.';
 import axios from 'axios';
-import { userState } from '../../recoil/atom/userState';
+import { userState } from '../../recoil/atom';
 import { useRecoilValue } from 'recoil';
 
 const addHeart = async ({ productId, userId }: { productId: number; userId: string; hearts: string[] }) => {

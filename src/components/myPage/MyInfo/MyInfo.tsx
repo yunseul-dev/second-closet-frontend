@@ -1,14 +1,11 @@
-import styled from 'styled-components';
-import { RxDividerVertical } from 'react-icons/rx';
-import axios from 'axios';
-import { userState } from '../../../recoil/atom/userState';
-import { useSetRecoilState } from 'recoil';
-import { isLoginState } from '../../../recoil/atom/isLoginState';
-import { useNavigate } from 'react-router-dom';
 import { Dispatch, SetStateAction } from 'react';
-import useUserQuery from '../../../hooks/queries/useUserQuery';
-import { BiCloset } from 'react-icons/bi';
-import { RiHomeHeartLine } from 'react-icons/ri';
+import axios from 'axios';
+import { useSetRecoilState } from 'recoil';
+import styled from 'styled-components';
+import { RxDividerVertical, RiHomeHeartLine } from '../../../utils/icons';
+import { isLoginState, userState } from '../../../recoil/atom';
+import { useNavigate } from 'react-router-dom';
+import { useUserQuery } from '../../../hooks/queries';
 
 interface DivProp {
   $bold: boolean;

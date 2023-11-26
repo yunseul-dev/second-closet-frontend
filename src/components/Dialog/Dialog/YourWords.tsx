@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { FaCircleUser } from 'react-icons/fa6';
 import React from 'react';
-import formatDate from '../../../utils/formatDate';
+import styled from 'styled-components';
+import { FaCircleUser } from '../../../utils/icons';
+import { formatDate } from '../../../utils';
 
 interface YourWordsProps {
   senderId: string;

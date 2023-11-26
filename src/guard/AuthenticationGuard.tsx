@@ -1,10 +1,8 @@
 import { Navigate } from 'react-router-dom';
-// import useAuthenticationQuery from '../hooks/queries/useAuthenticQuery';
 import { ReactNode, useEffect } from 'react';
 import axios from 'axios';
 import { useSetRecoilState, useRecoilState } from 'recoil';
-import { userState } from '../recoil/atom/userState';
-import { isLoginState } from '../recoil/atom/isLoginState';
+import { userState, isLoginState } from '../recoil/atom';
 
 interface AuthenticationGuardProps {
   redirectTo: string;

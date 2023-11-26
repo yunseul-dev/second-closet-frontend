@@ -1,16 +1,19 @@
+import { useState } from 'react';
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { isLoginState } from '../../recoil/atom/isLoginState';
-import { Category } from '../../constants/Category';
-import { useState } from 'react';
-import { LuUser2 } from 'react-icons/lu';
-import { BiCloset } from 'react-icons/bi';
-import { RxDividerVertical } from 'react-icons/rx';
-import { PiSignInBold } from 'react-icons/pi';
-import { AiOutlineSearch, AiOutlineMessage } from 'react-icons/ai';
-import CategoryContainer from './CategoryContainer';
-import useAuthenticationQuery from '../../hooks/queries/useAuthenticQuery';
+import { isLoginState } from '../../../recoil/atom/isLoginState';
+import { Category } from '../../../constants';
+import {
+  LuUser2,
+  BiCloset,
+  RxDividerVertical,
+  PiSignInBold,
+  AiOutlineSearch,
+  AiOutlineMessage,
+} from '../../../utils/icons';
+import { CategoryContainer } from './index';
+import useAuthenticationQuery from '../../../hooks/queries/useAuthenticQuery';
 
 const Header = () => {
   useAuthenticationQuery();

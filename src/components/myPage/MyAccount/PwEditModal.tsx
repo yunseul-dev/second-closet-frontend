@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { userState } from '../../../recoil/atom/userState';
 import { useRecoilValue } from 'recoil';
-import { ChangePwSchema } from '../../../utils/shema';
+import { ChangePwSchema } from '../../../utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, Control, useController } from 'react-hook-form';
 import { useCallback, ChangeEvent } from 'react';

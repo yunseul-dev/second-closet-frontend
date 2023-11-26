@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { BiStoreAlt } from 'react-icons/bi';
 import React from 'react';
-import formatDate from '../../../utils/formatDate';
+import { BiStoreAlt } from '../../../utils/icons';
+import { formatDate } from '../../../utils';
 import { useNavigate } from 'react-router-dom';
 
 interface Message {

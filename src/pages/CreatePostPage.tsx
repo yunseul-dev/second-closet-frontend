@@ -1,4 +1,4 @@
-import AppLayout from '../components/common/AppLayout';
+import { AppLayout } from '../components/common/AppLayout';
 import CreatePost from '../components/posts/CreatePost/CreatePost';
 
 const CreatePostPage = () => {

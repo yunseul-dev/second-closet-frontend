@@ -1,22 +1,25 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Root from '../pages/Root';
-import AuthForm from '../components/auth/AuthForm';
-import DetailPage from '../pages/DetailPage';
-import CreatePostPage from '../pages/CreatePostPage';
 import AuthenticationGuard from '../guard/AuthenticationGuard';
 import { Suspense } from 'react';
-import CategoryItemsPage from '../pages/CategoryItemsPage';
-import MyPage from '../pages/MyPage';
-import EditPostPage from '../pages/EditPostPage';
 import Loading from '../components/skeletons/Loading';
-import BuyPage from '../pages/BuyPage';
+
+import {
+  ChatPage,
+  EditPostPage,
+  MyPage,
+  CategoryItemsPage,
+  CreatePostPage,
+  DetailPage,
+  Root,
+  AuthPage,
+} from '../pages';
 
 const routerConfig = createBrowserRouter([
   {
     path: '/signin',
     element: (
       <Suspense fallback={<Loading />}>
-        <AuthForm />
+        <AuthPage />
       </Suspense>
     ),
   },
@@ -73,7 +76,7 @@ const routerConfig = createBrowserRouter([
     path: '/chatpage/:id?',
     element: (
       <Suspense fallback={<Loading />}>
-        <AuthenticationGuard redirectTo="/signin" element={<BuyPage />} />
+        <AuthenticationGuard redirectTo="/signin" element={<ChatPage />} />
       </Suspense>
     ),
   },

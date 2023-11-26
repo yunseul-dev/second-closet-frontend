@@ -1,14 +1,11 @@
 import styled from 'styled-components';
-import { TbBasketOff, TbBasket } from 'react-icons/tb';
-import { AiOutlineHeart } from 'react-icons/ai';
-import formatTimeAgo from '../../../utils/formatTimeAgo';
-import React from 'react';
+import { TbBasketOff, TbBasket, AiOutlineHeart } from '../../../utils/icons';
+import { formatTimeAgo } from '../../../utils';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useDeleteProductMutation from '../../../hooks/mutations/useDeleteProductMutation';
-import Modal from '../../common/Modal';
-import DeleteProductModal from './DeleteProductModal';
-import { useState } from 'react';
-import SoldModal from './SoldModal';
+import { useDeleteProductMutation } from '../../../hooks/mutations';
+import Modal from '../../common/Modal/Modal';
+import { DeleteProductModal, SoldModal } from '.';
 
 interface Product {
   productId: number;

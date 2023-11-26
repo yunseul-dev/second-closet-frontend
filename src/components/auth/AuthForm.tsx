@@ -1,9 +1,8 @@
 import { styled } from 'styled-components';
 import { useState } from 'react';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
-import { LuShirt } from 'react-icons/lu';
-import SignUpOption from './SignUpOption';
+import SignIn from './SignIn/SignIn';
+import { SignUp, SignUpOption } from './SignUp';
+import { LuShirt } from '../../utils/icons';
 
 type ButtonProps = {
   $active: boolean;
