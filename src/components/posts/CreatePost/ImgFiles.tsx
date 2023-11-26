@@ -7,13 +7,19 @@ interface ImgFileContainerProps {
   imgPrevUrls: string[];
   handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleDeleteFile: (index: number) => void;
+  extraChildren?: React.ReactNode;
 }
 
 type ImgProps = {
   idx: number;
 };
 
-const ImgFiles: React.FC<ImgFileContainerProps> = ({ imgPrevUrls, handleFileChange, handleDeleteFile }) => {
+const ImgFiles: React.FC<ImgFileContainerProps> = ({
+  imgPrevUrls,
+  handleFileChange,
+  handleDeleteFile,
+  extraChildren,
+}) => {
   return (
     <ImgFileContainer>
       <FileLabel htmlFor="file-upload">
@@ -34,6 +40,7 @@ const ImgFiles: React.FC<ImgFileContainerProps> = ({ imgPrevUrls, handleFileChan
             </ImagePreview>
           );
         })}
+      {extraChildren}
     </ImgFileContainer>
   );
 };
