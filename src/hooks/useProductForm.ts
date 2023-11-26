@@ -39,7 +39,7 @@ export const useProductForm = (productInfo?: ProductInfoProps) => {
   const commentRef = useRef<HTMLTextAreaElement>(null);
   const [price, setPrice] = useState(productInfo?.price || '');
   const [exchangeOption, setExchangeOption] = useState<boolean>(productInfo?.exchange || false);
-  const [delivery, setDelivery] = useState(productInfo?.delivery || true);
+  const [delivery, setDelivery] = useState(productInfo?.delivery || false);
   const [discount, setDiscount] = useState(productInfo?.discount || false);
   const [tags, setTags] = useState<string[]>(productInfo?.tags || []);
   const [inputValue, setInputValue] = useState('');
