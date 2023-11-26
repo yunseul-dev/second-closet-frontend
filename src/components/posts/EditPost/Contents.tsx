@@ -80,7 +80,10 @@ const Contents = () => {
         <List name={'상품명'} must={true}>
           <Input type="text" ref={productNameRef} defaultValue={productInfo?.productName} />
         </List>
-        <List name={'상품 이미지'} must={true} extraChildren={<ImgCount>({imgPrevUrls.length}/11)</ImgCount>}>
+        <List
+          name={'상품 이미지'}
+          must={true}
+          extraChildren={<ImgCount>({imgPrevUrls.length + prevImgs[0].length}/11)</ImgCount>}>
           <ImgFiles
             imgPrevUrls={imgPrevUrls}
             handleFileChange={handleFileChange}
@@ -170,23 +173,6 @@ const Contents = () => {
 
 export default Contents;
 
-const ImgFileContainer = styled.div`
-  flex-wrap: wrap;
-  display: flex;
-  width: 80%;
-`;
-
-const FileLabel = styled.label`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 32%;
-  height: 200px;
-  background-color: #f0f0f0;
-  border: 1px solid gray;
-`;
-
 const ImagePreview = styled.div<ImgProps>`
   width: 32%;
   height: 200px;
@@ -217,10 +203,6 @@ const XImg = styled.button`
 const ImgCount = styled.span`
   font-size: 18px;
   color: #818181;
-`;
-
-const InputFile = styled.input`
-  display: none;
 `;
 
 const Lists = styled.div`
