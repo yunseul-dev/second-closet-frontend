@@ -115,6 +115,7 @@ const SearchResultsWrapper = styled.div`
   padding-top: 10px;
   padding-bottom: 10px;
   max-height: 350px;
+  z-index: 999999;
 `;
 
 const SearchResults = styled.div`
