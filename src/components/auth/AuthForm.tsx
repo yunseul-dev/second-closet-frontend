@@ -2,21 +2,25 @@ import { styled } from 'styled-components';
 import { useState } from 'react';
 import SignIn from './SignIn/SignIn';
 import { SignUp, SignUpOption } from './SignUp';
-import { LuShirt } from '../../utils/icons';
+import { useNavigate } from 'react-router-dom';
 
 type ButtonProps = {
   $active: boolean;
 };
 
 const AuthForm = () => {
+  const navigate = useNavigate();
   const [state, setState] = useState('signIn');
   const [userId, setUserId] = useState<null | string>(null);
+
+  const handleLogoClick = () => navigate('/');
 
   return (
     <Container>
       <FlexWrapper>
-        <LuShirt />
-        <Title>SecondCloset</Title>
+        <Logo>
+          <LogoImg src="/assets/image/Logo.png" alt="logo" onClick={handleLogoClick} />
+        </Logo>
       </FlexWrapper>
       {state === 'signUpOption' ? (
         <SignUpOption userId={userId} setUserId={setUserId} setState={setState} />
@@ -52,19 +56,19 @@ const Container = styled.div`
   background-color: #fdecd0;
 `;
 
+const Logo = styled.div``;
+
+const LogoImg = styled.img`
+  width: 200px;
+  height: auto;
+  display: flex;
+  align-items: center;
+`;
+
 const FlexWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
-`;
-
-const Title = styled.div`
-  font-family: 'Gaegu';
-  font-weight: 600;
-  text-align: center;
-  margin-left: 10px;
-  margin-bottom: 10px;
-  font-size: 40px;
 `;
 
 const CombinedSignBtns = styled.div`

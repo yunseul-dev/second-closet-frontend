@@ -35,7 +35,7 @@ const Header = () => {
     <Container>
       <FirstContainer>
         <Logo>
-          <LogoImg src="/assets/image/Logo.png" alt="logo" onClick={handleLogoClick}></LogoImg>
+          <LogoImg src="/assets/image/Logo.png" alt="logo" onClick={handleLogoClick} />
         </Logo>
         <SearchBar>
           <Input type="text" placeholder="상품명을 입력하세요." />
