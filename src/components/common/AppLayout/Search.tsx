@@ -1,5 +1,7 @@
 import styled from 'styled-components';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
+import axios from 'axios';
+import { debounce } from 'lodash';
 import { AiOutlineSearch } from '../../../utils/icons';
 
 const Search = () => {
@@ -7,16 +9,28 @@ const Search = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const searchRef = useRef<HTMLFormElement>(null);
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const term = e.target.value;
-    setSearchTerm(term);
+  const fetchSearchResults = useCallback(
+    debounce((term: string) => {
+      if (term === '') {
+        setSearchResults(['']);
+      } else {
+        axios
+          .get(`/api/products/search/${term}`, { word: term })
+          .then(response => {
+            setSearchResults(response.data);
+          })
+          .catch(error => {
+            console.error('Error fetching data: ', error);
+            setSearchResults([]);
+          });
+      }
+    }, 300),
+    [],
+  );
 
-    if (term === '') {
-      setSearchResults(['']);
-    } else {
-      const results = ['글로니', '글로니', '글로니', '글로니']; // axios 요청으로 받은 결과
-      setSearchResults(results);
-    }
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+    fetchSearchResults(e.target.value);
   };
 
   const handleOutsideClick = (e: MouseEvent) => {
@@ -24,6 +38,11 @@ const Search = () => {
       setSearchResults([]);
       setSearchTerm('');
     }
+  };
+
+  const handleCloseClick = () => {
+    setSearchResults([]);
+    setSearchTerm('');
   };
 
   useEffect(() => {
@@ -34,14 +53,17 @@ const Search = () => {
   return (
     <>
       <SearchBar ref={searchRef}>
-        <Input type="text" value={searchTerm} onChange={handleSearch} placeholder="상품명을 입력하세요." />
+        <Input type="text" value={searchTerm} onChange={handleInputChange} placeholder="상품명을 입력하세요." />
         <SearchIcon />
-        {searchResults.length > 0 && (
-          <SearchResults>
-            {searchResults.map((result, index) => (
-              <SearchResultItem key={index}>{result}</SearchResultItem>
-            ))}
-          </SearchResults>
+        {searchTerm.length > 0 && (
+          <SearchResultsWrapper>
+            <SearchResults>
+              {searchResults.map((result, index) => (
+                <SearchResultItem key={index}>{result}</SearchResultItem>
+              ))}
+            </SearchResults>
+            <CloseBtn onClick={handleCloseClick}>닫기</CloseBtn>
+          </SearchResultsWrapper>
         )}
       </SearchBar>
     </>
@@ -79,7 +101,7 @@ const SearchIcon = styled(AiOutlineSearch)`
   color: #ff4d24;
 `;
 
-const SearchResults = styled.div`
+const SearchResultsWrapper = styled.div`
   margin-left: 7.5%;
   position: absolute;
   padding-left: 15px;
@@ -92,6 +114,29 @@ const SearchResults = styled.div`
   background-color: #fff;
   padding-top: 10px;
   padding-bottom: 10px;
+  max-height: 350px;
+`;
+
+const SearchResults = styled.div`
+  max-height: 300px;
+
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: block;
+    width: 13px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #d1d0d0;
+    border-radius: 10px;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #a5a5a5;
+  }
 `;
 
 const SearchResultItem = styled.div`
@@ -101,4 +146,11 @@ const SearchResultItem = styled.div`
   color: #ff4d24;
   margin-top: 10px;
   margin-bottom: 10px;
+`;
+
+const CloseBtn = styled.button`
+  height: 30px;
+  background-color: transparent;
+  position: relative;
+  margin-left: 90%;
 `;
