@@ -4,16 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { isLoginState } from '../../../recoil/atom/isLoginState';
 import { Category } from '../../../constants';
-import {
-  LuUser2,
-  BiCloset,
-  RxDividerVertical,
-  PiSignInBold,
-  AiOutlineSearch,
-  AiOutlineMessage,
-} from '../../../utils/icons';
+import { LuUser2, BiCloset, RxDividerVertical, PiSignInBold, AiOutlineMessage } from '../../../utils/icons';
 import { CategoryContainer } from './index';
 import useAuthenticationQuery from '../../../hooks/queries/useAuthenticQuery';
+import Search from './Search';
 
 const Header = () => {
   useAuthenticationQuery();
@@ -37,10 +31,7 @@ const Header = () => {
         <Logo>
           <LogoImg src="/assets/image/Logo.png" alt="logo" onClick={handleLogoClick} />
         </Logo>
-        <SearchBar>
-          <Input type="text" placeholder="상품명을 입력하세요." />
-          <SearchIcon />
-        </SearchBar>
+        <Search />
         {isLogin ? (
           <BtnContainer>
             <Btn onClick={handleMessageClick}>
@@ -137,35 +128,6 @@ const CategoryName = styled.div`
   width: 20%;
   align-items: center;
   justify-content: center;
-`;
-
-const SearchBar = styled.form`
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  input[type='text']::placeholder {
-    color: #ff4d24;
-  }
-  position: relative;
-`;
-
-const Input = styled.input`
-  width: 85%;
-  height: 85%;
-  border: 2px solid #ff4d24;
-  border-radius: 10px;
-  padding-left: 15px;
-`;
-
-const SearchIcon = styled(AiOutlineSearch)`
-  position: absolute;
-  right: 9%;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 20px;
-  color: #ff4d24;
 `;
 
 const Btn = styled.div`
