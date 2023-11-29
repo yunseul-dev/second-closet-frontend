@@ -5,7 +5,7 @@ import { useRecoilValue } from 'recoil';
 import { isLoginState } from '../../../recoil/atom/isLoginState';
 import { Category } from '../../../constants';
 import { LuUser2, BiCloset, RxDividerVertical, PiSignInBold, AiOutlineMessage } from '../../../utils/icons';
-import { CategoryContainer } from './index';
+import { CategoryContainer } from '.';
 import useAuthenticationQuery from '../../../hooks/queries/useAuthenticQuery';
 import Search from './Search';
 

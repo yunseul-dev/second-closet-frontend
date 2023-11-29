@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { useState, useRef, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { debounce } from 'lodash';
+import styled from 'styled-components';
 import { AiOutlineSearch } from '../../../utils/icons';
 
 const Search = () => {
