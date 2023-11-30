@@ -56,9 +56,6 @@ const DetailPost = () => {
 
   const [imgNum, setImgNum] = useState(0);
   const [imgHovered, setImgHovered] = useState(false);
-  const { mutate: addHeart } = useAddHeartMutation();
-  const { mutate: deleteHeart } = useDeleteHeartMutation();
-
   const { productInfo } = useProductQuery(id);
 
   const {
@@ -80,6 +77,9 @@ const DetailPost = () => {
     hearts,
   }: Product = productInfo;
 
+  const { mutate: addHeart } = useAddHeartMutation(productId + '', hearts);
+  const { mutate: deleteHeart } = useDeleteHeartMutation(productId + '', hearts);
+
   const relatedItems: RelatedItems = useRelatedQuery(productId, categories[1]);
 
   if (!productInfo) {
@@ -90,9 +90,9 @@ const DetailPost = () => {
     if (userName === null) return;
 
     if (!hearts.includes(userName)) {
-      addHeart({ productId: productId, userId: userName, hearts: hearts });
+      addHeart({ productId: productId, userId: userName });
     } else {
-      deleteHeart({ productId: productId, userId: userName, hearts: hearts });
+      deleteHeart({ productId: productId, userId: userName });
     }
   };
 
