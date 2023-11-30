@@ -1,19 +1,22 @@
 import { useGenericMutation } from '.';
 import axios from 'axios';
+import { userState } from '../../recoil/atom';
+import { useRecoilValue } from 'recoil';
 
 const deleteHeart = async ({ productId, userId }: { productId: number; userId: string }) => {
   axios.delete(`/api/products/hearts/${productId}/${userId}`);
 };
 
-const useDeleteHeartMutation = (sortOption: string, productId: number) => {
+const useDeleteHeartMutation = (id: string, hearts: string[]) => {
+  const userId = useRecoilValue(userState)?.replace(/"/g, '') || '';
+
   return useGenericMutation({
-    queryKey: ['@MyHearts', sortOption],
+    queryKey: ['@ProductInfo', id],
     mutationFn: deleteHeart,
     onMutate() {
-      return products => ({
-        ...products,
-        pages: products.pages.map(page => page.filter(product => product.productId !== productId)),
-      });
+      return (productInfo: object[]) => [
+        { ...productInfo[0], hearts: hearts.filter((user: string) => user !== userId) },
+      ];
     },
   });
 };
