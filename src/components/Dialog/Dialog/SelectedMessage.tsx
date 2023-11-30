@@ -1,6 +1,5 @@
-import { useState, useRef, useEffect, ChangeEvent, KeyboardEvent } from 'react';
+import React, { useState, useRef, useEffect, ChangeEvent, KeyboardEvent } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { MyWords, YourWords } from '.';
 import { formatTimeAgo } from '../../../utils';
@@ -19,8 +18,16 @@ type Messages = {
   timestamp: number;
 };
 
-const SelectedMessage = () => {
-  const { id } = useParams();
+interface SelectedMessageProps {
+  id: string;
+}
+
+const SelectedMessage: React.FC<SelectedMessageProps> = ({ id }) => {
+  const { messageInfo } = useMessageQuery(id);
+
+  const { messageId, messages, productInfo } = messageInfo;
+
+  const [chatMessages, setChatMessages] = useState<Messages[]>(messages);
 
   const userId = useRecoilValue(userState);
   const [isFocused, setIsFocused] = useState(false);
@@ -33,12 +40,6 @@ const SelectedMessage = () => {
       current.scrollTop = current.scrollHeight;
     }
   });
-
-  const { messageInfo } = useMessageQuery(id);
-
-  const { messageId, messages, productInfo } = messageInfo;
-
-  const [chatMessages, setChatMessages] = useState<Messages[]>(messages);
 
   useChatSocket(messageId, setChatMessages);
 
