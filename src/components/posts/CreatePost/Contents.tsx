@@ -47,7 +47,9 @@ const Contents = () => {
           <Select ref={countRef}>
             <option value="">선택</option>
             {wearCounts.map(count => (
-              <option value={count}>{count}</option>
+              <option value={count} key={count}>
+                {count}
+              </option>
             ))}
           </Select>
         </List>
