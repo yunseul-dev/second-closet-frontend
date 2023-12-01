@@ -5,7 +5,7 @@ import { NotSelectedMessage, SelectedMessage } from '.';
 const Dialog = () => {
   const { id } = useParams();
 
-  return <Container>{id ? <SelectedMessage key={id} id={id} /> : <NotSelectedMessage />}</Container>;
+  return <Container>{id ? <SelectedMessage id={id} /> : <NotSelectedMessage />}</Container>;
 };
 
 export default Dialog;

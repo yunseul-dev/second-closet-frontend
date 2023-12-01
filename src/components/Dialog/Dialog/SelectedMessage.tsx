@@ -35,6 +35,10 @@ const SelectedMessage: React.FC<SelectedMessageProps> = ({ id }) => {
   const [textValue, setTextValue] = useState('');
 
   useEffect(() => {
+    setChatMessages(messages);
+  }, [messages]);
+
+  useEffect(() => {
     const { current } = dialogRef;
     if (current) {
       current.scrollTop = current.scrollHeight;
