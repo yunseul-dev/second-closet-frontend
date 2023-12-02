@@ -1,12 +1,10 @@
-import { useParams } from 'react-router-dom';
 import { AppLayout } from '../components/common/AppLayout';
 import DetailPost from '../components/posts/DetailPost/DetailPost';
 
 const DetailPage = () => {
-  const { id } = useParams();
   return (
     <AppLayout>
-      <DetailPost key={id} />
+      <DetailPost />
     </AppLayout>
   );
 };

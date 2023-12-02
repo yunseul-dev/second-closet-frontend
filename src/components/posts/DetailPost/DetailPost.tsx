@@ -56,6 +56,7 @@ const DetailPost = () => {
 
   const [imgNum, setImgNum] = useState(0);
   const [imgHovered, setImgHovered] = useState(false);
+
   const { productInfo } = useProductQuery(id);
 
   const {
