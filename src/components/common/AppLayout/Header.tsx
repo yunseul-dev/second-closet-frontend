@@ -4,26 +4,25 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { isLoginState } from '../../../recoil/atom/isLoginState';
 import { Category } from '../../../constants';
-import { LuUser2, BiCloset, RxDividerVertical, PiSignInBold, AiOutlineMessage } from '../../../utils/icons';
-import { CategoryContainer } from '.';
+import { BiCloset, RxDividerVertical, PiSignInBold, AiOutlineMessage, LuUserCog } from '../../../utils/icons';
+import { CategoryContainer, Settings, Search } from '.';
 import useAuthenticationQuery from '../../../hooks/queries/useAuthenticQuery';
-import Search from './Search';
 
 const Header = () => {
   useAuthenticationQuery();
   const isLogin = useRecoilValue(isLoginState);
 
   const navigate = useNavigate();
-  const [isHovered, setIsHovered] = useState(false);
+  const [isCategoryHovered, setIsCategoryHovered] = useState(false);
+  const [isSettingsHovered, setIsSettingsHovered] = useState(false);
 
   const handleLogoClick = () => navigate('/');
   const handleSigninClick = () => navigate('/signin');
   const handleMessageClick = () => navigate('/chatpage');
   const handleCreatepostClick = () => navigate('/createpost');
-  const handleMypageClick = () => navigate('/mypage');
 
-  const handleMouseEnter = () => setIsHovered(true);
-  const handleMouseLeave = () => setIsHovered(false);
+  const handleCateMouseEnter = () => setIsCategoryHovered(true);
+  const handleCateMouseLeave = () => setIsCategoryHovered(false);
 
   return (
     <Container>
@@ -48,10 +47,13 @@ const Header = () => {
             <Divider>
               <RxDividerVertical />
             </Divider>
-            <Btn onClick={handleMypageClick}>
-              <LuUser2 />
-              <div>My 옷장</div>
-            </Btn>
+            <BtnwithSettings
+              onMouseEnter={() => setIsSettingsHovered(true)}
+              onMouseLeave={() => setIsSettingsHovered(false)}>
+              <LuUserCog />
+              <div>설정</div>
+              {isSettingsHovered && <Settings />}
+            </BtnwithSettings>
           </BtnContainer>
         ) : (
           <Btn onClick={handleSigninClick}>
@@ -60,13 +62,13 @@ const Header = () => {
           </Btn>
         )}
       </FirstContainer>
-      <div onMouseLeave={handleMouseLeave}>
-        <CategoryList onMouseEnter={handleMouseEnter}>
+      <div onMouseLeave={handleCateMouseLeave}>
+        <CategoryList onMouseEnter={handleCateMouseEnter}>
           {Object.keys(Category).map(category => (
             <CategoryName key={category}>{category}</CategoryName>
           ))}
         </CategoryList>
-        {isHovered && <CategoryContainer />}
+        {isCategoryHovered && <CategoryContainer />}
       </div>
     </Container>
   );
@@ -132,7 +134,7 @@ const CategoryName = styled.div`
 
 const Btn = styled.div`
   border-radius: 5%;
-  margin: 0 5px 0 5px;
+  margin: 0 3px 0 3px;
   padding: 10px 10px 10px 10px;
   font-weight: 700;
   display: flex;
@@ -140,4 +142,9 @@ const Btn = styled.div`
   justify-content: center;
   align-items: center;
   gap: 4px;
+  cursor: pointer;
+`;
+
+const BtnwithSettings = styled(Btn)`
+  position: relative;
 `;
