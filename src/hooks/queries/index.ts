@@ -9,3 +9,4 @@ export { default as useProductQuery } from './useProductQuery';
 export { default as useRecommendQuery } from './useRecommendQuery';
 export { default as useRelatedQuery } from './useRelatedQuery';
 export { default as useUserQuery } from './useUserQuery';
+export { default as useTagsInfiniteQuery } from './useTagsInfiniteQuery';
