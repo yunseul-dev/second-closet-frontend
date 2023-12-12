@@ -12,6 +12,7 @@ import {
   DetailPage,
   Root,
   AuthPage,
+  AccountsPage,
 } from '../pages';
 
 const routerConfig = createBrowserRouter([
@@ -61,6 +62,14 @@ const routerConfig = createBrowserRouter([
     element: (
       <Suspense fallback={<Loading />}>
         <AuthenticationGuard redirectTo="/signin" element={<MyPage />} />
+      </Suspense>
+    ),
+  },
+  {
+    path: '/accounts',
+    element: (
+      <Suspense fallback={<Loading />}>
+        <AuthenticationGuard redirectTo="/signin" element={<AccountsPage />} />
       </Suspense>
     ),
   },
