@@ -4,15 +4,16 @@ import { BsSuitHeart, BsSuitHeartFill, BsBalloonHeartFill } from 'react-icons/bs
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { FaXmark, FaCircleUser } from 'react-icons/fa6';
 import { LiaHeartSolid, LiaHomeSolid, LiaAngleRightSolid } from 'react-icons/lia';
-import { LuClock3, LuUser2, LuMessagesSquare, LuShirt } from 'react-icons/lu';
+import { LuClock3, LuUser2, LuMessagesSquare, LuShirt, LuSettings, LuUserCog } from 'react-icons/lu';
 import { HiArrowUp } from 'react-icons/hi';
 import { HiMiniPaperAirplane, HiArrowLongRight } from 'react-icons/hi2';
-import { PiSignInBold } from 'react-icons/pi';
+import { PiSignInBold, PiSignOutBold } from 'react-icons/pi';
 import { RiHomeHeartLine } from 'react-icons/ri';
 import { RxDividerVertical } from 'react-icons/rx';
 import { TbBasketOff, TbBasket } from 'react-icons/tb';
 
 export {
+  LuUserCog,
   LiaHomeSolid,
   TbBasketOff,
   TbBasket,
@@ -42,4 +43,6 @@ export {
   HiArrowLongRight,
   AiOutlineHeart,
   RiHomeHeartLine,
+  LuSettings,
+  PiSignOutBold,
 };
