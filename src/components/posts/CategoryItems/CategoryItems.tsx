@@ -39,13 +39,14 @@ const CategoryItems = () => {
   }, [getNextPage]);
 
   const observerRef = useObserver(getNextPage);
+  const categoryname = categories[categories.length - 1];
 
   return (
     <Container>
       <CategoryTab categories={categories} />
       <CategoryList categories={categories} />
       <ItemsContainer>
-        <SortTabs setSortOption={setSortOption} sortOption={sortOption} categories={categories} />
+        <SortTabs setSortOption={setSortOption} sortOption={sortOption} name={categoryname} />
         <Items data={data} />
         {hasNextPage && (
           <div ref={observerRef}>
