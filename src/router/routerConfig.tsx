@@ -13,6 +13,7 @@ import {
   Root,
   AuthPage,
   AccountsPage,
+  TagsPage,
 } from '../pages';
 
 const routerConfig = createBrowserRouter([
@@ -45,6 +46,14 @@ const routerConfig = createBrowserRouter([
     element: (
       <Suspense fallback={<Loading />}>
         <CategoryItemsPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: '/tag/:tagname',
+    element: (
+      <Suspense fallback={<Loading />}>
+        <AuthenticationGuard redirectTo="/signin" element={<TagsPage />} />
       </Suspense>
     ),
   },
