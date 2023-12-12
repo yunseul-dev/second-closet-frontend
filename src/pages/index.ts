@@ -6,3 +6,4 @@ export { default as EditPostPage } from './EditPostPage';
 export { default as MyPage } from './MyPage';
 export { default as Root } from './Root';
 export { default as AuthPage } from './AuthPage';
+export { default as AccountsPage } from './AccountsPage';

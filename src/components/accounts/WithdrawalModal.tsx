@@ -3,8 +3,8 @@ import axios from 'axios';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { userState } from '../../../recoil/atom/userState';
-import { isLoginState } from '../../../recoil/atom/isLoginState';
+import { userState } from '../../recoil/atom/userState';
+import { isLoginState } from '../../recoil/atom/isLoginState';
 
 interface WithDrawalProps {
   closeModal: () => void;

@@ -1,10 +1,10 @@
 import axios from 'axios';
 import styled from 'styled-components';
-import { useState, useRef, Dispatch, SetStateAction } from 'react';
-import { PwEditModal, WithdrawalModal, InfoContainer } from '.';
-import { useUserQuery } from '../../../hooks/queries';
-import Modal from '../../common/Modal/Modal';
-import { banks } from '../../../constants';
+import { useState, useRef } from 'react';
+import { PwEditModal, WithdrawalModal, InfoContainer, Title } from '.';
+import { useUserQuery } from '../../hooks/queries';
+import Modal from '../common/Modal/Modal';
+import { banks } from '../../constants';
 
 interface UserData {
   userId: string;
@@ -14,11 +14,7 @@ interface UserData {
   address: string;
 }
 
-interface AccountInfoEditProps {
-  setIsInfoEdit: Dispatch<SetStateAction<string>>;
-}
-
-const AccountInfoEdit: React.FC<AccountInfoEditProps> = ({ setIsInfoEdit }) => {
+const AccountInfoEdit = () => {
   const { userInfo } = useUserQuery();
 
   const [isPwModalOpen, setIsPwModalOpen] = useState(false);
@@ -57,7 +53,6 @@ const AccountInfoEdit: React.FC<AccountInfoEditProps> = ({ setIsInfoEdit }) => {
       }
 
       await axios.patch(`/api/users/edit/${userInfo?.userId}`, updatedData);
-      setIsInfoEdit('product');
     } catch (error) {
       console.log(error);
     }
@@ -65,6 +60,7 @@ const AccountInfoEdit: React.FC<AccountInfoEditProps> = ({ setIsInfoEdit }) => {
 
   return (
     <Container>
+      <Title />
       <Content>
         <InfoContainer name="아이디">
           <Input value={userInfo?.userId} readOnly />

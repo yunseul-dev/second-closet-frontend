@@ -43,6 +43,7 @@ const MyList = styled.div``;
 
 const ListTab = styled.div`
   display: flex;
+  margin-top: 30px;
 `;
 
 const ListName = styled.div<DivNameProp>`
