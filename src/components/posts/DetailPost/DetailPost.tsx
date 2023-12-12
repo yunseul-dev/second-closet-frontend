@@ -223,7 +223,11 @@ const DetailPost = () => {
             {description}
             <Tags>
               {tags.map(tag => {
-                return <Tag key={tag}>#{tag}</Tag>;
+                return (
+                  <Tag key={tag} onClick={() => navigate(`/tag/${tag}`)}>
+                    #{tag}
+                  </Tag>
+                );
               })}
             </Tags>
           </Explain>
@@ -428,6 +432,8 @@ const ExplainContainer = styled.div`
 
 const Explain = styled.div`
   font-size: 18px;
+  white-space: pre;
+  line-height: 130%;
 `;
 
 const SellerName = styled.span``;
@@ -443,6 +449,7 @@ const Tag = styled.span`
   border-radius: 10px;
   font-weight: 600;
   font-size: 14px;
+  cursor: pointer;
 `;
 
 const Bottom = styled.div`
