@@ -3,11 +3,14 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { debounce } from 'lodash';
 import styled from 'styled-components';
 import { AiOutlineSearch } from '../../../utils/icons';
+import { useNavigate } from 'react-router-dom';
 
 const Search = () => {
   const [searchResults, setSearchResults] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const searchRef = useRef<HTMLFormElement>(null);
+
+  const navigate = useNavigate();
 
   const fetchSearchResults = useCallback(
     debounce((term: string) => {
@@ -50,16 +53,32 @@ const Search = () => {
     return () => document.removeEventListener('mousedown', handleOutsideClick);
   }, []);
 
+  const handleInputKeyDown = (e: KeyboardEvent) => {
+    if (e.key !== 'Enter') return;
+
+    navigate(`/tag/${searchTerm}`);
+    setSearchResults([]);
+    setSearchTerm('');
+  };
+
   return (
     <>
       <SearchBar ref={searchRef}>
-        <Input type="text" value={searchTerm} onChange={handleInputChange} placeholder="상품명을 입력하세요." />
+        <Input
+          type="text"
+          value={searchTerm}
+          onKeyDown={handleInputKeyDown}
+          onChange={handleInputChange}
+          placeholder="상품명을 입력하세요."
+        />
         <SearchIcon />
         {searchTerm.length > 0 && (
           <SearchResultsWrapper>
             <SearchResults>
               {searchResults.map((result, index) => (
-                <SearchResultItem key={index}>{result}</SearchResultItem>
+                <SearchResultItem key={index} onClick={() => navigate(`/tag/${result}`)}>
+                  {result}
+                </SearchResultItem>
               ))}
             </SearchResults>
             <CloseBtn onClick={handleCloseClick}>닫기</CloseBtn>
