@@ -1,11 +1,11 @@
-import { styled } from 'styled-components';
-import { useForm, useController, Control } from 'react-hook-form';
-import { signUpOptionSchema } from '../../../utils';
-import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
-import { debounce } from 'lodash';
 import { useCallback, ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
+import { useForm, useController, Control } from 'react-hook-form';
+import { styled } from 'styled-components';
+import { debounce } from 'lodash';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signUpOptionSchema } from '../../../utils';
 import { banks } from '../../../constants';
+import { editUser } from '../../../api/user';
 
 interface SignUpOptionData {
   address: string;
@@ -122,7 +122,7 @@ const SignUpOption = ({ userId, setUserId, setState }: SignUpOptionProps) => {
         bank: selectedBank,
       };
 
-      await axios.patch(`api/users/edit/${userId}`, data);
+      await editUser(userId, data);
       setUserId(null);
       setState('signIn');
     } catch (error) {

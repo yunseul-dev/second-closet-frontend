@@ -1,10 +1,11 @@
-import axios from 'axios';
 import styled from 'styled-components';
 import { useState, useRef } from 'react';
 import { PwEditModal, WithdrawalModal, InfoContainer, Title } from '.';
 import { useUserQuery } from '../../hooks/queries';
 import Modal from '../common/Modal/Modal';
 import { banks } from '../../constants';
+import { editUser } from '../../api/user';
+import { useNavigate } from 'react-router-dom';
 
 interface UserData {
   userId: string;
@@ -16,6 +17,7 @@ interface UserData {
 
 const AccountInfoEdit = () => {
   const { userInfo } = useUserQuery();
+  const navigate = useNavigate();
 
   const [isPwModalOpen, setIsPwModalOpen] = useState(false);
   const [isWdModalOpen, setIsWdModalOpen] = useState(false);
@@ -52,7 +54,8 @@ const AccountInfoEdit = () => {
         updatedData.bank = bankRef.current?.value;
       }
 
-      await axios.patch(`/api/users/edit/${userInfo?.userId}`, updatedData);
+      await editUser(userInfo?.userId, updatedData);
+      navigate('/mypage');
     } catch (error) {
       console.log(error);
     }
