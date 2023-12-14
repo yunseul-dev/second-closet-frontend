@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import axios from 'axios';
 import styled from 'styled-components';
 import List from './List';
 import { useChatSocketList } from '../../../hooks';
 import { userState } from '../../../recoil/atom/userState';
+import { fetchMessages } from '../../../api/messages';
 
 type Message = {
   senderId: string;
@@ -18,11 +18,6 @@ interface NewMessage {
   partner: string | undefined;
   messages: Message[];
 }
-
-const fetchMessages = async (userId: string) => {
-  const { data } = await axios.get(`/api/messages/${userId}`);
-  return data;
-};
 
 const MessageList = () => {
   const userId = useRecoilValue(userState) || '';

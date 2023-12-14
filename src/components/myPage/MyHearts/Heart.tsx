@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { BsSuitHeart, BsSuitHeartFill } from '../../../utils/icons';
 import { formatTimeAgo } from '../../../utils';
-import { useDeleteHeartMutation } from '../../../hooks/mutations';
+import { useDeleteMyHeartMutation } from '../../../hooks/mutations';
 import { userState } from '../../../recoil/atom';
+import { createMessage } from '../../../api/messages';
 
 interface Div {
   $sold: boolean;
@@ -37,7 +37,7 @@ const Heart: React.FC<MyHeartProps> = ({ product, sortOption }) => {
   const navigate = useNavigate();
   const [id, setId] = useState(0);
 
-  const { mutate: deleteHeart } = useDeleteHeartMutation(sortOption, id);
+  const { mutate: deleteHeart } = useDeleteMyHeartMutation(sortOption, id);
 
   const handleClick = (productId: number) => {
     navigate(`/detail/${productId}`);
@@ -48,17 +48,8 @@ const Heart: React.FC<MyHeartProps> = ({ product, sortOption }) => {
     deleteHeart({ productId, userId });
   };
 
-  const handleTalkClick = async (
-    productId: number,
-    sellerId: string,
-    productName: string,
-    price: string,
-    delivery: boolean,
-    discount: boolean,
-    createdAt: number,
-    img: string,
-  ) => {
-    const { data } = await axios.post(`/api/messages/post`, {
+  const handleTalkClick = async () => {
+    const { id } = await createMessage({
       productId: productId,
       buyerId: userId,
       sellerId: sellerId,
@@ -68,11 +59,11 @@ const Heart: React.FC<MyHeartProps> = ({ product, sortOption }) => {
         delivery: delivery,
         discount: discount,
         createdAt: createdAt,
-        img: img,
+        img: imgs[0],
       },
     });
 
-    navigate(`/chatpage/${data.id}`);
+    navigate(`/chatpage/${id}`);
   };
 
   return (
@@ -101,11 +92,7 @@ const Heart: React.FC<MyHeartProps> = ({ product, sortOption }) => {
           <HeartBtn onClick={() => handleHeartClick(productId, userId)}>
             <BsSuitHeartFill />
           </HeartBtn>
-          <TalkBtn
-            disabled={!discount}
-            onClick={() =>
-              handleTalkClick(productId, sellerId, productName, price, delivery, discount, createdAt, imgs[0])
-            }>
+          <TalkBtn disabled={!discount} onClick={() => handleTalkClick()}>
             문의하기
           </TalkBtn>
           <BuyBtn>구매하기</BuyBtn>

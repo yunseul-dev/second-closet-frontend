@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/atom';
-import axios from 'axios';
+import { fetchMessages } from '../../api/messages';
 
 interface Message {
   senerId: string;
@@ -14,12 +14,6 @@ interface Messages {
   partner: string;
   messages: Message[];
 }
-
-const fetchMessages = async (userId: string) => {
-  const { data } = await axios.get(`/api/messages/${userId}`);
-
-  return data;
-};
 
 const staleTime = 1000 * 3;
 

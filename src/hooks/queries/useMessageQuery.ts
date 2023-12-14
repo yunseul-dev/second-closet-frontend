@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
-
+import { fetchMessage } from '../../api/messages';
 interface ProductInfo {
   productName: string;
   price: string;
@@ -20,12 +19,6 @@ interface Message {
   messages: Messages[];
   productInfo: ProductInfo;
 }
-
-const fetchMessage = async (id: string | undefined) => {
-  const { data } = await axios.get(`/api/messages/message/${id}`);
-
-  return data;
-};
 
 const staleTime = 1000 * 3;
 

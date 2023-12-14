@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import axios from 'axios';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import {
@@ -17,6 +16,7 @@ import { useAddHeartMutation, useDeleteHeartMutation } from '../../../hooks/muta
 import { useProductQuery, useRelatedQuery } from '../../../hooks/queries';
 import { formatTimeAgo } from '../../../utils';
 import CategoryTab from '../../common/CategoryTab/CategoryTab';
+import { createMessage } from '../../../api/messages';
 
 type Product = {
   productId: number;
@@ -52,7 +52,7 @@ const DetailPost = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const userId = useRecoilValue(userState);
+  const userId = useRecoilValue(userState) || '';
 
   const [imgNum, setImgNum] = useState(0);
   const [imgHovered, setImgHovered] = useState(false);
@@ -78,8 +78,8 @@ const DetailPost = () => {
     hearts,
   }: Product = productInfo;
 
-  const { mutate: addHeart } = useAddHeartMutation(productId + '', hearts);
-  const { mutate: deleteHeart } = useDeleteHeartMutation(productId + '', hearts);
+  const { mutate: addHeart } = useAddHeartMutation(productId, hearts);
+  const { mutate: deleteHeart } = useDeleteHeartMutation(productId, hearts);
 
   const relatedItems: RelatedItems = useRelatedQuery(productId, categories[1]);
 
@@ -122,7 +122,7 @@ const DetailPost = () => {
   };
 
   const handleTalkClick = async () => {
-    const { data } = await axios.post(`/api/messages/post`, {
+    const { id } = await createMessage({
       productId: productId,
       buyerId: userId,
       sellerId: sellerId,
@@ -136,7 +136,7 @@ const DetailPost = () => {
       },
     });
 
-    navigate(`/chatpage/${data.id}`);
+    navigate(`/chatpage/${id}`);
   };
 
   const handleMyPageClick = () => navigate('/mypage');
