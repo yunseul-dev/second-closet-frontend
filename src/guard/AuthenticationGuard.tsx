@@ -1,8 +1,8 @@
 import { Navigate } from 'react-router-dom';
 import { ReactNode, useEffect } from 'react';
-import axios from 'axios';
 import { useSetRecoilState, useRecoilState } from 'recoil';
 import { userState, isLoginState } from '../recoil/atom';
+import { checkVerify } from '../api/auth';
 
 interface AuthenticationGuardProps {
   redirectTo: string;
@@ -16,8 +16,7 @@ const AuthenticationGuard: React.FC<AuthenticationGuardProps> = ({ redirectTo, e
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get('/api/auth/verify', { withCredentials: true });
-        const data = res.data;
+        const data = await checkVerify();
 
         if (data && !data.userId) {
           setUserId(null);

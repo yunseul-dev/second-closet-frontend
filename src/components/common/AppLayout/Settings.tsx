@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { useSetRecoilState } from 'recoil';
 import { isLoginState, userState } from '../../../recoil/atom';
 import { LuUser2, PiSignOutBold, LuSettings } from '../../../utils/icons';
+import { signOut } from '../../../api/auth';
 
 const Settings = () => {
   const navigate = useNavigate();
@@ -12,8 +12,7 @@ const Settings = () => {
 
   const handleSignoutClick = async () => {
     console.log('here');
-    const res = await axios.get('api/auth/signout', { withCredentials: true });
-    const { isLogin } = res.data;
+    const isLogin = await signOut();
 
     setUserId(null);
     localStorage.removeItem('user');
