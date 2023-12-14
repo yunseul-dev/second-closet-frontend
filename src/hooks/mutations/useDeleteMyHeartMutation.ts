@@ -1,14 +1,13 @@
+import { useRecoilValue } from 'recoil';
 import { useGenericMutation } from '.';
-import axios from 'axios';
-
-const deleteHeart = async ({ productId, userId }: { productId: number; userId: string }) => {
-  axios.delete(`/api/products/hearts/${productId}/${userId}`);
-};
+import { deleteHeart } from '../../api/products';
+import { userState } from '../../recoil/atom';
 
 const useDeleteMyHeartMutation = (sortOption: string, productId: number) => {
+  const userId = useRecoilValue(userState);
   return useGenericMutation({
     queryKey: ['@MyHearts', sortOption],
-    mutationFn: deleteHeart,
+    mutationFn: () => deleteHeart(productId, userId),
     onMutate() {
       return products => ({
         ...products,

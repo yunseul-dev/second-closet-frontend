@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import { fetchPopulars } from '../../api/products';
 
 interface Product {
   productId: number;
@@ -15,10 +15,7 @@ interface FetchResponse {
 const usePopularInfiniteQuery = () => {
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery<FetchResponse, Product[], unknown>({
     queryKey: ['@populars'],
-    queryFn: async ({ pageParam = 0 }) => {
-      const res = await axios.get(`/api/products/populars/${pageParam}`);
-      return res.data;
-    },
+    queryFn: async ({ pageParam = 0 }) => fetchPopulars(pageParam),
     getNextPageParam: (lastPage: FetchResponse['pages'][0], allPages: FetchResponse['pageParams']) => {
       const nextPage = allPages.length === 1 ? 1 : allPages.length;
 

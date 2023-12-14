@@ -1,14 +1,10 @@
-import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import { fetchRecommend } from '../../api/products';
 
 const useRecommendQuery = () => {
   const { data } = useQuery({
     queryKey: ['@RecommendProduct'],
-    queryFn: async () => {
-      const res = await axios.get(`/api/products/recommend`);
-
-      return res.data;
-    },
+    queryFn: async () => fetchRecommend(),
     staleTime: 1000 * 60 * 60 * 24,
     retry: false,
   });

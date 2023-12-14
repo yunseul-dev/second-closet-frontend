@@ -1,14 +1,10 @@
-import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import { fetchRelated } from '../../api/products';
 
 const useRelatedQuery = (productId: number, category: string) => {
   const { data } = useQuery({
     queryKey: ['@RelatedProduct', productId],
-    queryFn: async () => {
-      const res = await axios.get(`/api/products/related/${productId}/${category}`);
-
-      return res.data;
-    },
+    queryFn: async () => fetchRelated(productId, category),
     staleTime: 1000 * 60 * 60 * 24,
     retry: false,
   });

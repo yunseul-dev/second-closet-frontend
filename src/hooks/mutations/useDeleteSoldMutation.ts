@@ -1,14 +1,10 @@
 import { useGenericMutation } from '.';
-import axios from 'axios';
-
-const deleteSold = async (productId: number) => {
-  axios.patch(`/api/products/update/${productId}`, { sold: false });
-};
+import { deleteSold } from '../../api/products';
 
 const useDeleteSoldMutation = (sortOption: string, productId: number) => {
   return useGenericMutation({
     queryKey: ['@MyProducts', sortOption],
-    mutationFn: deleteSold,
+    mutationFn: () => deleteSold(productId),
     onMutate() {
       return products => ({
         ...products,

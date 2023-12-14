@@ -1,9 +1,9 @@
-import axios from 'axios';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { debounce } from 'lodash';
 import styled from 'styled-components';
 import { AiOutlineSearch } from '../../../utils/icons';
 import { useNavigate } from 'react-router-dom';
+import { searchProduct } from '../../../api/products';
 
 const Search = () => {
   const [searchResults, setSearchResults] = useState<string[]>([]);
@@ -17,8 +17,7 @@ const Search = () => {
       if (term === '') {
         setSearchResults(['']);
       } else {
-        axios
-          .get(`/api/products/search/${term}`, { word: term })
+        searchProduct(term)
           .then(response => {
             setSearchResults(response.data);
           })

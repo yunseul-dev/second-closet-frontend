@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/atom';
+import { myHeartsInfinite } from '../../api/products';
 
 interface Product {
   productId: number;
@@ -26,16 +26,7 @@ const useMyHeartsInfiniteQuery = (sortOption: string) => {
 
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery<FetchResponse[], Product[], unknown>({
     queryKey: ['@MyHearts', sortOption],
-    queryFn: async ({ pageParam = 0 }) => {
-      const { data } = await axios.get(`/api/products/myhearts?sort=${sortOption}`, {
-        params: {
-          userId: userId,
-          page: pageParam,
-        },
-      });
-
-      return data;
-    },
+    queryFn: async ({ pageParam = 0 }) => myHeartsInfinite(sortOption, userId, pageParam),
     getNextPageParam: (lastPage: Product[], allPages: Product[][]): number | undefined => {
       const nextPage = allPages.length === 1 ? 1 : allPages.length;
 

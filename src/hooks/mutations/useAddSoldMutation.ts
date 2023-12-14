@@ -1,14 +1,10 @@
 import { useGenericMutation } from '.';
-import axios from 'axios';
-
-const addSold = async (productId: number) => {
-  axios.patch(`/api/products/update/${productId}`, { sold: true });
-};
+import { addSold } from '../../api/products';
 
 const useAddSoldMutation = (sortOption: string, productId: number) => {
   return useGenericMutation({
     queryKey: ['@MyProducts', sortOption],
-    mutationFn: addSold,
+    mutationFn: () => addSold(productId),
     onMutate() {
       return products => ({
         ...products,

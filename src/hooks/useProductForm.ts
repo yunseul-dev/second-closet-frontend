@@ -1,9 +1,9 @@
 import { useState, useRef } from 'react';
 import useFileUpload from './useFileUpload';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../recoil/atom';
+import { createPost, editPost } from '../api/products';
 
 interface PostData {
   userId: string | null;
@@ -96,11 +96,7 @@ const useProductForm = (productInfo?: ProductInfoProps) => {
       const formData = createFormData();
 
       if (checkRequiredFields()) {
-        await axios.post('/api/products/post', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
+        createPost(formData);
         navigate('/');
       } else {
         console.log('필수 항목을 모두 입력해주세요');
@@ -175,11 +171,7 @@ const useProductForm = (productInfo?: ProductInfoProps) => {
         sizeRef.current?.value &&
         countRef.current?.value
       ) {
-        await axios.patch(`/api/products/edit/${id}`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
+        await editPost(id, formData);
         navigate('/mypage');
       } else {
         console.log('모든 항목을 입력해주세요');
@@ -194,11 +186,7 @@ const useProductForm = (productInfo?: ProductInfoProps) => {
       const formData = createFormData();
 
       if (checkRequiredFields()) {
-        await axios.post('/api/products/post', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
+        createPost(formData);
         navigate('/');
       } else {
         console.log('아무것도 등록되지 않았습니다. 이대로 저장하시겠습니까?');

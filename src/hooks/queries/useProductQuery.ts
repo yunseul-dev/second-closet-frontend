@@ -1,10 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
-
-const fetchProduct = async (id: string | undefined) => {
-  const res = await axios.get(`/api/products/${id}`);
-  return res.data;
-};
+import { fetchProduct } from '../../api/products';
 
 const staleTime = 1000;
 

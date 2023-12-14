@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import { categoryInfinite } from '../../api/products';
 
 interface Product {
   productId: number;
@@ -16,16 +16,7 @@ interface FetchResponse {
 const useCategoryInfiniteQuery = (category: string[], sortOption: string) => {
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery<FetchResponse, Product[], unknown>({
     queryKey: ['@CategoryItem', category, sortOption],
-    queryFn: async ({ pageParam = 0 }) => {
-      const res = await axios.get(`/api/products/category?sort=${sortOption}`, {
-        params: {
-          category: category,
-          page: pageParam,
-        },
-      });
-
-      return res.data;
-    },
+    queryFn: ({ pageParam = 0 }) => categoryInfinite(sortOption, category, pageParam),
     getNextPageParam: (lastPage: Product[], allPages: Product[][]): number | undefined => {
       const nextPage = allPages.length === 1 ? 1 : allPages.length;
 
