@@ -1,12 +1,12 @@
-import styled from 'styled-components';
-import { userState } from '../../recoil/atom/userState';
+import { useCallback, ChangeEvent } from 'react';
 import { useRecoilValue } from 'recoil';
+import styled from 'styled-components';
+import { debounce } from 'lodash';
+import { useForm, Control, useController } from 'react-hook-form';
+import { userState } from '../../recoil/atom';
 import { ChangePwSchema } from '../../utils';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, Control, useController } from 'react-hook-form';
-import { useCallback, ChangeEvent } from 'react';
-import { debounce } from 'lodash';
-import axios from 'axios';
+import { changePassword } from '../../api/auth';
 
 interface ModalProps {
   closeModal: () => void;
@@ -64,7 +64,7 @@ const PwEditModal: React.FC<ModalProps> = ({ closeModal }) => {
 
   const onSubmit = async (data: ChangePwFormData) => {
     try {
-      await axios.patch(`/api/auth/changepw/${userId}`, data);
+      await changePassword(userId, data);
       closeModal();
     } catch (error) {
       console.log(error);

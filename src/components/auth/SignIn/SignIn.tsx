@@ -2,13 +2,12 @@ import { styled } from 'styled-components';
 import { useForm, useController, Control } from 'react-hook-form';
 import { signInSchema } from '../../../utils/shema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
 import { useCallback, ChangeEvent } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { userState } from '../../../recoil/atom/userState';
-import { isLoginState } from '../../../recoil/atom/isLoginState';
+import { userState, isLoginState } from '../../../recoil/atom';
+import { signIn } from '../../../api/auth';
 
 interface SignInFormData {
   userId: string;
@@ -76,7 +75,7 @@ const SignIn = () => {
 
   const onSubmit = async (data: SignInFormData) => {
     try {
-      const { data: userId } = await axios.post('api/auth/signin', data, { withCredentials: true });
+      const userId = await signIn(data);
       setUser(userId);
       setIsLogin(true);
       navigate('/');

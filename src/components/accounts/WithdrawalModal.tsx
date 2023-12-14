@@ -1,10 +1,9 @@
 import React from 'react';
-import axios from 'axios';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { userState } from '../../recoil/atom/userState';
-import { isLoginState } from '../../recoil/atom/isLoginState';
+import { userState, isLoginState } from '../../recoil/atom';
+import { deleteUser } from '../../api/auth';
 
 interface WithDrawalProps {
   closeModal: () => void;
@@ -16,7 +15,7 @@ const WithdrawalModal: React.FC<WithDrawalProps> = ({ closeModal }) => {
   const navigate = useNavigate();
 
   const handleWithdrawClick = async () => {
-    const isLogin = await axios.delete(`api/auth/withdraw/${userId}`);
+    const { isLogin } = await deleteUser(userId);
 
     setUserId(null);
     localStorage.removeItem('user');

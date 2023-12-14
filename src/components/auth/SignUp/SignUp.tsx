@@ -2,9 +2,9 @@ import { styled } from 'styled-components';
 import { useForm, useController, Control } from 'react-hook-form';
 import { signUpSchema } from '../../../utils';
 import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
 import { debounce } from 'lodash';
 import { useCallback, ChangeEvent, Dispatch, SetStateAction } from 'react';
+import { signUp } from '../../../api/auth';
 
 interface SignUpFormData {
   userId: string;
@@ -73,9 +73,9 @@ const SignUp = ({ setUserId, setState }: SignUpProps) => {
 
   const onSubmit = async (data: SignUpFormData) => {
     try {
-      const { data: user } = await axios.post('api/auth/signup', data, { withCredentials: true });
-      setUserId(user.userId);
-      console.log(user.userId, '님의 회원가입을 축하드립니다.');
+      const userId = await signUp(data);
+      setUserId(userId);
+      console.log(userId, '님의 회원가입을 축하드립니다.');
       setState('signUpOption');
     } catch (error) {
       console.log(error);
