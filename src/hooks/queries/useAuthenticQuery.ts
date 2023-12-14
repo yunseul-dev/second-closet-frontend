@@ -1,8 +1,8 @@
+import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { userState, isLoginState } from '../../recoil/atom';
-import axios from 'axios';
-import { useEffect } from 'react';
+import { checkVerify } from '../../api/auth';
 
 const useAuthenticationQuery = () => {
   const setUserId = useSetRecoilState(userState);
@@ -10,11 +10,7 @@ const useAuthenticationQuery = () => {
 
   const { isSuccess, isFetched, data } = useQuery({
     queryKey: ['@Authenticated'],
-    queryFn: async () => {
-      const res = await axios.get('/api/auth/verify', { withCredentials: true });
-
-      return res.data;
-    },
+    queryFn: () => checkVerify(),
     staleTime: 1000,
     retry: false,
   });
