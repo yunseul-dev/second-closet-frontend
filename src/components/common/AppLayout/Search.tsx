@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, KeyboardEvent, ChangeEvent } from 'react';
 import { debounce } from 'lodash';
 import styled from 'styled-components';
 import { AiOutlineSearch } from '../../../utils/icons';
@@ -30,19 +30,33 @@ const Search = () => {
     [],
   );
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
     fetchSearchResults(e.target.value);
   };
 
-  const handleOutsideClick = (e: MouseEvent) => {
+  const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== 'Enter') return;
+
+    navigate(`/tag/${searchTerm}`);
+    setSearchResults([]);
+    setSearchTerm('');
+  };
+
+  const handleOutsideClick = useCallback((e: MouseEvent) => {
     if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
       setSearchResults([]);
       setSearchTerm('');
     }
-  };
+  }, []);
 
   const handleCloseClick = () => {
+    setSearchResults([]);
+    setSearchTerm('');
+  };
+
+  const handleResultClick = (result: string) => {
+    navigate(`/tag/${result}`);
     setSearchResults([]);
     setSearchTerm('');
   };
@@ -50,15 +64,7 @@ const Search = () => {
   useEffect(() => {
     document.addEventListener('mousedown', handleOutsideClick);
     return () => document.removeEventListener('mousedown', handleOutsideClick);
-  }, []);
-
-  const handleInputKeyDown = (e: KeyboardEvent) => {
-    if (e.key !== 'Enter') return;
-
-    navigate(`/tag/${searchTerm}`);
-    setSearchResults([]);
-    setSearchTerm('');
-  };
+  }, [handleOutsideClick]);
 
   return (
     <>
@@ -75,7 +81,7 @@ const Search = () => {
           <SearchResultsWrapper>
             <SearchResults>
               {searchResults.map((result, index) => (
-                <SearchResultItem key={index} onClick={() => navigate(`/tag/${result}`)}>
+                <SearchResultItem key={index} onClick={() => handleResultClick(result)}>
                   {result}
                 </SearchResultItem>
               ))}
