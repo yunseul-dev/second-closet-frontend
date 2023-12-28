@@ -28,7 +28,23 @@ interface EditProps extends PostData {
   imgs?: string[][];
 }
 
-const useProductForm = (productInfo?: ProductInfoProps) => {
+const useProductForm = (
+  productInfo: ProductInfoProps = {
+    userId: '',
+    productName: '',
+    categories: [],
+    count: '',
+    price: '',
+    discount: false,
+    delivery: false,
+    exchange: false,
+    description: '',
+    tags: [],
+    size: '',
+    facetoface: false,
+    imgs: [],
+  },
+) => {
   const navigate = useNavigate();
   const userId = useRecoilValue(userState);
 
@@ -37,14 +53,14 @@ const useProductForm = (productInfo?: ProductInfoProps) => {
   const countRef = useRef<HTMLSelectElement>(null);
   const sizeRef = useRef<HTMLSelectElement>(null);
   const commentRef = useRef<HTMLTextAreaElement>(null);
-  const [price, setPrice] = useState(productInfo?.price || '');
-  const [exchangeOption, setExchangeOption] = useState<boolean>(productInfo?.exchange || false);
-  const [delivery, setDelivery] = useState(productInfo?.delivery || false);
-  const [discount, setDiscount] = useState(productInfo?.discount || false);
-  const [tags, setTags] = useState<string[]>(productInfo?.tags || []);
+  const [price, setPrice] = useState(productInfo?.price);
+  const [exchangeOption, setExchangeOption] = useState<boolean>(productInfo?.exchange);
+  const [delivery, setDelivery] = useState(productInfo?.delivery);
+  const [discount, setDiscount] = useState(productInfo?.discount);
+  const [tags, setTags] = useState<string[]>(productInfo?.tags);
   const [inputValue, setInputValue] = useState('');
-  const [canFace, setCanFace] = useState<boolean>(productInfo?.facetoface || false);
-  const [categories, setCategories] = useState<string[]>(productInfo?.categories || []);
+  const [canFace, setCanFace] = useState<boolean>(productInfo?.facetoface);
+  const [categories, setCategories] = useState<string[]>(productInfo?.categories);
   const [prevImgs, setPrevImgs] = useState<string[][]>([productInfo?.imgs, []]);
 
   const appendPhotoFiles = (formData: FormData) => {
@@ -158,7 +174,7 @@ const useProductForm = (productInfo?: ProductInfoProps) => {
         updatedData.facetoface = canFace;
       }
 
-      if (prevImgs !== productInfo?.imgs) {
+      if (prevImgs !== ([productInfo?.imgs] as string[][])) {
         updatedData.imgs = prevImgs;
       }
 
