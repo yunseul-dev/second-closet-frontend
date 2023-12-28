@@ -1,102 +1,59 @@
 import { createBrowserRouter } from 'react-router-dom';
 import AuthenticationGuard from '../guard/AuthenticationGuard';
-import { Suspense } from 'react';
+import { Suspense, lazy } from 'react';
 import Loading from '../components/skeletons/Loading';
 
-import {
-  ChatPage,
-  EditPostPage,
-  MyPage,
-  CategoryItemsPage,
-  CreatePostPage,
-  DetailPage,
-  Root,
-  AuthPage,
-  AccountsPage,
-  TagsPage,
-} from '../pages';
+const lazyLoading = (component: string) => {
+  const LazyElement = lazy(() => import(`../pages/${component}.tsx`));
+
+  return (
+    <Suspense fallback={<Loading />}>
+      <LazyElement />
+    </Suspense>
+  );
+};
 
 const routerConfig = createBrowserRouter([
   {
     path: '/signin',
-    element: (
-      <Suspense fallback={<Loading />}>
-        <AuthPage />
-      </Suspense>
-    ),
+    element: lazyLoading('AuthPage'),
   },
   {
     path: '/',
-    element: (
-      <Suspense fallback={<Loading />}>
-        <Root />
-      </Suspense>
-    ),
+    element: lazyLoading('Root'),
   },
   {
     path: '/detail/:id',
-    element: (
-      <Suspense fallback={<Loading />}>
-        <DetailPage />
-      </Suspense>
-    ),
+    element: lazyLoading('DetailPage'),
   },
   {
     path: '/category/:param1/:param2?/:param3?',
-    element: (
-      <Suspense fallback={<Loading />}>
-        <CategoryItemsPage />
-      </Suspense>
-    ),
+    element: lazyLoading('CategoryItemsPage'),
   },
   {
     path: '/tag/:tagname',
-    element: (
-      <Suspense fallback={<Loading />}>
-        <TagsPage />
-      </Suspense>
-    ),
+    element: lazyLoading('TagsPage'),
   },
 
   {
     path: '/createpost',
-    element: (
-      <Suspense fallback={<Loading />}>
-        <AuthenticationGuard redirectTo="/signin" element={<CreatePostPage />} />
-      </Suspense>
-    ),
+    element: <AuthenticationGuard redirectTo="/signin" element={lazyLoading('CreatePostPage')} />,
   },
   {
     path: '/mypage',
-    element: (
-      <Suspense fallback={<Loading />}>
-        <AuthenticationGuard redirectTo="/signin" element={<MyPage />} />
-      </Suspense>
-    ),
+    element: <AuthenticationGuard redirectTo="/signin" element={lazyLoading('MyPage')} />,
   },
   {
     path: '/accounts',
-    element: (
-      <Suspense fallback={<Loading />}>
-        <AuthenticationGuard redirectTo="/signin" element={<AccountsPage />} />
-      </Suspense>
-    ),
+    element: <AuthenticationGuard redirectTo="/signin" element={lazyLoading('AccountsPage')} />,
   },
   {
     path: '/editpost/:id',
-    element: (
-      <Suspense fallback={<Loading />}>
-        <AuthenticationGuard redirectTo="/signin" element={<EditPostPage />} />
-      </Suspense>
-    ),
+    element: <AuthenticationGuard redirectTo="/signin" element={lazyLoading('EditPostPage')} />,
   },
   {
     path: '/chatpage/:id?',
-    element: (
-      <Suspense fallback={<Loading />}>
-        <AuthenticationGuard redirectTo="/signin" element={<ChatPage />} />
-      </Suspense>
-    ),
+    element: <AuthenticationGuard redirectTo="/signin" element={lazyLoading('ChatPage')} />,
   },
 ]);
 
