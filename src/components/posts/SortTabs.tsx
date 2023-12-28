@@ -4,7 +4,7 @@ import { RxDividerVertical } from '../../utils/icons';
 interface SortTabsProps {
   setSortOption: (sortOption: string) => void;
   sortOption: string;
-  name: string;
+  name: string | undefined;
 }
 
 interface DivProp {

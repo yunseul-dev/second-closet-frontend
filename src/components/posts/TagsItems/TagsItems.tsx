@@ -7,25 +7,13 @@ import Loading from '../../skeletons/Loading';
 import SortTabs from '../SortTabs';
 import Items from '../Items';
 
-interface Product {
-  productId: number;
-  productName: string;
-  imgs: string[];
-  price: string;
-  createdAt: number;
-}
-
 const TagsItems = () => {
   const { tagname } = useParams();
 
   const [sortOption, setSortOption] = useState<string>('latest');
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const { data, hasNextPage, fetchNextPage } = useTagsInfiniteQuery(tagname, sortOption) as {
-    data: Product[];
-    hasNextPage: boolean;
-    fetchNextPage: () => void;
-  };
+  const { products, hasNextPage, fetchNextPage } = useTagsInfiniteQuery(tagname, sortOption);
 
   const getNextPage = useCallback(() => {
     if (isLoading || !hasNextPage) return;
@@ -44,7 +32,7 @@ const TagsItems = () => {
     <Container>
       <ItemsContainer>
         <SortTabs setSortOption={setSortOption} sortOption={sortOption} name={tagname} />
-        <Items data={data} />
+        <Items data={products} />
         {hasNextPage && (
           <div ref={observerRef}>
             <Loading />

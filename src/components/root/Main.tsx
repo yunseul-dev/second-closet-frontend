@@ -16,11 +16,7 @@ interface Product {
 
 const Main = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { data, hasNextPage, fetchNextPage } = usePopularInfiniteQuery() as {
-    data: Product[];
-    hasNextPage: boolean;
-    fetchNextPage: () => void;
-  };
+  const { products, hasNextPage, fetchNextPage } = usePopularInfiniteQuery();
   const navigate = useNavigate();
 
   const getNextPage = useCallback(() => {
@@ -49,7 +45,7 @@ const Main = () => {
         오늘의 인기 상품 <BsBalloonHeartFill />
       </Title>
       <ItemContainer>
-        {data.map(({ productId, productName, imgs, hearts, price }: Product) => {
+        {products.map(({ productId, productName, imgs, hearts, price }: Product) => {
           return (
             <Item key={productId} onClick={() => handleClick(productId)}>
               <ImageContainer>

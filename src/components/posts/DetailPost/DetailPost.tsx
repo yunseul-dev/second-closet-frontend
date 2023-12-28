@@ -81,7 +81,7 @@ const DetailPost = () => {
   const { mutate: addHeart } = useAddHeartMutation(productId, hearts);
   const { mutate: deleteHeart } = useDeleteHeartMutation(productId, hearts);
 
-  const relatedItems: RelatedItems = useRelatedQuery(productId, categories[1]);
+  const relatedItems: RelatedItems[] = useRelatedQuery(productId, categories[1]);
 
   if (!productInfo) {
     return <div>Loading...</div>;

@@ -4,6 +4,7 @@ interface ProductInfo {
   productName: string;
   price: string;
   createdAt: number;
+  img: string;
 }
 
 type Messages = {

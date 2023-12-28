@@ -13,7 +13,7 @@ interface Message {
 interface ListProps {
   message: {
     messageId: number;
-    productId: number;
+    productId: string;
     partner: string | undefined;
     messages: Message[];
   };

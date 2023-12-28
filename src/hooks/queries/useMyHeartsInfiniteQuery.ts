@@ -24,18 +24,18 @@ interface FetchResponse {
 const useMyHeartsInfiniteQuery = (sortOption: string) => {
   const userId = useRecoilValue(userState);
 
-  const { data, hasNextPage, fetchNextPage } = useInfiniteQuery<FetchResponse[], Product[], unknown>({
+  const { data, hasNextPage, fetchNextPage } = useInfiniteQuery<Product[], unknown, FetchResponse>({
     queryKey: ['@MyHearts', sortOption],
     queryFn: async ({ pageParam = 0 }) => myHeartsInfinite(sortOption, userId, pageParam),
+    initialPageParam: 0,
     getNextPageParam: (lastPage: Product[], allPages: Product[][]): number | undefined => {
       const nextPage = allPages.length === 1 ? 1 : allPages.length;
 
       return lastPage.length !== 0 ? nextPage : undefined;
     },
-    select: response => response.pages.flat(),
   });
 
-  return { products: data, hasNextPage, fetchNextPage };
+  return { products: data?.pages.flat() as Product[], hasNextPage, fetchNextPage };
 };
 
 export default useMyHeartsInfiniteQuery;

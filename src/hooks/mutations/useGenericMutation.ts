@@ -1,32 +1,33 @@
-import { useQueryClient, useMutation, MutationFunction } from '@tanstack/react-query';
+import { useQueryClient, useMutation } from '@tanstack/react-query';
 
 interface UseGenericMutationOptions<TData, TVariables> {
   queryKey: string[];
-  mutationFn: MutationFunction<TData, TVariables>;
+  mutationFn: (variables: TVariables) => Promise<TData>;
   onMutate?: (variables: TVariables) => unknown;
 }
 
 const useGenericMutation = <TData, TVariables>({
   queryKey,
   mutationFn,
-  onMutate: expected,
+  onMutate,
 }: UseGenericMutationOptions<TData, TVariables>) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn,
-
     async onMutate(variables: TVariables) {
       await queryClient.cancelQueries({ queryKey: queryKey });
       const previousData = queryClient.getQueryData<TData>(queryKey);
 
-      queryClient.setQueryData<TData>(queryKey, expected(variables));
+      if (onMutate) {
+        queryClient.setQueryData<TData>(queryKey, onMutate(variables) as TData);
+      }
 
       return { previousData };
     },
 
-    onError(err, variables, context) {
-      queryClient.setQueryData(queryKey, context?.previousData);
+    onError() {
+      queryClient.setQueryData(queryKey, onMutate);
     },
 
     onSettled() {

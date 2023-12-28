@@ -5,7 +5,8 @@ interface Product {
   productId: number;
   productName: string;
   imgs: string[];
-  createdAt: string;
+  price: string;
+  createdAt: number;
 }
 
 interface FetchResponse {
@@ -13,19 +14,19 @@ interface FetchResponse {
   pageParams: number[];
 }
 
-const useTagsInfiniteQuery = (tag: string, sortOption: string) => {
-  const { data, hasNextPage, fetchNextPage } = useInfiniteQuery<FetchResponse, Product[], unknown>({
+const useTagsInfiniteQuery = (tag: string | undefined, sortOption: string) => {
+  const { data, hasNextPage, fetchNextPage } = useInfiniteQuery<Product[], unknown, FetchResponse>({
     queryKey: ['@TagItem', tag, sortOption],
     queryFn: async ({ pageParam = 0 }) => tagsInfinite(tag, sortOption, pageParam),
+    initialPageParam: 0,
     getNextPageParam: (lastPage: Product[], allPages: Product[][]): number | undefined => {
       const nextPage = allPages.length === 1 ? 1 : allPages.length;
 
       return lastPage.length !== 0 ? nextPage : undefined;
     },
-    select: response => response.pages.flat(),
   });
 
-  return { data, hasNextPage, fetchNextPage };
+  return { products: data?.pages.flat() as Product[], hasNextPage, fetchNextPage };
 };
 
 export default useTagsInfiniteQuery;

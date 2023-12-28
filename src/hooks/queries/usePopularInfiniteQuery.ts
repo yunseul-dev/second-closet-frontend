@@ -5,26 +5,27 @@ interface Product {
   productId: number;
   productName: string;
   imgs: string[];
+  hearts: number;
+  price: string;
 }
-
 interface FetchResponse {
   pages: Product[][];
   pageParams: number[];
 }
 
 const usePopularInfiniteQuery = () => {
-  const { data, hasNextPage, fetchNextPage } = useInfiniteQuery<FetchResponse, Product[], unknown>({
+  const { data, hasNextPage, fetchNextPage } = useInfiniteQuery<Product[], unknown, FetchResponse>({
     queryKey: ['@populars'],
     queryFn: async ({ pageParam = 0 }) => fetchPopulars(pageParam),
-    getNextPageParam: (lastPage: FetchResponse['pages'][0], allPages: FetchResponse['pageParams']) => {
+    initialPageParam: 0,
+    getNextPageParam: (lastPage: Product[], allPages: Product[][]): number | undefined => {
       const nextPage = allPages.length === 1 ? 1 : allPages.length;
 
       return lastPage.length !== 0 ? nextPage : undefined;
     },
-    select: response => response.pages.flat(),
   });
 
-  return { data, hasNextPage, fetchNextPage };
+  return { products: data?.pages.flat() as Product[], hasNextPage, fetchNextPage };
 };
 
 export default usePopularInfiniteQuery;
