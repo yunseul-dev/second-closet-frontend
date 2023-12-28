@@ -35,7 +35,7 @@ const myProductsInfinite = async (sortOption: string, userId: string | null, pag
   return res.data;
 };
 
-const tagsInfinite = async (tag: string, sortOption: string, pageParam: number | unknown) => {
+const tagsInfinite = async (tag: string | undefined, sortOption: string, pageParam: number | unknown) => {
   const res = await axios.get(`/api/products/tag?sort=${sortOption}`, {
     params: {
       tag: tag,
@@ -94,7 +94,7 @@ const editPost = async (id: string | undefined, formData: FormData) =>
     },
   });
 
-const searchProduct = (term: string) => axios.get(`/api/products/search/${term}`, { word: term });
+const searchProduct = (term: string) => axios.get(`/api/products/search/${term}`);
 
 export {
   categoryInfinite,
