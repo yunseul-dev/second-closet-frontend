@@ -53,7 +53,7 @@ const routerConfig = createBrowserRouter([
     path: '/tag/:tagname',
     element: (
       <Suspense fallback={<Loading />}>
-        <AuthenticationGuard redirectTo="/signin" element={<TagsPage />} />
+        <TagsPage />
       </Suspense>
     ),
   },
