@@ -28,7 +28,13 @@ const Header = () => {
     <Container>
       <FirstContainer>
         <Logo>
-          <LogoImg src="/assets/image/Logo.png" alt="logo" onClick={handleLogoClick} />
+          <LogoImg
+            src="/assets/image/Logo.png"
+            onClick={handleLogoClick}
+            loading="eager"
+            alt="secondcloset"
+            fetchPriority="high"
+          />
         </Logo>
         <Search />
         {isLogin ? (
@@ -103,6 +109,7 @@ const LogoImg = styled.img`
   height: auto;
   display: flex;
   align-items: center;
+  cursor: pointer;
 `;
 
 const BtnContainer = styled.div`

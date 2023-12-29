@@ -240,7 +240,7 @@ const DetailPost = () => {
             <Rec key={productId}>
               <Link to={`/detail/${productId}`}>
                 <RecImg>
-                  <Img src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} />
+                  <Img src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} alt={productName} />
                 </RecImg>
                 <RecName>{productName}</RecName>
               </Link>

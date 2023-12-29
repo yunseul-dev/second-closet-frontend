@@ -15,7 +15,7 @@ const CategoryContainer = () => {
   const handleItemMouseEnter = (category: string[]) => setIsItemHovered(category);
   const handleItemMouseLeave = (category: string[]) => setIsItemHovered(category);
 
-  const { productId, imgs } = useRecommendQuery();
+  const { productId, imgs, productName } = useRecommendQuery();
 
   return (
     <TabContainer id="categorytab">
@@ -37,7 +37,7 @@ const CategoryContainer = () => {
       </CategoryTap>
       <ManyHeart>
         <LinkTag to={`/detail/${productId}`}>
-          <HeartImg src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} />
+          <HeartImg src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} alt={productName} />
           <HeartName>
             <div>상품 보러가기</div>
             <HiArrowLongRight />

@@ -39,7 +39,7 @@ const Main = () => {
   return (
     <>
       <Banner>
-        <BannerImg src="/assets/image/Banner.jpg" alt="배너 이미지"></BannerImg>
+        <BannerImg src="/assets/image/Banner.webp" alt="배너" loading="eager" />
       </Banner>
       <Title>
         오늘의 인기 상품 <BsBalloonHeartFill />
@@ -49,7 +49,12 @@ const Main = () => {
           return (
             <Item key={productId} onClick={() => handleClick(productId)}>
               <ImageContainer>
-                <Image src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} />
+                <Image
+                  src={`http://localhost:5023/api/products/uploads/${imgs[0]}`}
+                  alt={productName}
+                  loading="lazy"
+                  decoding="async"
+                />
               </ImageContainer>
               <ItemInfoContainer>
                 <ItemName>{productName}</ItemName>
@@ -88,8 +93,8 @@ const Banner = styled.div`
 `;
 
 const BannerImg = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 1240px;
+  height: 276px;
   object-fit: cover;
 `;
 
@@ -121,7 +126,7 @@ const ImageContainer = styled.div`
 
 const Image = styled.img`
   width: 100%;
-  height: 100%;
+  height: 230px;
   object-fit: cover;
 `;
 

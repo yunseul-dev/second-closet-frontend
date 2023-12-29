@@ -66,7 +66,10 @@ const SelectedMessage: React.FC<SelectedMessageProps> = ({ id }) => {
       <Content ref={dialogRef} $focus={isFocused}>
         <Item>
           <ImageContainer>
-            <Image src={`http://localhost:5023/api/products/uploads/${productInfo.img}`} />
+            <Image
+              src={`http://localhost:5023/api/products/uploads/${productInfo.img}`}
+              alt={productInfo.productName}
+            />
           </ImageContainer>
           <ItemInfoContainer>
             <ItemName>{productInfo.productName}</ItemName>

@@ -27,7 +27,7 @@ const Items: React.FC<ItemsProps> = ({ data }) => {
       {data.map(({ productId, productName, imgs, price, createdAt }: Product) => (
         <Item key={productId} onClick={() => handleClick(productId)}>
           <ImageContainer>
-            <Image src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} />
+            <Image src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} alt={productName} />
           </ImageContainer>
           <ItemInfoContainer>
             <ItemName>{productName}</ItemName>

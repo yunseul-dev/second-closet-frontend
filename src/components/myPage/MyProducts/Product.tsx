@@ -56,7 +56,7 @@ const Product: React.FC<ProductProps> = ({
     <>
       <Item key={productId}>
         <ImageContainer onClick={handleClick}>
-          <Image src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} />
+          <Image src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} alt={productName} />
           <Overlay $sold={sold}>
             <Circle>판매완료</Circle>
           </Overlay>
