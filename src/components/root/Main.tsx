@@ -39,7 +39,7 @@ const Main = () => {
   return (
     <>
       <Banner>
-        <BannerImg src="/assets/image/Banner.webp" alt="배너" loading="eager" />
+        <BannerImg src="/assets/image/Banner.png.webp" alt="배너" loading="eager" fetchPriority="high" />
       </Banner>
       <Title>
         오늘의 인기 상품 <BsBalloonHeartFill />
@@ -49,12 +49,7 @@ const Main = () => {
           return (
             <Item key={productId} onClick={() => handleClick(productId)}>
               <ImageContainer>
-                <Image
-                  src={`http://localhost:5023/api/products/uploads/${imgs[0]}`}
-                  alt={productName}
-                  loading="lazy"
-                  decoding="async"
-                />
+                <Image src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} alt={productName} />
               </ImageContainer>
               <ItemInfoContainer>
                 <ItemName>{productName}</ItemName>
