@@ -1,58 +1,47 @@
 import { createGlobalStyle } from 'styled-components';
 
-import boldWoff from '../assets/fonts/Pretendard-Bold.woff';
-import boldWoff2 from '../assets/fonts/Pretendard-Bold.woff2';
-import extraBoldWoff from '../assets/fonts/Pretendard-ExtraBold.woff';
-import extraBoldWoff2 from '../assets/fonts/Pretendard-ExtraBold.woff2';
-
-import mediumWoff from '../assets/fonts/Pretendard-Medium.woff';
-import mediumWoff2 from '../assets/fonts/Pretendard-Medium.woff2';
-
-import regularWoff from '../assets/fonts/Pretendard-Regular.woff';
-import regularWoff2 from '../assets/fonts/Pretendard-Regular.woff2';
-
-import semiBoldWoff from '../assets/fonts/Pretendard-SemiBold.woff';
-import semiBoldWoff2 from '../assets/fonts/Pretendard-SemiBold.woff2';
+import boldWoff2 from '../assets/fonts/Pretendard-Bold.subset.woff2';
+import extraBoldWoff2 from '../assets/fonts/Pretendard-ExtraBold.subset.woff2';
+import mediumWoff2 from '../assets/fonts/Pretendard-Medium.subset.woff2';
+import regularWoff2 from '../assets/fonts/Pretendard-Regular.subset.woff2';
+import semiBoldWoff2 from '../assets/fonts/Pretendard-SemiBold.subset.woff2';
 
 const GlobalStyle = createGlobalStyle`
-
 
 @font-face {
   font-family: 'Pretendard';
   font-weight: 400;
-  src: local('Pretendard Reglar'), url(${regularWoff}) format('woff'),url(${regularWoff2}) format('woff2');
+  src: local('Pretendard Reglar'), url(${regularWoff2}) format('woff2');
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Pretendard';
   font-weight: 500;
-  src: local('Pretendard Medium'), url(${mediumWoff}) format('woff'),url(${mediumWoff2}) format('woff2');
+  src: local('Pretendard Medium'), url(${mediumWoff2}) format('woff2');
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Pretendard';
   font-weight: 600;
-  src: local('Pretendard Semi Bold'), url(${semiBoldWoff}) format('woff'),url(${semiBoldWoff2}) format('woff2');
+  src: local('Pretendard Semi Bold'), url(${semiBoldWoff2}) format('woff2');
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Pretendard';
   font-weight: 700;
-  src: local('Pretendard Bold'), url(${boldWoff}) format('woff'),url(${boldWoff2}) format('woff2');
+  src: local('Pretendard Bold'), url(${boldWoff2}) format('woff2');
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Pretendard';
   font-weight: 800;
-  src: local('Pretendard Extra Bold'), url(${extraBoldWoff}) format('woff'),url(${extraBoldWoff2}) format('woff2');
+  src: local('Pretendard Extra Bold'), url(${extraBoldWoff2}) format('woff2');
   font-display: swap;
 }
-
-
 
   #root{
     min-height: 100vh;
