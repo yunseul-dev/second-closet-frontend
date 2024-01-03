@@ -11,8 +11,12 @@ interface ButtonsProps {
 const Buttons: React.FC<ButtonsProps> = ({ handleSubmit, handleImsiSubmit, cancle, submit }) => {
   return (
     <Container>
-      <ImsiBtn onClick={handleImsiSubmit}>{cancle}</ImsiBtn>
-      <SubmitBtn onClick={handleSubmit}>{submit}</SubmitBtn>
+      <ImsiBtn onClick={handleImsiSubmit} aria-label={cancle}>
+        {cancle}
+      </ImsiBtn>
+      <SubmitBtn onClick={handleSubmit} aria-label={submit}>
+        {submit}
+      </SubmitBtn>
     </Container>
   );
 };

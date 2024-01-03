@@ -147,11 +147,16 @@ const DetailPost = () => {
       <Container>
         <SubmitConatiner>
           <ImageContainer onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-            {<Image src={`http://localhost:5023/api/products/uploads/${imgs[imgNum]}`} alt="Image Preview" />}
-            <PrevBtn onClick={handlePrevClick} $isHovered={imgHovered}>
+            {
+              <Image
+                src={`http://localhost:5023/api/products/uploads/${imgs[imgNum]}`}
+                alt={`Image Preview - ${imgNum}`}
+              />
+            }
+            <PrevBtn onClick={handlePrevClick} $isHovered={imgHovered} aria-label="이전">
               <FaAngleLeft />
             </PrevBtn>
-            <NextBtn onClick={handleNextClick} $isHovered={imgHovered}>
+            <NextBtn onClick={handleNextClick} $isHovered={imgHovered} aria-label="다음">
               <FaAngleRight />
             </NextBtn>
           </ImageContainer>
@@ -201,16 +206,18 @@ const DetailPost = () => {
               </Infos>
             </InfoContainer>
             {sellerId === userId ? (
-              <MyPageBtn onClick={handleMyPageClick}>내 상점 관리</MyPageBtn>
+              <MyPageBtn onClick={handleMyPageClick} aria-label="내 상점">
+                내 상점 관리
+              </MyPageBtn>
             ) : (
               <Buttons>
-                <HeartBtn onClick={handleHeartClick}>
+                <HeartBtn onClick={handleHeartClick} aria-label="찜하기">
                   {userName && hearts.includes(userName) ? <BsSuitHeartFill /> : <BsSuitHeart />}
                 </HeartBtn>
-                <TalkBtn disabled={!discount} onClick={handleTalkClick}>
+                <TalkBtn disabled={!discount} onClick={handleTalkClick} aria-label="문의하기">
                   문의하기
                 </TalkBtn>
-                <BuyBtn>구매하기</BuyBtn>
+                <BuyBtn aria-label="구매하기">구매하기</BuyBtn>
               </Buttons>
             )}
           </InfoWrapper>
@@ -240,7 +247,7 @@ const DetailPost = () => {
             <Rec key={productId}>
               <Link to={`/detail/${productId}`}>
                 <RecImg>
-                  <Img src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} alt={productName} />
+                  <Img src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} alt={productName + productId} />
                 </RecImg>
                 <RecName>{productName}</RecName>
               </Link>

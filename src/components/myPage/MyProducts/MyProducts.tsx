@@ -41,19 +41,19 @@ const MyProducts = () => {
         <ListCount>
           <div></div>
           <Sort>
-            <SortTab $bold={sortOption === 'all'} onClick={() => handleOptionClick('all')}>
+            <SortTab $bold={sortOption === 'all'} onClick={() => handleOptionClick('all')} aria-label="전체">
               전체
             </SortTab>
             <Divider>
               <RxDividerVertical />
             </Divider>
-            <SortTab $bold={sortOption === 'notSold'} onClick={() => handleOptionClick('notSold')}>
+            <SortTab $bold={sortOption === 'notSold'} onClick={() => handleOptionClick('notSold')} aria-label="판매중">
               판매중
             </SortTab>
             <Divider>
               <RxDividerVertical />
             </Divider>
-            <SortTab $bold={sortOption === 'sold'} onClick={() => handleOptionClick('sold')}>
+            <SortTab $bold={sortOption === 'sold'} onClick={() => handleOptionClick('sold')} aria-label="판매완료">
               판매완료
             </SortTab>
           </Sort>

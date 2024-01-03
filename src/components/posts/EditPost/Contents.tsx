@@ -69,7 +69,7 @@ const Contents = () => {
     <>
       <Lists>
         <List name={'상품명'} must={true}>
-          <Input type="text" ref={productNameRef} defaultValue={productInfo?.productName} />
+          <Input type="text" ref={productNameRef} defaultValue={productInfo?.productName} aria-label="상품명" />
         </List>
         <List
           name={'상품 이미지'}
@@ -86,7 +86,7 @@ const Contents = () => {
                     return (
                       <ImagePreview idx={idx + 1} key={idx}>
                         <Image src={`http://localhost:5023/api/products/uploads/${prevImg}`} alt="Image Preview" />
-                        <XImg>
+                        <XImg aria-label="삭제">
                           <FaXmark onClick={() => handlePrevImgXClick(idx)} />
                         </XImg>
                       </ImagePreview>
@@ -100,10 +100,10 @@ const Contents = () => {
           <CategoryTab categories={categories} setCategories={setCategories} />
         </List>
         <List name="착용횟수" must={true}>
-          <Select ref={countRef} defaultValue={productInfo?.count}>
-            <option value="">선택</option>
+          <Select ref={countRef} defaultValue={productInfo?.count} aria-label="착용횟수">
+            <option value="" label="선택" />
             {wearCounts.map(count => (
-              <option value={count}>{count}</option>
+              <option value={count} label={count} />
             ))}
           </Select>
         </List>
@@ -121,17 +121,18 @@ const Contents = () => {
         </List>
         <List name="사이즈" must>
           {categories[0] === '신발' ? (
-            <Select ref={sizeRef} defaultValue={productInfo?.size}>
-              <option value="">선택</option>
+            <Select ref={sizeRef} defaultValue={productInfo?.size} aria-label="신발 사이즈">
+              <option value="" label="선택" />
               {shoesSizes.map(size => (
-                <option value={size.toLowerCase()}>{size}</option>
+                <option value={size.toLowerCase()} label={size} />
               ))}
             </Select>
           ) : (
-            <Select ref={sizeRef} defaultValue={productInfo?.size}>
-              <option value="">선택</option>
+            <Select ref={sizeRef} defaultValue={productInfo?.size} aria-label="사이즈">
+              <option value="" label="선택" />
+
               {sizes.map(size => (
-                <option value={size.toLowerCase()}>{size}</option>
+                <option value={size.toLowerCase()} label={size} />
               ))}
             </Select>
           )}

@@ -76,9 +76,15 @@ const Product: React.FC<ProductProps> = ({
             {hearts} <AiOutlineHeart />
           </MiniInfo>
           <Buttons>
-            <SoldBtn onClick={openSoldModal}>{sold ? <TbBasketOff /> : <TbBasket />}</SoldBtn>
-            <TalkBtn onClick={handleEditClick}>수정하기</TalkBtn>
-            <BuyBtn onClick={openModal}>삭제하기</BuyBtn>
+            <SoldBtn onClick={openSoldModal} aria-label="판매완료 여부">
+              {sold ? <TbBasketOff /> : <TbBasket />}
+            </SoldBtn>
+            <TalkBtn onClick={handleEditClick} aria-label="수정하기">
+              수정하기
+            </TalkBtn>
+            <BuyBtn onClick={openModal} aria-label="삭제하기">
+              삭제하기
+            </BuyBtn>
           </Buttons>
         </ItemInfoContainer>
       </Item>

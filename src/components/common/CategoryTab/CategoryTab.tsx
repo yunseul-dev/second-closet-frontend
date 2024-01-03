@@ -20,22 +20,18 @@ const CategoryTab: React.FC<Categories> = ({ categories }) => {
     <Container>
       <LiaHomeSolid />홈
       <LiaAngleRightSolid />
-      <Select defaultValue={categories[0]} onChange={e => handleChange(e, [])}>
+      <Select defaultValue={categories[0]} onChange={e => handleChange(e, [])} aria-label="대분류">
         {Object.keys(Category).map(category => (
-          <option key={category} value={category}>
-            {category}
-          </option>
+          <option key={category} value={category} label={category} />
         ))}
       </Select>
       {categories[1] && (
         <>
           <LiaAngleRightSolid />
-          <Select defaultValue={categories[1]} onChange={e => handleChange(e, [categories[0]])}>
+          <Select defaultValue={categories[1]} onChange={e => handleChange(e, [categories[0]])} aria-label="중분류">
             {categories[0] &&
               Object.keys(Category[categories[0]]).map(category => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
+                <option key={category} value={category} label={category} />
               ))}
           </Select>
         </>
@@ -43,12 +39,13 @@ const CategoryTab: React.FC<Categories> = ({ categories }) => {
       {categories[2] && (
         <>
           <LiaAngleRightSolid />
-          <Select defaultValue={categories[2]} onChange={e => handleChange(e, [categories[0], categories[1]])}>
+          <Select
+            defaultValue={categories[2]}
+            onChange={e => handleChange(e, [categories[0], categories[1]])}
+            aria-label="소분류">
             {categories[1] &&
               Object.values(Category[categories[0]][categories[1]]).map(category => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
+                <option key={category} value={category} label={category} />
               ))}
           </Select>
         </>

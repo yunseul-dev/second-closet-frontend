@@ -22,7 +22,12 @@ const Price: React.FC<PriceProps> = ({ setDiscount, price, setPrice, discount })
     <PriceContainer>
       <Input type="text" placeholder="가격을 입력해주세요." value={price} onChange={handleChange} />원
       <PriceSuggestion>
-        <input type="checkbox" onChange={e => setDiscount(e.target.checked)} defaultChecked={discount} />
+        <input
+          type="checkbox"
+          onChange={e => setDiscount(e.target.checked)}
+          defaultChecked={discount}
+          aria-label="가격 제안받기"
+        />
         가격 제안받기
       </PriceSuggestion>
     </PriceContainer>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
@@ -24,17 +24,16 @@ const Header = () => {
   const handleCateMouseEnter = () => setIsCategoryHovered(true);
   const handleCateMouseLeave = () => setIsCategoryHovered(false);
 
+  useEffect(() => {
+    const img = new Image();
+    img.src = '/assets/image/Logo.png';
+  }, []);
+
   return (
     <Container>
       <FirstContainer>
         <Logo>
-          <LogoImg
-            src="/assets/image/Logo.png"
-            onClick={handleLogoClick}
-            loading="eager"
-            alt="secondcloset"
-            fetchPriority="high"
-          />
+          <LogoImg src="/assets/image/Logo.png" onClick={handleLogoClick} loading="eager" alt="secondcloset" />
         </Logo>
         <Search />
         {isLogin ? (

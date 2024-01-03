@@ -66,34 +66,36 @@ const AccountInfoEdit = () => {
       <Title />
       <Content>
         <InfoContainer name="아이디">
-          <Input value={userInfo?.userId} readOnly />
+          <Input value={userInfo?.userId} readOnly aria-label="아이디" />
         </InfoContainer>
         <InfoContainer name="이름">
-          <Input defaultValue={userInfo?.userName} ref={userNameRef} />
+          <Input defaultValue={userInfo?.userName} ref={userNameRef} aria-label="이름" />
         </InfoContainer>
         <InfoContainer name="비밀번호">
           <ChangePw onClick={openPwModal}>비밀번호 변경</ChangePw>
         </InfoContainer>
         <InfoContainer name="계좌번호">
-          <Select defaultValue={userInfo?.bank} ref={bankRef}>
-            <option value="">선택</option>
+          <Select defaultValue={userInfo?.bank} ref={bankRef} aria-label="은행">
+            <option value="" label="선택" />
             {banks.map(bank => (
-              <option key={bank} value={bank}>
-                {bank}
-              </option>
+              <option key={bank} value={bank} label={bank} />
             ))}
           </Select>
-          <BankInput defaultValue={userInfo?.account} ref={accountRef} />
+          <BankInput defaultValue={userInfo?.account} ref={accountRef} aria-label="계좌번호" />
         </InfoContainer>
         <InfoContainer name="주소">
-          <Input defaultValue={userInfo?.address} ref={addressRef} />
+          <Input defaultValue={userInfo?.address} ref={addressRef} aria-label="주소" />
         </InfoContainer>
       </Content>
       <ButtonContainer>
-        <WdBtn onClick={openWdModal}>회원 탈퇴</WdBtn>
+        <WdBtn onClick={openWdModal} aria-label="회원탈퇴">
+          회원 탈퇴
+        </WdBtn>
         <Buttons>
-          <XBtn>취소</XBtn>
-          <OBtn onClick={handleSubmit}>수정</OBtn>
+          <XBtn aria-label="취소하기">취소하기</XBtn>
+          <OBtn onClick={handleSubmit} aria-label="수정하기">
+            수정하기
+          </OBtn>
         </Buttons>
       </ButtonContainer>
       {isPwModalOpen && (

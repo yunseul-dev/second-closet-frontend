@@ -35,7 +35,7 @@ const Contents = () => {
     <>
       <Lists>
         <List name={'상품명'} must={true}>
-          <Input type="text" ref={productNameRef} />
+          <Input type="text" ref={productNameRef} aria-label="상품명" />
         </List>
         <List name={'상품 이미지'} must={true} extraChildren={<ImgCount>({imgPrevUrls.length}/11)</ImgCount>}>
           <ImgFiles imgPrevUrls={imgPrevUrls} handleFileChange={handleFileChange} handleDeleteFile={handleDeleteFile} />
@@ -44,8 +44,10 @@ const Contents = () => {
           <CategoryTab categories={categories} setCategories={setCategories} />
         </List>
         <List name="착용횟수" must={true}>
-          <Select ref={countRef}>
-            <option value="">선택</option>
+          <Select ref={countRef} aria-label="착용횟수">
+            <option value="" label="선택">
+              선택
+            </option>
             {wearCounts.map(count => (
               <option value={count} key={count}>
                 {count}
@@ -67,21 +69,19 @@ const Contents = () => {
         </List>
         <List name="사이즈" must>
           {categories[0] === '신발' ? (
-            <Select ref={sizeRef}>
-              <option value="">선택</option>
+            <Select ref={sizeRef} aria-label="신발 사이즈">
+              <option value="" label="선택">
+                선택
+              </option>
               {shoesSizes.map(size => (
-                <option value={size.toLowerCase()} key={size}>
-                  {size}
-                </option>
+                <option value={size.toLowerCase()} key={size} label={size} />
               ))}
             </Select>
           ) : (
-            <Select ref={sizeRef}>
+            <Select ref={sizeRef} aria-label="사이즈">
               <option value="">선택</option>
               {sizes.map(size => (
-                <option value={size.toLowerCase()} key={size}>
-                  {size}
-                </option>
+                <option value={size.toLowerCase()} key={size} label={size} />
               ))}
             </Select>
           )}

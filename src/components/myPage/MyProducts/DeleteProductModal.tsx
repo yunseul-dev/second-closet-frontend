@@ -20,8 +20,12 @@ const DeleteProductModal: React.FC<ModalProps> = ({ closeModal, handleDeleteClic
         <br /> 이에 동의하십니까?
       </Content>
       <ButtonContainer>
-        <XBtn onClick={closeModal}>아니오</XBtn>
-        <OBtn onClick={handleOClick}>예</OBtn>
+        <XBtn onClick={closeModal} aria-label="아니오">
+          아니오
+        </XBtn>
+        <OBtn onClick={handleOClick} aria-label="예">
+          예
+        </OBtn>
       </ButtonContainer>
     </Container>
   );
