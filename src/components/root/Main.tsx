@@ -5,6 +5,7 @@ import { usePopularInfiniteQuery } from '../../hooks/queries';
 import { useObserver } from '../../hooks';
 import { AiOutlineHeart, BsBalloonHeartFill } from '../../utils/icons';
 import Loading from '../skeletons/Loading';
+import Banner from './Banner';
 
 interface Product {
   productId: number;
@@ -38,9 +39,7 @@ const Main = () => {
 
   return (
     <>
-      <Banner>
-        <BannerImg src="/assets/image/Banner.png.webp" alt="배너" loading="eager" fetchPriority="high" />
-      </Banner>
+      <Banner />
       <Title>
         오늘의 인기 상품 <BsBalloonHeartFill />
       </Title>
@@ -49,7 +48,7 @@ const Main = () => {
           return (
             <Item key={productId} onClick={() => handleClick(productId)}>
               <ImageContainer>
-                <Image src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} alt={productName} />
+                <Image src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} alt={productName} loading="lazy" />
               </ImageContainer>
               <ItemInfoContainer>
                 <ItemName>{productName}</ItemName>
@@ -77,21 +76,6 @@ const Main = () => {
 };
 
 export default Main;
-
-const Banner = styled.div`
-  width: 100%;
-  height: 276px;
-  background-color: #fdecd0;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-`;
-
-const BannerImg = styled.img`
-  width: 1240px;
-  height: 276px;
-  object-fit: cover;
-`;
 
 const Title = styled.div`
   font-size: 24px;
