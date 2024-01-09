@@ -10,8 +10,8 @@ import Banner from './Banner';
 interface Product {
   productId: number;
   productName: string;
-  imgs: string[];
-  hearts: number;
+  imgs: string;
+  heartsCount: number;
   price: string;
 }
 
@@ -44,11 +44,11 @@ const Main = () => {
         오늘의 인기 상품 <BsBalloonHeartFill />
       </Title>
       <ItemContainer>
-        {products.map(({ productId, productName, imgs, hearts, price }: Product) => {
+        {products.map(({ productId, productName, imgs, heartsCount, price }: Product) => {
           return (
             <Item key={productId} onClick={() => handleClick(productId)}>
               <ImageContainer>
-                <Image src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} alt={productName} loading="lazy" />
+                <Image src={imgs} alt={productName} loading="lazy" />
               </ImageContainer>
               <ItemInfoContainer>
                 <ItemName>{productName}</ItemName>
@@ -58,7 +58,7 @@ const Main = () => {
                   </div>
                   <MiniInfo>
                     <AiOutlineHeart />
-                    <div>{hearts}</div>
+                    <div>{heartsCount}</div>
                   </MiniInfo>
                 </ItemInfo>
               </ItemInfoContainer>

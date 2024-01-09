@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 interface createMessageInterface {
-  productId: number;
+  productId: string;
   buyerId: string;
   sellerId: string;
   productInfo: {
@@ -9,7 +9,7 @@ interface createMessageInterface {
     price: string;
     delivery: boolean;
     discount: boolean;
-    createdAt: number;
+    createdAt: string;
     img: string;
   };
 }

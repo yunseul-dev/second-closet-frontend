@@ -48,11 +48,13 @@ const tagsInfinite = async (tag: string | undefined, sortOption: string, pagePar
 
 const fetchPopulars = async (pageParam: number | unknown) => {
   const res = await axios.get(`${url}/populars/${pageParam}`);
+
   return res.data;
 };
 
 const fetchProduct = async (id: string | undefined) => {
   const res = await axios.get(`${url}/${id}`);
+
   return res.data;
 };
 
@@ -62,22 +64,22 @@ const fetchRecommend = async () => {
   return res.data;
 };
 
-const fetchRelated = async (productId: number, category: string) => {
+const fetchRelated = async (productId: string, category: string) => {
   const res = await axios.get(`/api/products/related/${productId}/${category}`);
 
   return res.data;
 };
 
-const addHeart = async (productId: number, userId: string) => axios.patch(`${url}/hearts/${productId}/${userId}`);
+const addHeart = async (productId: string, userId: string) => await axios.patch(`${url}/hearts/${productId}/${userId}`);
 
-const deleteHeart = async (productId: number, userId: string | null) =>
-  axios.delete(`${url}/hearts/${productId}/${userId}`);
+const deleteHeart = async (productId: string, userId: string | null) =>
+  await axios.delete(`${url}/hearts/${productId}/${userId}`);
 
-const addSold = async (productId: number) => axios.patch(`${url}/update/${productId}`, { sold: true });
+const addSold = async (productId: string) => await axios.patch(`${url}/update/${productId}`, { sold: true });
 
-const deleteSold = async (productId: number) => axios.patch(`/api/products/update/${productId}`, { sold: false });
+const deleteSold = async (productId: string) => await axios.patch(`/api/products/update/${productId}`, { sold: false });
 
-const deleteProduct = async (productId: number) => await axios.delete(`${url}/delete/${productId}`);
+const deleteProduct = async (productId: string) => await axios.delete(`${url}/delete/${productId}`);
 
 const createPost = async (formData: FormData) => {
   await axios.post(`${url}/post`, formData, {
@@ -88,13 +90,13 @@ const createPost = async (formData: FormData) => {
 };
 
 const editPost = async (id: string | undefined, formData: FormData) =>
-  axios.patch(`/api/products/edit/${id}`, formData, {
+  await axios.patch(`/api/products/edit/${id}`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
   });
 
-const searchProduct = (term: string) => axios.get(`/api/products/search/${term}`);
+const searchProduct = async (term: string) => axios.get(`/api/products/search/${term}`);
 
 export {
   categoryInfinite,

@@ -8,13 +8,13 @@ import Modal from '../../common/Modal/Modal';
 import { DeleteProductModal, SoldModal } from '.';
 
 interface Product {
-  productId: number;
+  productId: string;
   productName: string;
   imgs: string[];
   price: string;
   delivery: boolean;
   hearts: number;
-  createdAt: number;
+  createdAt: string;
   sold: boolean;
 }
 
@@ -56,7 +56,7 @@ const Product: React.FC<ProductProps> = ({
     <>
       <Item key={productId}>
         <ImageContainer onClick={handleClick}>
-          <Image src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} alt={productName} />
+          <Image src={imgs[0]} alt={productName} />
           <Overlay $sold={sold}>
             <Circle>판매완료</Circle>
           </Overlay>

@@ -18,6 +18,7 @@ const useChatSocket = (messageId: string, setChatMessages: Dispatch<SetStateActi
   useEffect(() => {
     socket.on('message', (newMessage: Message) => {
       const { userId, textValue } = newMessage;
+
       setChatMessages(prevMessages => [
         ...prevMessages,
         { senderId: userId, message: textValue, timestamp: Date.now() },

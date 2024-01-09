@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchRelated } from '../../api/products';
 
-const useRelatedQuery = (productId: number, category: string) => {
+const useRelatedQuery = (productId: string, category: string) => {
   const { data } = useQuery({
     queryKey: ['@RelatedProduct', productId],
     queryFn: async () => fetchRelated(productId, category),

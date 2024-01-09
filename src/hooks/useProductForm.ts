@@ -25,7 +25,7 @@ interface ProductInfoProps extends PostData {
 }
 
 interface EditProps extends PostData {
-  imgs?: string[][];
+  imgs?: string[];
 }
 
 const useProductForm = (
@@ -61,7 +61,7 @@ const useProductForm = (
   const [inputValue, setInputValue] = useState('');
   const [canFace, setCanFace] = useState<boolean>(productInfo?.facetoface);
   const [categories, setCategories] = useState<string[]>(productInfo?.categories);
-  const [prevImgs, setPrevImgs] = useState<string[][]>([productInfo?.imgs, []]);
+  const [prevImgs, setPrevImgs] = useState<string[]>(productInfo?.imgs);
 
   const appendPhotoFiles = (formData: FormData) => {
     if (photoFiles) {
@@ -174,11 +174,12 @@ const useProductForm = (
         updatedData.facetoface = canFace;
       }
 
-      if (prevImgs !== ([productInfo?.imgs] as string[][])) {
-        updatedData.imgs = prevImgs;
-      }
+      updatedData.imgs = prevImgs;
+
+      console.log('updatedData?', productInfo?.imgs);
 
       formData.append('data', JSON.stringify(updatedData));
+      console.log('formData', formData);
 
       if (
         productNameRef.current?.value &&

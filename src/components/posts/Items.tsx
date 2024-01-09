@@ -4,11 +4,11 @@ import { formatTimeAgo } from '../../utils';
 import { useNavigate } from 'react-router-dom';
 
 interface Product {
-  productId: number;
+  productId: string;
   productName: string;
   imgs: string[];
   price: string;
-  createdAt: number;
+  createdAt: string;
 }
 
 interface ItemsProps {
@@ -18,7 +18,7 @@ interface ItemsProps {
 const Items: React.FC<ItemsProps> = ({ data }) => {
   const navigate = useNavigate();
 
-  const handleClick = (productId: number) => {
+  const handleClick = (productId: string) => {
     navigate(`/detail/${productId}`);
   };
 
@@ -27,7 +27,7 @@ const Items: React.FC<ItemsProps> = ({ data }) => {
       {data.map(({ productId, productName, imgs, price, createdAt }: Product) => (
         <Item key={productId} onClick={() => handleClick(productId)}>
           <ImageContainer>
-            <Image src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} alt={productName} />
+            <Image src={imgs[0]} alt={productName} />
           </ImageContainer>
           <ItemInfoContainer>
             <ItemName>{productName}</ItemName>

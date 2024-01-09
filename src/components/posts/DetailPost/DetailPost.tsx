@@ -19,7 +19,7 @@ import CategoryTab from '../../common/CategoryTab/CategoryTab';
 import { createMessage } from '../../../api/messages';
 
 type Product = {
-  productId: number;
+  productId: string;
   sellerId: string;
   productName: string;
   imgs: string[];
@@ -33,12 +33,12 @@ type Product = {
   exchange: boolean;
   size: string;
   facetoface: boolean;
-  createdAt: number;
+  createdAt: string;
   hearts: string[];
 };
 
 type RelatedItems = {
-  productId: number;
+  productId: string;
   productName: string;
   imgs: string[];
 };
@@ -147,12 +147,7 @@ const DetailPost = () => {
       <Container>
         <SubmitConatiner>
           <ImageContainer onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-            {
-              <Image
-                src={`http://localhost:5023/api/products/uploads/${imgs[imgNum]}`}
-                alt={`Image Preview - ${imgNum}`}
-              />
-            }
+            {<Image src={imgs[imgNum]} alt={`Image Preview - ${imgNum}`} />}
             <PrevBtn onClick={handlePrevClick} $isHovered={imgHovered} aria-label="이전">
               <FaAngleLeft />
             </PrevBtn>
@@ -247,7 +242,7 @@ const DetailPost = () => {
             <Rec key={productId}>
               <Link to={`/detail/${productId}`}>
                 <RecImg>
-                  <Img src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} alt={productName + productId} />
+                  <Img src={imgs[0]} alt={productName + productId} />
                 </RecImg>
                 <RecName>{productName}</RecName>
               </Link>

@@ -8,7 +8,7 @@ type Message = {
 };
 
 interface NewMessage {
-  messageId: number;
+  messageId: string;
   productId: string;
   partner: string | undefined;
   messages: Message[];

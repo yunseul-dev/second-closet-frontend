@@ -2,14 +2,14 @@ import { useGenericMutation } from '.';
 import { deleteProduct } from '../../api/products';
 
 interface Product {
-  productId: number;
+  productId: string;
 }
 
 interface Products {
   pages: Product[][];
 }
 
-const useDeleteProductMutation = (sortOption: string, productId: number) => {
+const useDeleteProductMutation = (sortOption: string, productId: string) => {
   return useGenericMutation({
     queryKey: ['@MyProducts', sortOption],
     mutationFn: () => deleteProduct(productId),

@@ -4,8 +4,8 @@ import { fetchPopulars } from '../../api/products';
 interface Product {
   productId: number;
   productName: string;
-  imgs: string[];
-  hearts: number;
+  imgs: string;
+  heartsCount: number;
   price: string;
 }
 interface FetchResponse {

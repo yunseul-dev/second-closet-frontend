@@ -1,7 +1,10 @@
-const formatTimeAgo = (createdAt: number) => {
+const formatTimeAgo = (createdAt: string) => {
   let time = '';
 
-  const lastTime = (Date.now() - createdAt) / 1000 / 60 / 60; // 시
+  const dateObject = new Date(createdAt);
+  const milliseconds = dateObject.getTime();
+
+  const lastTime = (Date.now() - milliseconds) / 1000 / 60 / 60; // 시
 
   if (Math.floor(lastTime) > 24 * 7 * 4) {
     time = `${Math.floor(lastTime / (24 * 7 * 4))}달 전`; // 달

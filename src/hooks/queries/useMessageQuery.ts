@@ -3,7 +3,7 @@ import { fetchMessage } from '../../api/messages';
 interface ProductInfo {
   productName: string;
   price: string;
-  createdAt: number;
+  createdAt: string;
   img: string;
 }
 
@@ -30,7 +30,7 @@ const useMessageQuery = (messageId: string | undefined) => {
     staleTime,
   });
 
-  return { ...query, messageInfo: query.data[0] as Message };
+  return { ...query, messageInfo: query.data as Message };
 };
 
 export default useMessageQuery;

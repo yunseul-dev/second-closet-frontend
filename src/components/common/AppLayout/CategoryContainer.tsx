@@ -37,7 +37,7 @@ const CategoryContainer = () => {
       </CategoryTap>
       <ManyHeart>
         <LinkTag to={`/detail/${productId}`}>
-          <HeartImg src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} alt={productName} />
+          <HeartImg src={imgs} alt={productName} />
           <HeartName>
             <div>상품 보러가기</div>
             <HiArrowLongRight />

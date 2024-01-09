@@ -24,7 +24,7 @@ const Contents = () => {
     setTags(productInfo?.tags);
     setCategories(productInfo?.categories);
     setCanFace(productInfo?.facetoface);
-    setPrevImgs([productInfo?.imgs, []]);
+    setPrevImgs(productInfo?.imgs);
   }, [productInfo]);
 
   const {
@@ -58,11 +58,9 @@ const Contents = () => {
   } = useProductForm(productInfo);
 
   const handlePrevImgXClick = (idx: number) => {
-    const updatedPrevImgs = [...prevImgs[0]];
-    const updatedDeleteImgs = [...prevImgs[1]];
-    updatedDeleteImgs.push(prevImgs[0][idx]);
+    const updatedPrevImgs = [...prevImgs];
     updatedPrevImgs.splice(idx, 1);
-    setPrevImgs([updatedPrevImgs, updatedDeleteImgs]);
+    setPrevImgs(updatedPrevImgs);
   };
 
   return (
@@ -74,18 +72,18 @@ const Contents = () => {
         <List
           name={'상품 이미지'}
           must={true}
-          extraChildren={<ImgCount>({imgPrevUrls.length + prevImgs[0].length}/11)</ImgCount>}>
+          extraChildren={<ImgCount>({imgPrevUrls.length + prevImgs.length}/11)</ImgCount>}>
           <ImgFiles
             imgPrevUrls={imgPrevUrls}
             handleFileChange={handleFileChange}
             handleDeleteFile={handleDeleteFile}
             extraChildren={
               <>
-                {prevImgs[0] &&
-                  prevImgs[0].map((prevImg, idx) => {
+                {prevImgs &&
+                  prevImgs.map((prevImg, idx) => {
                     return (
                       <ImagePreview idx={idx + 1} key={idx}>
-                        <Image src={`http://localhost:5023/api/products/uploads/${prevImg}`} alt="Image Preview" />
+                        <Image src={prevImg} alt="Image Preview" />
                         <XImg aria-label="삭제">
                           <FaXmark onClick={() => handlePrevImgXClick(idx)} />
                         </XImg>

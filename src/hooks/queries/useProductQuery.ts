@@ -10,7 +10,7 @@ const useProductQuery = (id: string | undefined) => {
     staleTime,
   });
 
-  return { productInfo: query.data[0] };
+  return { productInfo: query.data };
 };
 
 export default useProductQuery;

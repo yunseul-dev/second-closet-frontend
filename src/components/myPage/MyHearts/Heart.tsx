@@ -13,7 +13,7 @@ interface Div {
 }
 
 interface Product {
-  productId: number;
+  productId: string;
   sellerId: string;
   productName: string;
   imgs: string[];
@@ -21,7 +21,7 @@ interface Product {
   delivery: boolean;
   discount: boolean;
   hearts: string[];
-  createdAt: number;
+  createdAt: string;
   sold: boolean;
 }
 
@@ -35,15 +35,15 @@ const Heart: React.FC<MyHeartProps> = ({ product, sortOption }) => {
 
   const userId = useRecoilValue(userState) || '';
   const navigate = useNavigate();
-  const [id, setId] = useState(0);
+  const [id, setId] = useState('');
 
   const { mutate: deleteHeart } = useDeleteMyHeartMutation(sortOption, id);
 
-  const handleClick = (productId: number) => {
+  const handleClick = (productId: string) => {
     navigate(`/detail/${productId}`);
   };
 
-  const handleHeartClick = (productId: number, userId: string) => {
+  const handleHeartClick = (productId: string, userId: string) => {
     setId(productId);
     deleteHeart({ productId, userId });
   };
@@ -69,7 +69,7 @@ const Heart: React.FC<MyHeartProps> = ({ product, sortOption }) => {
   return (
     <Item key={productId}>
       <ImageContainer onClick={() => handleClick(productId)}>
-        <Image src={`http://localhost:5023/api/products/uploads/${imgs[0]}`} alt={productName} />
+        <Image src={imgs[0]} alt={productName} />
         <Overlay $sold={sold}>
           <Circle>판매완료</Circle>
         </Overlay>
