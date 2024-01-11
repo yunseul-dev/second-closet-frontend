@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:5023');
+const socket = io('http://localhost:9990');
 export const SocketContext = createContext(socket);
 
 socket.on('connect', () => {

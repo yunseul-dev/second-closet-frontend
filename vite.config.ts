@@ -7,7 +7,7 @@ import imageminMozjpeg from 'imagemin-mozjpeg';
 import imageminPngQuant from 'imagemin-pngquant';
 import imageminGifSicle from 'imagemin-gifsicle';
 
-const PORT = 5023;
+const PORT = 9990;
 
 // https://vitejs.dev/config/
 export default defineConfig({
