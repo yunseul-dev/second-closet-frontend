@@ -4,7 +4,7 @@ import { userState } from '../../recoil/atom';
 import { myHeartsInfinite } from '../../api/products';
 
 interface Product {
-  productId: number;
+  productId: string;
   sellerId: string;
   productName: string;
   imgs: string[];
@@ -12,7 +12,7 @@ interface Product {
   delivery: boolean;
   discount: boolean;
   hearts: string[];
-  createdAt: number;
+  createdAt: string;
   sold: boolean;
 }
 

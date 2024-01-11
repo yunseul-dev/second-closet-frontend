@@ -6,7 +6,7 @@ interface SoldModalProps {
   closeModal: () => void;
   sold: boolean;
   sortOption: string;
-  productId: number;
+  productId: string;
 }
 
 const SoldModal: React.FC<SoldModalProps> = ({ closeModal, sold, sortOption, productId }) => {

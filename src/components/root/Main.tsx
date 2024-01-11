@@ -8,7 +8,7 @@ import Loading from '../skeletons/Loading';
 import Banner from './Banner';
 
 interface Product {
-  productId: number;
+  productId: string;
   productName: string;
   imgs: string;
   heartsCount: number;
@@ -33,7 +33,7 @@ const Main = () => {
 
   const observerRef = useObserver(getNextPage);
 
-  const handleClick = (productId: number) => {
+  const handleClick = (productId: string) => {
     navigate(`/detail/${productId}`);
   };
 

@@ -2,13 +2,13 @@ import styled from 'styled-components';
 import { Product } from '.';
 
 interface Products {
-  productId: number;
+  productId: string;
   productName: string;
   imgs: string[];
   price: string;
   delivery: boolean;
   hearts: number;
-  createdAt: number;
+  createdAt: string;
   sold: boolean;
 }
 

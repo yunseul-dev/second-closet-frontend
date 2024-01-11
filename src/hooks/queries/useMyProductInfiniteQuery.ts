@@ -2,13 +2,13 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { myProductsInfinite } from '../../api/products';
 
 interface Products {
-  productId: number;
+  productId: string;
   productName: string;
   imgs: string[];
   price: string;
   delivery: boolean;
   hearts: number;
-  createdAt: number;
+  createdAt: string;
   sold: boolean;
 }
 

@@ -2,7 +2,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { fetchPopulars } from '../../api/products';
 
 interface Product {
-  productId: number;
+  productId: string;
   productName: string;
   imgs: string;
   heartsCount: number;

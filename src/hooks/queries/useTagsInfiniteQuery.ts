@@ -2,11 +2,11 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { tagsInfinite } from '../../api/products';
 
 interface Product {
-  productId: number;
+  productId: string;
   productName: string;
   imgs: string[];
   price: string;
-  createdAt: number;
+  createdAt: string;
 }
 
 interface FetchResponse {

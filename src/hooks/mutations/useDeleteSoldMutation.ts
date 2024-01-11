@@ -2,7 +2,7 @@ import { useGenericMutation } from '.';
 import { deleteSold } from '../../api/products';
 
 interface Product {
-  productId: number;
+  productId: string;
   sold: boolean;
 }
 
@@ -10,7 +10,7 @@ interface Products {
   pages: Product[][];
 }
 
-const useDeleteSoldMutation = (sortOption: string, productId: number) => {
+const useDeleteSoldMutation = (sortOption: string, productId: string) => {
   return useGenericMutation({
     queryKey: ['@MyProducts', sortOption],
     mutationFn: () => deleteSold(productId),
