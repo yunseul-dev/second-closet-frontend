@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { io } from 'socket.io-client';
 
-const socket = io('https://port-0-second-closet-backend-1ffi5z2alr8v333q.sel5.cloudtype.app/');
+const socket = io(`${process.env.REACT_APP_API_URL}`);
 export const SocketContext = createContext(socket);
 
 socket.on('connect', () => {
