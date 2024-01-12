@@ -8,7 +8,7 @@ import imageminPngQuant from 'imagemin-pngquant';
 import imageminGifSicle from 'imagemin-gifsicle';
 
 // const PORT = 9990;
-const { API_URL } = process.env;
+const API_URL = 'https://port-0-second-closet-backend-1ffi5z2alr8v333q.sel5.cloudtype.app/';
 
 // https://vitejs.dev/config/
 export default defineConfig({
