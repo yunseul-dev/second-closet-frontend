@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "start": "NODE_ENV=production next start -p 80"
+    "start": "NODE_ENV=production vite preview --port 80"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
