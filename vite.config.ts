@@ -7,9 +7,6 @@ import imageminMozjpeg from 'imagemin-mozjpeg';
 import imageminPngQuant from 'imagemin-pngquant';
 import imageminGifSicle from 'imagemin-gifsicle';
 
-// const PORT = 80;
-
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react(),
@@ -45,7 +42,6 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        // target: `http://localhost:${PORT}`,
         target: '52.79.255.158',
         changeOrigin: true,
       },
