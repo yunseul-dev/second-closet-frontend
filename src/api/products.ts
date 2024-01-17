@@ -1,9 +1,11 @@
 import axios from 'axios';
 
+const { VITE_CORS_SERVER_URL = '' } = import.meta.env;
+
 const url = `/api/products`;
 
 const categoryInfinite = async (sortOption: string, category: string[], pageParam: number | unknown) => {
-  const res = await axios.get(`${url}/category?sort=${sortOption}`, {
+  const res = await axios.get(`${VITE_CORS_SERVER_URL}${url}/category?sort=${sortOption}`, {
     params: {
       category: category,
       page: pageParam,
@@ -14,7 +16,7 @@ const categoryInfinite = async (sortOption: string, category: string[], pagePara
 };
 
 const myHeartsInfinite = async (sortOption: string, userId: string | null, pageParam: number | unknown) => {
-  const { data } = await axios.get(`${url}/myhearts?sort=${sortOption}`, {
+  const { data } = await axios.get(`${VITE_CORS_SERVER_URL}${url}/myhearts?sort=${sortOption}`, {
     params: {
       userId: userId,
       page: pageParam,
@@ -25,7 +27,7 @@ const myHeartsInfinite = async (sortOption: string, userId: string | null, pageP
 };
 
 const myProductsInfinite = async (sortOption: string, userId: string | null, pageParam: number | unknown) => {
-  const res = await axios.get(`${url}/myproducts?sort=${sortOption}`, {
+  const res = await axios.get(`${VITE_CORS_SERVER_URL}${url}/myproducts?sort=${sortOption}`, {
     params: {
       userId: userId,
       page: pageParam,
@@ -36,7 +38,7 @@ const myProductsInfinite = async (sortOption: string, userId: string | null, pag
 };
 
 const tagsInfinite = async (tag: string | undefined, sortOption: string, pageParam: number | unknown) => {
-  const res = await axios.get(`/api/products/tag?sort=${sortOption}`, {
+  const res = await axios.get(`${VITE_CORS_SERVER_URL}${url}/tag?sort=${sortOption}`, {
     params: {
       tag: tag,
       page: pageParam,
@@ -47,42 +49,46 @@ const tagsInfinite = async (tag: string | undefined, sortOption: string, pagePar
 };
 
 const fetchPopulars = async (pageParam: number | unknown) => {
-  const res = await axios.get(`${url}/populars/${pageParam}`);
+  const res = await axios.get(`${VITE_CORS_SERVER_URL}${url}/populars/${pageParam}`);
 
   return res.data;
 };
 
 const fetchProduct = async (id: string | undefined) => {
-  const res = await axios.get(`${url}/${id}`);
+  const res = await axios.get(`${VITE_CORS_SERVER_URL}${url}/${id}`);
 
   return res.data;
 };
 
 const fetchRecommend = async () => {
-  const res = await axios.get(`${url}/recommend`);
+  const res = await axios.get(`${VITE_CORS_SERVER_URL}${url}/recommend`);
 
   return res.data;
 };
 
 const fetchRelated = async (productId: string, category: string) => {
-  const res = await axios.get(`/api/products/related/${productId}/${category}`);
+  const res = await axios.get(`${VITE_CORS_SERVER_URL}${url}/related/${productId}/${category}`);
 
   return res.data;
 };
 
-const addHeart = async (productId: string, userId: string) => await axios.patch(`${url}/hearts/${productId}/${userId}`);
+const addHeart = async (productId: string, userId: string) =>
+  await axios.patch(`${VITE_CORS_SERVER_URL}${url}/hearts/${productId}/${userId}`);
 
 const deleteHeart = async (productId: string, userId: string | null) =>
-  await axios.delete(`${url}/hearts/${productId}/${userId}`);
+  await axios.delete(`${VITE_CORS_SERVER_URL}${url}/hearts/${productId}/${userId}`);
 
-const addSold = async (productId: string) => await axios.patch(`${url}/update/${productId}`, { sold: true });
+const addSold = async (productId: string) =>
+  await axios.patch(`${VITE_CORS_SERVER_URL}${url}/update/${productId}`, { sold: true });
 
-const deleteSold = async (productId: string) => await axios.patch(`/api/products/update/${productId}`, { sold: false });
+const deleteSold = async (productId: string) =>
+  await axios.patch(`${VITE_CORS_SERVER_URL}${url}/update/${productId}`, { sold: false });
 
-const deleteProduct = async (productId: string) => await axios.delete(`${url}/delete/${productId}`);
+const deleteProduct = async (productId: string) =>
+  await axios.delete(`${VITE_CORS_SERVER_URL}${url}/delete/${productId}`);
 
 const createPost = async (formData: FormData) => {
-  await axios.post(`${url}/post`, formData, {
+  await axios.post(`${VITE_CORS_SERVER_URL}${url}/post`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -90,13 +96,13 @@ const createPost = async (formData: FormData) => {
 };
 
 const editPost = async (id: string | undefined, formData: FormData) =>
-  await axios.patch(`/api/products/edit/${id}`, formData, {
+  await axios.patch(`${VITE_CORS_SERVER_URL}${url}/edit/${id}`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
   });
 
-const searchProduct = async (term: string) => axios.get(`/api/products/search/${term}`);
+const searchProduct = async (term: string) => axios.get(`${VITE_CORS_SERVER_URL}${url}/search/${term}`);
 
 export {
   categoryInfinite,

@@ -39,12 +39,4 @@ export default defineConfig({
     },
     chunkSizeWarningLimit: 1024 * 500,
   },
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://52.79.255.158:80',
-        changeOrigin: true,
-      },
-    },
-  },
 });

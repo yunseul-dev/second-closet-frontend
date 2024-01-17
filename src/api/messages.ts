@@ -14,22 +14,24 @@ interface createMessageInterface {
   };
 }
 
+const { VITE_CORS_SERVER_URL = '' } = import.meta.env;
+
 const url = '/api/messages';
 
 const fetchMessage = async (id: string | undefined) => {
-  const { data } = await axios.get(`${url}/message/${id}`);
+  const { data } = await axios.get(`${VITE_CORS_SERVER_URL}${url}/message/${id}`);
 
   return data;
 };
 
 const fetchMessages = async (userId: string) => {
-  const { data } = await axios.get(`/api/messages/${userId}`);
+  const { data } = await axios.get(`${VITE_CORS_SERVER_URL}${url}/${userId}`);
 
   return data;
 };
 
 const createMessage = async (data: createMessageInterface) => {
-  const res = await axios.post(`${url}/post`, data);
+  const res = await axios.post(`${VITE_CORS_SERVER_URL}${url}/post`, data);
 
   return res.data;
 };

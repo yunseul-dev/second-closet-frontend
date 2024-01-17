@@ -3,7 +3,10 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:80');
+const socket = io('http://52.79.255.158:80', {
+  withCredentials: true,
+  transports: ['websocket', 'polling'],
+});
 
 export const SocketContext = createContext(socket);
 
