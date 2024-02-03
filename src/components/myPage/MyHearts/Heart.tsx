@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { BsSuitHeart, BsSuitHeartFill } from '../../../utils/icons';
+import { BsSuitHeart } from '../../../utils/icons';
 import { formatTimeAgo } from '../../../utils';
-import { useDeleteMyHeartMutation } from '../../../hooks/mutations';
-import { userState } from '../../../recoil/atom';
-import { createMessage } from '../../../api/messages';
+import ContactPaymentBtns from '../../common/ContactPaymentBtns/ContactPaymentBtns';
 
 interface Div {
   $sold: boolean;
@@ -31,39 +28,12 @@ interface MyHeartProps {
 }
 
 const Heart: React.FC<MyHeartProps> = ({ product, sortOption }) => {
-  const { productId, sellerId, productName, imgs, price, delivery, discount, hearts, createdAt, sold } = product;
+  const { productId, productName, imgs, price, delivery, hearts, createdAt, sold } = product;
 
-  const userId = useRecoilValue(userState) || '';
   const navigate = useNavigate();
-  const [id, setId] = useState('');
-
-  const { mutate: deleteHeart } = useDeleteMyHeartMutation(sortOption, id);
 
   const handleClick = (productId: string) => {
     navigate(`/detail/${productId}`);
-  };
-
-  const handleHeartClick = (productId: string, userId: string) => {
-    setId(productId);
-    deleteHeart({ productId, userId });
-  };
-
-  const handleTalkClick = async () => {
-    const { id } = await createMessage({
-      productId: productId,
-      buyerId: userId,
-      sellerId: sellerId,
-      productInfo: {
-        productName: productName,
-        price: price,
-        delivery: delivery,
-        discount: discount,
-        createdAt: createdAt,
-        img: imgs[0],
-      },
-    });
-
-    navigate(`/chatpage/${id}`);
   };
 
   return (
@@ -88,15 +58,7 @@ const Heart: React.FC<MyHeartProps> = ({ product, sortOption }) => {
         <MiniInfo>
           {hearts.length} <BsSuitHeart />
         </MiniInfo>
-        <Buttons>
-          <HeartBtn onClick={() => handleHeartClick(productId, userId)}>
-            <BsSuitHeartFill />
-          </HeartBtn>
-          <TalkBtn disabled={!discount} onClick={() => handleTalkClick()}>
-            문의하기
-          </TalkBtn>
-          <BuyBtn>구매하기</BuyBtn>
-        </Buttons>
+        <ContactPaymentBtns product={product} sortOption={sortOption} isMy={true} />
       </ItemInfoContainer>
     </Item>
   );
@@ -157,47 +119,6 @@ const MiniInfo = styled.div`
 const Price = styled.span`
   font-size: 18px;
   font-weight: 600;
-`;
-
-const Buttons = styled.div`
-  display: flex;
-  gap: 5px;
-  margin-top: 10px;
-  position: absolute;
-  top: 235px;
-  right: 0;
-  justify-content: flex-end;
-  font-size: 16px;
-  width: 100%;
-`;
-
-const TalkBtn = styled.button`
-  width: 35%;
-  height: 40px;
-  border: solid 1px black;
-  font-weight: 700;
-  background-color: white;
-  &:disabled {
-    cursor: default;
-    border-color: #1010104d;
-  }
-`;
-
-const BuyBtn = styled.button`
-  width: 35%;
-  height: 40px;
-  border: solid 1px #fd7272;
-  font-weight: 700;
-  background-color: #ff4d24;
-  color: white;
-`;
-
-const HeartBtn = styled.button`
-  width: 15%;
-  height: 40px;
-  border: solid 1px black;
-  background-color: white;
-  font-size: 16px;
 `;
 
 const Overlay = styled.div<Div>`

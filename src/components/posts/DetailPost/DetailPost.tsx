@@ -2,21 +2,12 @@ import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import {
-  LiaHeartSolid,
-  AiFillAlert,
-  BsSuitHeart,
-  BsSuitHeartFill,
-  FaAngleLeft,
-  FaAngleRight,
-  LuClock3,
-} from '../../../utils/icons';
+import { LiaHeartSolid, AiFillAlert, FaAngleLeft, FaAngleRight, LuClock3 } from '../../../utils/icons';
 import { userState } from '../../../recoil/atom';
-import { useAddHeartMutation, useDeleteHeartMutation } from '../../../hooks/mutations';
 import { useProductQuery, useRelatedQuery } from '../../../hooks/queries';
 import { formatTimeAgo } from '../../../utils';
 import CategoryTab from '../../common/CategoryTab/CategoryTab';
-import { createMessage } from '../../../api/messages';
+import ContactPaymentBtns from '../../common/ContactPaymentBtns/ContactPaymentBtns';
 
 type Product = {
   productId: string;
@@ -48,7 +39,6 @@ interface BtnProps {
 }
 
 const DetailPost = () => {
-  const userName = useRecoilValue(userState);
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -78,24 +68,11 @@ const DetailPost = () => {
     hearts,
   }: Product = productInfo;
 
-  const { mutate: addHeart } = useAddHeartMutation(productId, hearts);
-  const { mutate: deleteHeart } = useDeleteHeartMutation(productId, hearts);
-
   const relatedItems: RelatedItems[] = useRelatedQuery(productId, categories[1]);
 
   if (!productInfo) {
     return <div>Loading...</div>;
   }
-
-  const handleHeartClick = () => {
-    if (userName === null) return;
-
-    if (!hearts.includes(userName)) {
-      addHeart({ productId: productId, userId: userName });
-    } else {
-      deleteHeart({ productId: productId, userId: userName });
-    }
-  };
 
   const handlePrevClick = () => {
     if (imgNum > 0) {
@@ -119,24 +96,6 @@ const DetailPost = () => {
 
   const handleMouseLeave = () => {
     setImgHovered(false);
-  };
-
-  const handleTalkClick = async () => {
-    const { id } = await createMessage({
-      productId: productId,
-      buyerId: userId,
-      sellerId: sellerId,
-      productInfo: {
-        productName: productName,
-        price: price,
-        delivery: delivery,
-        discount: discount,
-        createdAt: createdAt,
-        img: imgs[0],
-      },
-    });
-
-    navigate(`/chatpage/${id}`);
   };
 
   const handleMyPageClick = () => navigate('/mypage');
@@ -205,15 +164,7 @@ const DetailPost = () => {
                 내 상점 관리
               </MyPageBtn>
             ) : (
-              <Buttons>
-                <HeartBtn onClick={handleHeartClick} aria-label="찜하기">
-                  {userName && hearts.includes(userName) ? <BsSuitHeartFill /> : <BsSuitHeart />}
-                </HeartBtn>
-                <TalkBtn disabled={!discount} onClick={handleTalkClick} aria-label="문의하기">
-                  문의하기
-                </TalkBtn>
-                <BuyBtn aria-label="구매하기">구매하기</BuyBtn>
-              </Buttons>
+              <ContactPaymentBtns product={productInfo} sortOption="" isMy={false} />
             )}
           </InfoWrapper>
         </SubmitConatiner>
@@ -383,47 +334,6 @@ const MyPageBtn = styled.div`
   font-size: 18px;
   background-color: #ff4d24;
   color: white;
-`;
-
-const Buttons = styled.div`
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-  position: relative;
-  bottom: 0;
-  justify-content: flex-end;
-`;
-
-const TalkBtn = styled.button`
-  width: 25%;
-  height: 8vh;
-  border: solid 1px black;
-  font-weight: 700;
-  font-size: 18px;
-  background-color: white;
-  &:disabled {
-    cursor: default;
-    border-color: #1010104d;
-  }
-`;
-
-const BuyBtn = styled.button`
-  width: 25%;
-  height: 8vh;
-  border: solid 1px #fd7272;
-  font-weight: 700;
-  font-size: 18px;
-  background-color: #ff4d24;
-  color: white;
-`;
-
-const HeartBtn = styled.button`
-  width: 10%;
-  height: 8vh;
-  border: solid 1px black;
-  font-weight: 700;
-  font-size: 24px;
-  background-color: white;
 `;
 
 const ExplainContainer = styled.div`
