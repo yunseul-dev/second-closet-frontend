@@ -14,13 +14,13 @@ const ItemCard: React.FC<{ productInfo: ProductInfo; size: string }> = ({ produc
       <ImageContainer>
         <Image src={productInfo.img} alt={productInfo.productName} />
       </ImageContainer>
-      <ItemInfoContainer>
+      <ItemInfoContainer size={size}>
         <ItemName>{productInfo.productName}</ItemName>
         <ItemInfo>
           <div>
-            <Price>{productInfo.price}</Price>원
+            <Price size={size}>{productInfo.price}</Price>원
           </div>
-          <MiniInfo>
+          <MiniInfo size={size}>
             <div>{formatTimeAgo(productInfo.createdAt)}</div>
           </MiniInfo>
         </ItemInfo>
@@ -32,7 +32,7 @@ const ItemCard: React.FC<{ productInfo: ProductInfo; size: string }> = ({ produc
 export default ItemCard;
 
 const Item = styled.div<{ size: string }>`
-  width: ${props => `${props.size}%`};
+  width: ${props => `${props.size === 'small' ? 70 : 100}%`};
   height: 250px;
   margin: 10px;
   border: 1px solid #e0e0e0c4;
@@ -54,9 +54,9 @@ const Image = styled.img`
   object-fit: cover;
 `;
 
-const ItemInfoContainer = styled.div`
+const ItemInfoContainer = styled.div<{ size: string }>`
   width: 50%;
-  font-size: 14px;
+  font-size: ${props => `${props.size === 'small' ? 14 : 18}px`};
   height: 60px;
   padding: 10px 20px 10px 20px;
 `;
@@ -69,22 +69,21 @@ const ItemInfo = styled.div`
 
 const ItemName = styled.div`
   width: 100%;
-  font-size: 14px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   margin-bottom: 5px;
 `;
 
-const MiniInfo = styled.div`
+const MiniInfo = styled.div<{ size: string }>`
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 12px;
+  font-size: ${props => `${props.size === 'small' ? 12 : 14}px`};
   color: #888888;
 `;
 
-const Price = styled.span`
-  font-size: 16px;
+const Price = styled.span<{ size: string }>`
+  font-size: ${props => `${props.size === 'small' ? 16 : 20}px`};
   font-weight: 600;
 `;

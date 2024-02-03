@@ -64,7 +64,7 @@ const SelectedMessage: React.FC<SelectedMessageProps> = ({ id }) => {
   return (
     <>
       <Content ref={dialogRef} $focus={isFocused}>
-        <ItemCard productInfo={productInfo} size="70" />
+        <ItemCard productInfo={productInfo} size="small" />
         {chatMessages.map(({ senderId, message, timestamp }) => {
           if (senderId === userId) {
             return <MyWords words={message} key={timestamp} timestamp={timestamp} />;
