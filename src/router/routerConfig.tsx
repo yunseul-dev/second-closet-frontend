@@ -55,6 +55,10 @@ const routerConfig = createBrowserRouter([
     path: '/chatpage/:id?',
     element: <AuthenticationGuard redirectTo="/signin" element={lazyLoading('ChatPage')} />,
   },
+  {
+    path: '/buypage',
+    element: <AuthenticationGuard redirectTo="/signin" element={lazyLoading('BuyPage')} />,
+  },
 ]);
 
 export default routerConfig;
