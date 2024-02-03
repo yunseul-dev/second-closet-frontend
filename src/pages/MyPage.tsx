@@ -3,7 +3,7 @@ import MyCloset from '../components/myPage/MyCloset/MyCloset';
 
 const MyPage = () => {
   return (
-    <AppLayout>
+    <AppLayout hasArrowBtn={true}>
       <MyCloset />
     </AppLayout>
   );

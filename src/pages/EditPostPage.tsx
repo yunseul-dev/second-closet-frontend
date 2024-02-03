@@ -3,7 +3,7 @@ import EditPost from '../components/posts/EditPost/EditPost';
 
 const EditPostPage = () => {
   return (
-    <AppLayout>
+    <AppLayout hasArrowBtn={false}>
       <EditPost />
     </AppLayout>
   );

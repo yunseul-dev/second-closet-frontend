@@ -3,7 +3,7 @@ import { AccountInfoEdit } from '../components/accounts';
 
 const AccountsPage = () => {
   return (
-    <AppLayout>
+    <AppLayout hasArrowBtn={false}>
       <AccountInfoEdit />
     </AppLayout>
   );

@@ -3,7 +3,7 @@ import DetailPost from '../components/posts/DetailPost/DetailPost';
 
 const DetailPage = () => {
   return (
-    <AppLayout>
+    <AppLayout hasArrowBtn={false}>
       <DetailPost />
     </AppLayout>
   );

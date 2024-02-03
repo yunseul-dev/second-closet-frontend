@@ -3,7 +3,7 @@ import Main from '../components/root/Main';
 
 const Root = () => {
   return (
-    <AppLayout>
+    <AppLayout hasArrowBtn={true}>
       <Main />
     </AppLayout>
   );

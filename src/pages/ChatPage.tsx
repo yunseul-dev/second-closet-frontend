@@ -3,7 +3,7 @@ import ChatMessage from '../components/Dialog/ChatMessage/ChatMessage';
 
 const ChatPage = () => {
   return (
-    <AppLayout>
+    <AppLayout hasArrowBtn={false}>
       <ChatMessage />
     </AppLayout>
   );

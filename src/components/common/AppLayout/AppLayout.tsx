@@ -3,17 +3,18 @@ import styled from 'styled-components';
 import { Header, ArrowUpBtn } from '.';
 
 type LayoutProps = {
+  hasArrowBtn: boolean;
   children: ReactNode;
 };
 
-const AppLayout = ({ children }: LayoutProps) => {
+const AppLayout = ({ hasArrowBtn, children }: LayoutProps) => {
   return (
     <>
       <LayoutContainer>
         <Header />
         <Container>{children}</Container>
       </LayoutContainer>
-      <ArrowUpBtn />
+      {hasArrowBtn && <ArrowUpBtn />}
     </>
   );
 };

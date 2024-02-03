@@ -3,7 +3,7 @@ import CreatePost from '../components/posts/CreatePost/CreatePost';
 
 const CreatePostPage = () => {
   return (
-    <AppLayout>
+    <AppLayout hasArrowBtn={false}>
       <CreatePost />
     </AppLayout>
   );
