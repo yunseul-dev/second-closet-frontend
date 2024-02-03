@@ -80,14 +80,14 @@ const ContactPaymentBtns: React.FC<Btns> = ({ product, sortOption, isMy }) => {
   };
 
   return (
-    <Buttons isMy={isMy}>
-      <HeartBtn onClick={handleHeartClick} aria-label="찜하기" isMy={isMy}>
+    <Buttons $ismy={isMy}>
+      <HeartBtn onClick={handleHeartClick} aria-label="찜하기" $ismy={isMy}>
         {userId && hearts.includes(userId) ? <BsSuitHeartFill /> : <BsSuitHeart />}
       </HeartBtn>
-      <TalkBtn disabled={!discount} onClick={() => handleTalkClick()} isMy={isMy}>
+      <TalkBtn disabled={!discount} onClick={() => handleTalkClick()} $ismy={isMy}>
         문의하기
       </TalkBtn>
-      <BuyBtn aria-label="안전결제" onClick={handleBuyClick} isMy={isMy}>
+      <BuyBtn aria-label="안전결제" onClick={handleBuyClick} $ismy={isMy}>
         안전결제
       </BuyBtn>
     </Buttons>
@@ -96,32 +96,32 @@ const ContactPaymentBtns: React.FC<Btns> = ({ product, sortOption, isMy }) => {
 
 export default ContactPaymentBtns;
 
-const Buttons = styled.div<{ isMy: boolean }>`
+const Buttons = styled.div<{ $ismy: boolean }>`
   display: flex;
   margin-top: 10px;
   justify-content: flex-end;
-  bottom: ${props => !props.isMy && 0};
-  gap: ${props => (props.isMy ? '5px' : '10px')};
-  position: ${props => (props.isMy ? 'absolute' : 'relative')};
-  top: ${props => props.isMy && '235px'};
-  right: ${props => props.isMy && 0};
-  width: ${props => props.isMy && '100%'};
-  font-size: ${props => props.isMy && '16px'};
+  bottom: ${props => !props.$ismy && 0};
+  gap: ${props => (props.$ismy ? '5px' : '10px')};
+  position: ${props => (props.$ismy ? 'absolute' : 'relative')};
+  top: ${props => props.$ismy && '235px'};
+  right: ${props => props.$ismy && 0};
+  width: ${props => props.$ismy && '100%'};
+  font-size: ${props => props.$ismy && '16px'};
 `;
 
-const HeartBtn = styled.button<{ isMy: boolean }>`
-  width: ${props => (props.isMy ? '15%' : '10%')};
-  height: ${props => (props.isMy ? '40px' : '8vh')};
-  font-size: ${props => (props.isMy ? '16px' : '24px')};
+const HeartBtn = styled.button<{ $ismy: boolean }>`
+  width: ${props => (props.$ismy ? '15%' : '10%')};
+  height: ${props => (props.$ismy ? '40px' : '8vh')};
+  font-size: ${props => (props.$ismy ? '16px' : '24px')};
   font-weight: 700;
   border: solid 1px black;
   background-color: white;
 `;
 
-const TalkBtn = styled.button<{ isMy: boolean }>`
-  width: ${props => (props.isMy ? '35%' : '25%')};
-  height: ${props => (props.isMy ? '40px' : '8vh')};
-  font-size: ${props => !props.isMy && '18px'};
+const TalkBtn = styled.button<{ $ismy: boolean }>`
+  width: ${props => (props.$ismy ? '35%' : '25%')};
+  height: ${props => (props.$ismy ? '40px' : '8vh')};
+  font-size: ${props => !props.$ismy && '18px'};
   border: solid 1px black;
   font-weight: 700;
   background-color: white;
@@ -131,10 +131,10 @@ const TalkBtn = styled.button<{ isMy: boolean }>`
   }
 `;
 
-const BuyBtn = styled.button<{ isMy: boolean }>`
-  width: ${props => (props.isMy ? '35%' : '25%')};
-  height: ${props => (props.isMy ? '40px' : '8vh')};
-  font-size: ${props => !props.isMy && '18px'};
+const BuyBtn = styled.button<{ $ismy: boolean }>`
+  width: ${props => (props.$ismy ? '35%' : '25%')};
+  height: ${props => (props.$ismy ? '40px' : '8vh')};
+  font-size: ${props => !props.$ismy && '18px'};
   border: solid 1px #fd7272;
   font-weight: 700;
   background-color: #ff4d24;
