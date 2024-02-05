@@ -1,24 +1,15 @@
 import { useCallback, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { usePopularInfiniteQuery } from '../../hooks/queries';
 import { useObserver } from '../../hooks';
-import { AiOutlineHeart, BsBalloonHeartFill } from '../../utils/icons';
+import { BsBalloonHeartFill } from '../../utils/icons';
 import Loading from '../skeletons/Loading';
 import Banner from './Banner';
-
-interface Product {
-  productId: string;
-  productName: string;
-  imgs: string;
-  heartsCount: number;
-  price: string;
-}
+import Items from '../common/Items/Items';
 
 const Main = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { products, hasNextPage, fetchNextPage } = usePopularInfiniteQuery();
-  const navigate = useNavigate();
 
   const getNextPage = useCallback(() => {
     if (isLoading || !hasNextPage) return;
@@ -33,18 +24,15 @@ const Main = () => {
 
   const observerRef = useObserver(getNextPage);
 
-  const handleClick = (productId: string) => {
-    navigate(`/detail/${productId}`);
-  };
-
   return (
     <>
       <Banner />
       <Title>
         오늘의 인기 상품 <BsBalloonHeartFill />
       </Title>
-      <ItemContainer>
-        {products.map(({ productId, productName, imgs, heartsCount, price }: Product) => {
+      <Items data={products} />
+      {/* <ItemContainer>
+        {products.map(({ productId, productName, imgs, price, heartsCount }: Product) => {
           return (
             <Item key={productId} onClick={() => handleClick(productId)}>
               <ImageContainer>
@@ -65,7 +53,7 @@ const Main = () => {
             </Item>
           );
         })}
-      </ItemContainer>
+      </ItemContainer> */}
       {hasNextPage && (
         <div ref={observerRef}>
           <Loading />
@@ -89,13 +77,18 @@ const Title = styled.div`
 const ItemContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
 `;
 
 const Item = styled.div`
   width: 24%;
   height: 300px;
-  margin: 5px;
+  margin: 4px;
   border: 1px solid #e0e0e0c4;
+
+  @media (max-width: 1024px) {
+    width: 32%;
+  }
 `;
 
 const ImageContainer = styled.div`

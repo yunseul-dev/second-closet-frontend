@@ -1,14 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import { formatTimeAgo } from '../../utils';
+import { formatTimeAgo } from '../../../utils';
 import { useNavigate } from 'react-router-dom';
+import { AiOutlineHeart } from '../../../utils/icons';
 
 interface Product {
   productId: string;
   productName: string;
-  imgs: string[];
+  imgs: string;
   price: string;
-  createdAt: string;
+  createdAt?: string;
+  heartsCount?: number;
 }
 
 interface ItemsProps {
@@ -24,10 +26,10 @@ const Items: React.FC<ItemsProps> = ({ data }) => {
 
   return (
     <ItemContainer>
-      {data.map(({ productId, productName, imgs, price, createdAt }: Product) => (
+      {data.map(({ productId, productName, imgs, price, createdAt, heartsCount }: Product) => (
         <Item key={productId} onClick={() => handleClick(productId)}>
           <ImageContainer>
-            <Image src={imgs[0]} alt={productName} />
+            <Image src={imgs} alt={productName} />
           </ImageContainer>
           <ItemInfoContainer>
             <ItemName>{productName}</ItemName>
@@ -35,9 +37,17 @@ const Items: React.FC<ItemsProps> = ({ data }) => {
               <div>
                 <Price>{price}</Price>원
               </div>
-              <MiniInfo>
-                <div>{formatTimeAgo(createdAt)}</div>
-              </MiniInfo>
+              <MiniInfos>
+                {createdAt && (
+                  <MiniInfo>
+                    <div>{formatTimeAgo(createdAt)}</div>
+                  </MiniInfo>
+                )}
+                <MiniInfo>
+                  <AiOutlineHeart />
+                  <span>{heartsCount}</span>
+                </MiniInfo>
+              </MiniInfos>
             </ItemInfo>
           </ItemInfoContainer>
         </Item>
@@ -54,10 +64,14 @@ const ItemContainer = styled.div`
 `;
 
 const Item = styled.div`
-  width: 23%;
+  width: 24%;
   height: 300px;
-  margin: 10px;
+  margin: 4px;
   border: 1px solid #e0e0e0c4;
+
+  @media (max-width: 1024px) {
+    width: 32%;
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -67,7 +81,7 @@ const ImageContainer = styled.div`
 
 const Image = styled.img`
   width: 100%;
-  height: 100%;
+  height: 230px;
   object-fit: cover;
 `;
 
@@ -92,15 +106,18 @@ const ItemName = styled.div`
   margin-bottom: 5px;
 `;
 
-const MiniInfo = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 12px;
-  color: #888888;
-`;
-
 const Price = styled.span`
   font-size: 16px;
   font-weight: 600;
+`;
+
+const MiniInfos = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+const MiniInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 3px;
 `;

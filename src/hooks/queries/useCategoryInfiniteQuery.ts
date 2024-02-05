@@ -4,9 +4,10 @@ import { categoryInfinite } from '../../api/products';
 interface Product {
   productId: string;
   productName: string;
-  imgs: string[];
+  imgs: string;
   price: string;
   createdAt: string;
+  heartsCount: number;
 }
 
 interface FetchResponse {

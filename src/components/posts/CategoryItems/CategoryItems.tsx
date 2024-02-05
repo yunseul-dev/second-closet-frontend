@@ -4,8 +4,9 @@ import { useParams } from 'react-router-dom';
 import { useCategoryInfiniteQuery } from '../../../hooks/queries';
 import { useObserver } from '../../../hooks';
 import CategoryTab from '../../common/CategoryTab/CategoryTab';
+import Items from '../../common/Items/Items';
 import Loading from '../../skeletons/Loading';
-import { SortTabs, Items, CategoryList } from '.';
+import { SortTabs, CategoryList } from '.';
 
 const CategoryItems = () => {
   const categoryParams = useParams();

@@ -5,7 +5,7 @@ import { useTagsInfiniteQuery } from '../../../hooks/queries';
 import { useObserver } from '../../../hooks';
 import Loading from '../../skeletons/Loading';
 import SortTabs from '../SortTabs';
-import Items from '../Items';
+import Items from '../../common/Items/Items';
 
 const TagsItems = () => {
   const { tagname } = useParams();
