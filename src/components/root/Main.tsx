@@ -31,29 +31,6 @@ const Main = () => {
         오늘의 인기 상품 <BsBalloonHeartFill />
       </Title>
       <Items data={products} />
-      {/* <ItemContainer>
-        {products.map(({ productId, productName, imgs, price, heartsCount }: Product) => {
-          return (
-            <Item key={productId} onClick={() => handleClick(productId)}>
-              <ImageContainer>
-                <Image src={imgs} alt={productName} loading="lazy" />
-              </ImageContainer>
-              <ItemInfoContainer>
-                <ItemName>{productName}</ItemName>
-                <ItemInfo>
-                  <div>
-                    <Price>{price}</Price>원
-                  </div>
-                  <MiniInfo>
-                    <AiOutlineHeart />
-                    <div>{heartsCount}</div>
-                  </MiniInfo>
-                </ItemInfo>
-              </ItemInfoContainer>
-            </Item>
-          );
-        })}
-      </ItemContainer> */}
       {hasNextPage && (
         <div ref={observerRef}>
           <Loading />
@@ -72,64 +49,4 @@ const Title = styled.div`
   color: #ff4d24;
   display: flex;
   align-items: center;
-`;
-
-const ItemContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-`;
-
-const Item = styled.div`
-  width: 24%;
-  height: 300px;
-  margin: 4px;
-  border: 1px solid #e0e0e0c4;
-
-  @media (max-width: 1024px) {
-    width: 32%;
-  }
-`;
-
-const ImageContainer = styled.div`
-  width: 100%;
-  height: 230px;
-`;
-
-const Image = styled.img`
-  width: 100%;
-  height: 230px;
-  object-fit: cover;
-`;
-
-const ItemInfoContainer = styled.div`
-  font-size: 14px;
-  height: 60px;
-  padding: 10px 20px 10px 20px;
-`;
-
-const ItemInfo = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const ItemName = styled.div`
-  width: 100%;
-  font-size: 14px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-bottom: 5px;
-`;
-
-const Price = styled.span`
-  font-size: 16px;
-  font-weight: 600;
-`;
-
-const MiniInfo = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
 `;
