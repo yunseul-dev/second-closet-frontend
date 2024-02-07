@@ -97,6 +97,7 @@ const ContactPaymentBtns: React.FC<Btns> = ({ product, sortOption, isMy }) => {
 export default ContactPaymentBtns;
 
 const Buttons = styled.div<{ $ismy: boolean }>`
+  width: ${props => props.$ismy && '100%'};
   display: flex;
   margin-top: 10px;
   justify-content: flex-end;
@@ -105,22 +106,31 @@ const Buttons = styled.div<{ $ismy: boolean }>`
   position: ${props => (props.$ismy ? 'absolute' : 'relative')};
   top: ${props => props.$ismy && '235px'};
   right: ${props => props.$ismy && 0};
-  width: ${props => props.$ismy && '100%'};
   font-size: ${props => props.$ismy && '16px'};
+
+  @media (max-width: 1240px) {
+    justify-content: space-between;
+    margin: 0 20px 0 20px;
+  }
 `;
 
 const HeartBtn = styled.button<{ $ismy: boolean }>`
   width: ${props => (props.$ismy ? '15%' : '10%')};
-  height: ${props => (props.$ismy ? '40px' : '8vh')};
+  height: ${props => (props.$ismy ? '40px' : '60px')};
   font-size: ${props => (props.$ismy ? '16px' : '24px')};
   font-weight: 700;
   border: solid 1px black;
   background-color: white;
+
+  @media (max-width: 1240px) {
+    width: 20%;
+    height: 60px;
+  }
 `;
 
 const TalkBtn = styled.button<{ $ismy: boolean }>`
   width: ${props => (props.$ismy ? '35%' : '25%')};
-  height: ${props => (props.$ismy ? '40px' : '8vh')};
+  height: ${props => (props.$ismy ? '40px' : '60px')};
   font-size: ${props => !props.$ismy && '18px'};
   border: solid 1px black;
   font-weight: 700;
@@ -129,14 +139,24 @@ const TalkBtn = styled.button<{ $ismy: boolean }>`
     cursor: default;
     border-color: #1010104d;
   }
+
+  @media (max-width: 1240px) {
+    width: 37%;
+    height: 60px;
+  }
 `;
 
 const BuyBtn = styled.button<{ $ismy: boolean }>`
   width: ${props => (props.$ismy ? '35%' : '25%')};
-  height: ${props => (props.$ismy ? '40px' : '8vh')};
+  height: ${props => (props.$ismy ? '40px' : '60px')};
   font-size: ${props => !props.$ismy && '18px'};
   border: solid 1px #fd7272;
   font-weight: 700;
   background-color: #ff4d24;
   color: white;
+
+  @media (max-width: 1240px) {
+    width: 37%;
+    height: 60px;
+  }
 `;

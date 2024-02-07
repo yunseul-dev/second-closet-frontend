@@ -24,7 +24,8 @@ export default AppLayout;
 const LayoutContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 1240px;
+  width: 90%;
+  max-width: 1240px;
   min-width: 1024px;
   height: 100vh;
 `;

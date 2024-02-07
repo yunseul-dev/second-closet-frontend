@@ -11,7 +11,6 @@ const Settings = () => {
   const setIsLogin = useSetRecoilState(isLoginState);
 
   const handleSignoutClick = async () => {
-    console.log('here');
     const isLogin = await signOut();
 
     setUserId(null);
@@ -47,6 +46,11 @@ const Container = styled.div`
   flex-direction: column;
   padding: 10px;
   background-color: #fff;
+
+  @media (max-width: 1024px) {
+    width: 350%;
+    font-size: 16px;
+  }
 `;
 
 const MiniTab = styled.div`

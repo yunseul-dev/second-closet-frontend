@@ -35,7 +35,7 @@ const Contents = () => {
     <>
       <Lists>
         <List name={'상품명'} must={true}>
-          <Input type="text" ref={productNameRef} aria-label="상품명" />
+          <Input type="text" ref={productNameRef} aria-label="상품명" maxLength={40} />
         </List>
         <List name={'상품 이미지'} must={true} extraChildren={<ImgCount>({imgPrevUrls.length}/11)</ImgCount>}>
           <ImgFiles imgPrevUrls={imgPrevUrls} handleFileChange={handleFileChange} handleDeleteFile={handleDeleteFile} />

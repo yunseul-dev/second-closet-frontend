@@ -40,14 +40,14 @@ const Header = () => {
           <BtnContainer>
             <Btn onClick={handleMessageClick}>
               <AiOutlineMessage />
-              <div>메세지</div>
+              <span>메세지</span>
             </Btn>
             <Divider>
               <RxDividerVertical />
             </Divider>
             <Btn onClick={handleCreatepostClick}>
               <BiCloset />
-              <div>상품 등록</div>
+              <span>상품 등록</span>
             </Btn>
             <Divider>
               <RxDividerVertical />
@@ -56,7 +56,7 @@ const Header = () => {
               onMouseEnter={() => setIsSettingsHovered(true)}
               onMouseLeave={() => setIsSettingsHovered(false)}>
               <LuUserCog />
-              <div>설정</div>
+              <span>설정</span>
               {isSettingsHovered && <Settings />}
             </BtnwithSettings>
           </BtnContainer>
@@ -85,12 +85,17 @@ const Container = styled.header`
   padding-top: 3%;
   position: fixed;
   top: 0;
-  width: 1240px;
+  width: 90%;
+  max-width: 1240px;
+  min-width: 1024px;
   height: 170px;
   z-index: 999;
-  padding-bottom: 10px;
   border-bottom: 1px solid #d4d4d4;
   background-color: #fff;
+
+  @media (max-width: 1024px) {
+    height: 150px;
+  }
 `;
 
 const FirstContainer = styled.div`
@@ -127,6 +132,10 @@ const CategoryList = styled.div`
   height: 30px;
   display: flex;
   align-items: center;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+  }
 `;
 
 const CategoryName = styled.div`
@@ -149,6 +158,15 @@ const Btn = styled.div`
   align-items: center;
   gap: 4px;
   cursor: pointer;
+
+  @media (max-width: 1024px) {
+    span {
+      display: none;
+    }
+
+    font-size: 20px;
+    gap: 2px;
+  }
 `;
 
 const BtnwithSettings = styled(Btn)`

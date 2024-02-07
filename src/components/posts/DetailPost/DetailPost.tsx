@@ -210,11 +210,19 @@ const ProductName = styled.div`
   font-size: 24px;
   font-weight: 600;
   padding-bottom: 10px;
+
+  @media (max-width: 1240px) {
+    font-size: 22px;
+  }
 `;
 
 const ProductPrice = styled.div`
   font-size: 38px;
   font-weight: 500;
+
+  @media (max-width: 1240px) {
+    font-size: 32px;
+  }
 `;
 
 const Span = styled.span`
@@ -238,9 +246,9 @@ const SubmitConatiner = styled.div`
 
 const ImageContainer = styled.div`
   width: 35%;
-  height: 45vh;
-  min-width: 420px;
-  min-height: 428px;
+  height: 400px;
+  min-width: 400px;
+  min-height: 400px;
   border: solid 1px #dbd9d9;
   position: relative;
   overflow: hidden;
@@ -281,10 +289,15 @@ const NextBtn = styled(Control)`
 const Alarms = styled.div`
   border-top: 1px solid #d0d0d0;
   font-size: 16px;
-  margin: 20px 0 0 0;
+  margin-top: 20px;
   padding-top: 20px;
   display: flex;
   justify-content: flex-end;
+
+  @media (max-width: 1240px) {
+    margin-top: 10px;
+    padding-top: 10px;
+  }
 `;
 
 const Alarm = styled.div`
@@ -295,12 +308,12 @@ const Alarm = styled.div`
 const InfoWrapper = styled.div`
   width: 60%;
   min-width: 420px;
-  min-height: 428px;
+  min-height: 400px;
 `;
 
 const InfoContainer = styled.div`
   width: 100%;
-  min-height: 350px;
+  min-height: 330px;
   padding: 0 30px 0 30px;
 `;
 
@@ -329,7 +342,7 @@ const MyPageBtn = styled.div`
   bottom: 0;
   justify-content: center;
   align-items: center;
-  height: 8vh;
+  height: 60px;
   font-weight: 700;
   font-size: 18px;
   background-color: #ff4d24;

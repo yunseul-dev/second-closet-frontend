@@ -50,6 +50,14 @@ const CategoryContainer = () => {
 
 export default CategoryContainer;
 
+const ManyHeart = styled.div`
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
 const TabContainer = styled.div`
   width: 100%;
   border: 1px solid gray;
@@ -57,14 +65,12 @@ const TabContainer = styled.div`
   height: 260px;
   position: absolute;
   display: flex;
-`;
 
-const ManyHeart = styled.div`
-  width: 25%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  @media (max-width: 1024px) {
+    ${ManyHeart} {
+      display: none;
+    }
+  }
 `;
 
 const LinkTag = styled(Link)`
@@ -100,6 +106,10 @@ const CategoryTap = styled.div`
   top: 100%;
   left: 0;
   display: flex;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+  }
 `;
 
 const CategoryList = styled.div`

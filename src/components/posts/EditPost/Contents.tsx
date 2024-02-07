@@ -67,7 +67,13 @@ const Contents = () => {
     <>
       <Lists>
         <List name={'상품명'} must={true}>
-          <Input type="text" ref={productNameRef} defaultValue={productInfo?.productName} aria-label="상품명" />
+          <Input
+            type="text"
+            ref={productNameRef}
+            defaultValue={productInfo?.productName}
+            maxLength={40}
+            aria-label="상품명"
+          />
         </List>
         <List
           name={'상품 이미지'}
@@ -128,7 +134,6 @@ const Contents = () => {
           ) : (
             <Select ref={sizeRef} defaultValue={productInfo?.size} aria-label="사이즈">
               <option value="" label="선택" />
-
               {sizes.map(size => (
                 <option value={size.toLowerCase()} label={size} />
               ))}

@@ -100,7 +100,7 @@ const Content = styled.div<DivProps>`
 const Input = styled.div`
   position: absolute;
   bottom: 0;
-  width: 100%;
+  width: calc(100% - 40px);
 `;
 
 const TextArea = styled.textarea`
@@ -125,7 +125,7 @@ const TextArea = styled.textarea`
 const PaperAirplane = styled(HiMiniPaperAirplane)`
   position: absolute;
   right: 10px;
-  bottom: 15px;
+  bottom: 13px;
   transform: translateY(-50%);
   color: #c9d1e9;
 `;
