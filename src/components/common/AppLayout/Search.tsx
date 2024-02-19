@@ -38,6 +38,8 @@ const Search = () => {
   const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== 'Enter') return;
 
+    e.preventDefault();
+
     navigate(`/tag?searchTerm=${searchTerm}`);
     setSearchResults([]);
     setSearchTerm('');
