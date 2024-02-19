@@ -18,8 +18,8 @@ const Header = () => {
 
   const handleLogoClick = () => navigate('/');
   const handleSigninClick = () => navigate('/signin');
-  const handleMessageClick = () => navigate('/chatpage');
-  const handleCreatepostClick = () => navigate('/createpost');
+  const handleMessageClick = () => navigate('/chat');
+  const handleCreatepostClick = () => navigate('/newproduct');
 
   const handleCateMouseEnter = () => setIsCategoryHovered(true);
   const handleCateMouseLeave = () => setIsCategoryHovered(false);

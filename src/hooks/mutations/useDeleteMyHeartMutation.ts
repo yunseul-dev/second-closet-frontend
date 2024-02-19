@@ -1,7 +1,5 @@
-import { useRecoilValue } from 'recoil';
 import { useGenericMutation } from '.';
 import { deleteHeart } from '../../api/products';
-import { userState } from '../../recoil/atom';
 
 interface Product {
   productId: string;
@@ -12,10 +10,9 @@ interface Products {
 }
 
 const useDeleteMyHeartMutation = (sortOption: string, productId: string) => {
-  const userId = useRecoilValue(userState);
   return useGenericMutation({
     queryKey: ['@MyHearts', sortOption],
-    mutationFn: () => deleteHeart(productId, userId),
+    mutationFn: () => deleteHeart(productId),
     onMutate() {
       return (products: Products) => ({
         ...products,

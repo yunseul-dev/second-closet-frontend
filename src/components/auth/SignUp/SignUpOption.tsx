@@ -122,7 +122,7 @@ const SignUpOption = ({ userId, setUserId, setState }: SignUpOptionProps) => {
         bank: selectedBank,
       };
 
-      await editUser(userId, data);
+      await editUser(data);
       setUserId(null);
       setState('signIn');
     } catch (error) {

@@ -14,7 +14,7 @@ interface FetchResponse {
   pageParams: number[];
 }
 
-const useTagsInfiniteQuery = (tag: string | undefined, sortOption: string) => {
+const useTagsInfiniteQuery = (tag: string | null, sortOption: string) => {
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery<Product[], unknown, FetchResponse>({
     queryKey: ['@TagItem', tag, sortOption],
     queryFn: async ({ pageParam = 0 }) => tagsInfinite(tag, sortOption, pageParam),

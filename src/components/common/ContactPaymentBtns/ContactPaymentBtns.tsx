@@ -41,12 +41,12 @@ const ContactPaymentBtns: React.FC<Btns> = ({ product, sortOption, isMy }) => {
     if (userId === null) return;
 
     if (!hearts.includes(userId)) {
-      addHeart({ productId: productId, userId: userId });
+      addHeart({ productId: productId });
     } else if (!isMy) {
-      deleteHeart({ productId: productId, userId: userId });
+      deleteHeart({ productId: productId });
     } else {
       setId(productId);
-      deleteMyHeart({ productId, userId });
+      deleteMyHeart({ productId });
     }
   };
 
@@ -65,11 +65,11 @@ const ContactPaymentBtns: React.FC<Btns> = ({ product, sortOption, isMy }) => {
       },
     });
 
-    navigate(`/chatpage/${id}`);
+    navigate(`/chat/${id}`);
   };
 
   const handleBuyClick = async () => {
-    navigate('/buypage', {
+    navigate('/order', {
       state: {
         img: imgs[0],
         productName: productName,
@@ -84,7 +84,7 @@ const ContactPaymentBtns: React.FC<Btns> = ({ product, sortOption, isMy }) => {
       <HeartBtn onClick={handleHeartClick} aria-label="찜하기" $ismy={isMy}>
         {userId && hearts.includes(userId) ? <BsSuitHeartFill /> : <BsSuitHeart />}
       </HeartBtn>
-      <TalkBtn disabled={!discount} onClick={() => handleTalkClick()} $ismy={isMy}>
+      <TalkBtn disabled={!discount} onClick={handleTalkClick} $ismy={isMy}>
         문의하기
       </TalkBtn>
       <BuyBtn aria-label="안전결제" onClick={handleBuyClick} $ismy={isMy}>

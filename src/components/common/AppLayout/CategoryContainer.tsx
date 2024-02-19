@@ -36,7 +36,7 @@ const CategoryContainer = () => {
         ))}
       </CategoryTap>
       <ManyHeart>
-        <LinkTag to={`/detail/${productId}`}>
+        <LinkTag to={`/product/${productId}`}>
           <HeartImg src={imgs} alt={productName} />
           <HeartName>
             <div>상품 보러가기</div>

@@ -21,7 +21,7 @@ const Items: React.FC<ItemsProps> = ({ data }) => {
   const navigate = useNavigate();
 
   const handleClick = (productId: string) => {
-    navigate(`/detail/${productId}`);
+    navigate(`/product/${productId}`);
   };
 
   return (

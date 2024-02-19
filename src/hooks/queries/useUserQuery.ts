@@ -10,7 +10,7 @@ const useUserQuery = () => {
 
   const query = useQuery({
     queryKey: ['@UserInfo', userId],
-    queryFn: () => fetchUser(userId || ''),
+    queryFn: () => fetchUser(),
     staleTime,
   });
 

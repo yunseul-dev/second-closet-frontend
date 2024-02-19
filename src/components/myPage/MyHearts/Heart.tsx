@@ -33,7 +33,7 @@ const Heart: React.FC<MyHeartProps> = ({ product, sortOption }) => {
   const navigate = useNavigate();
 
   const handleClick = (productId: string) => {
-    navigate(`/detail/${productId}`);
+    navigate(`/product/${productId}`);
   };
 
   return (

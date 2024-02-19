@@ -8,7 +8,7 @@ const useDeleteHeartMutation = (id: string, hearts: string[]) => {
 
   return useGenericMutation({
     queryKey: ['@ProductInfo', id + ''],
-    mutationFn: () => deleteHeart(id, userId),
+    mutationFn: () => deleteHeart(id),
     onMutate() {
       return (productInfo: object[]) =>
         [{ ...productInfo, hearts: hearts.filter((user: string) => user !== userId) }][0];

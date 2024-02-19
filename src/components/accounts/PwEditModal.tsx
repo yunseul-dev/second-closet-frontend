@@ -1,12 +1,10 @@
 import { useCallback, ChangeEvent } from 'react';
-import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { debounce } from 'lodash';
 import { useForm, Control, useController } from 'react-hook-form';
-import { userState } from '../../recoil/atom';
 import { ChangePwSchema } from '../../utils';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { changePassword } from '../../api/auth';
+import { changePassword } from '../../api/user';
 
 interface ModalProps {
   closeModal: () => void;
@@ -56,15 +54,13 @@ const PasswordInput = ({ name, control, trigger, label }: InputProps) => {
 };
 
 const PwEditModal: React.FC<ModalProps> = ({ closeModal }) => {
-  const userId = useRecoilValue(userState);
-
   const { control, trigger, handleSubmit } = useForm<ChangePwFormData>({
     resolver: zodResolver(ChangePwSchema),
   });
 
   const onSubmit = async (data: ChangePwFormData) => {
     try {
-      await changePassword(userId, data);
+      await changePassword(data);
       closeModal();
     } catch (error) {
       console.log(error);

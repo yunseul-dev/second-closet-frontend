@@ -54,7 +54,7 @@ const AccountInfoEdit = () => {
         updatedData.bank = bankRef.current?.value;
       }
 
-      await editUser(userInfo?.userId, updatedData);
+      await editUser(updatedData);
       navigate('/mypage');
     } catch (error) {
       console.log(error);

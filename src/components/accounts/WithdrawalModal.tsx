@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { userState, isLoginState } from '../../recoil/atom';
@@ -10,12 +10,12 @@ interface WithDrawalProps {
 }
 
 const WithdrawalModal: React.FC<WithDrawalProps> = ({ closeModal }) => {
-  const [userId, setUserId] = useRecoilState(userState);
+  const setUserId = useSetRecoilState(userState);
   const setIsLogin = useSetRecoilState(isLoginState);
   const navigate = useNavigate();
 
   const handleWithdrawClick = async () => {
-    const { isLogin } = await deleteUser(userId);
+    const { isLogin } = await deleteUser();
 
     setUserId(null);
     localStorage.removeItem('user');

@@ -23,20 +23,19 @@ const routerConfig = createBrowserRouter([
     element: lazyLoading('Root'),
   },
   {
-    path: '/detail/:id',
+    path: '/product/:id',
     element: lazyLoading('DetailPage'),
   },
   {
-    path: '/category/:param1/:param2?/:param3?',
+    path: '/category/:categoryId/:subCategoryId?/:subCategory2Id?',
     element: lazyLoading('CategoryItemsPage'),
   },
   {
-    path: '/tag/:tagname',
+    path: '/tag',
     element: lazyLoading('TagsPage'),
   },
-
   {
-    path: '/createpost',
+    path: '/newproduct',
     element: <AuthenticationGuard redirectTo="/signin" element={lazyLoading('CreatePostPage')} />,
   },
   {
@@ -48,15 +47,15 @@ const routerConfig = createBrowserRouter([
     element: <AuthenticationGuard redirectTo="/signin" element={lazyLoading('AccountsPage')} />,
   },
   {
-    path: '/editpost/:id',
+    path: '/edit/:id',
     element: <AuthenticationGuard redirectTo="/signin" element={lazyLoading('EditPostPage')} />,
   },
   {
-    path: '/chatpage/:id?',
+    path: '/chat/:id?',
     element: <AuthenticationGuard redirectTo="/signin" element={lazyLoading('ChatPage')} />,
   },
   {
-    path: '/buypage',
+    path: '/order',
     element: <AuthenticationGuard redirectTo="/signin" element={lazyLoading('BuyPage')} />,
   },
 ]);

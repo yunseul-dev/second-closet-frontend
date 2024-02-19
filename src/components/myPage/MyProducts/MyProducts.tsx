@@ -3,8 +3,6 @@ import { useState, useCallback, useEffect } from 'react';
 import { useMyProductInfiniteQuery } from '../../../hooks/queries';
 import { useObserver } from '../../../hooks';
 import { RxDividerVertical } from '../../../utils/icons';
-import { useRecoilValue } from 'recoil';
-import { userState } from '../../../recoil/atom';
 import { Products } from '.';
 import Loading from '../../skeletons/Loading';
 
@@ -16,9 +14,7 @@ const MyProducts = () => {
   const [sortOption, setSortOption] = useState<string>('all');
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const userId = useRecoilValue(userState) || '';
-
-  const { products, hasNextPage, fetchNextPage } = useMyProductInfiniteQuery(userId.replace(/"/g, ''), sortOption);
+  const { products, hasNextPage, fetchNextPage } = useMyProductInfiniteQuery(sortOption);
 
   const getNextPage = useCallback(() => {
     if (isLoading || !hasNextPage) return;

@@ -44,9 +44,9 @@ const Product: React.FC<ProductProps> = ({
 
   const handleDeleteClick = async () => deleteProduct(productId);
 
-  const handleClick = () => navigate(`/detail/${productId}`);
+  const handleClick = () => navigate(`/product/${productId}`);
 
-  const handleEditClick = () => navigate(`/editpost/${productId}`);
+  const handleEditClick = () => navigate(`/edit/${productId}`);
 
   const openSoldModal = () => setSoldIsModalOpen(true);
 

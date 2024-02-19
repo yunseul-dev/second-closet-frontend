@@ -17,10 +17,10 @@ interface FetchResponse {
   pageParams: number[];
 }
 
-const useMyProductInfiiteQuery = (userId: string, sortOption: string) => {
+const useMyProductInfiiteQuery = (sortOption: string) => {
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery<Products[], unknown, FetchResponse>({
     queryKey: ['@MyProducts', sortOption],
-    queryFn: async ({ pageParam = 0 }) => myProductsInfinite(sortOption, userId, pageParam),
+    queryFn: async ({ pageParam = 0 }) => myProductsInfinite(sortOption, pageParam),
     initialPageParam: 0,
     getNextPageParam: (lastPage: Products[], allPages: Products[][]): number | undefined => {
       const nextPage = allPages.length === 1 ? 1 : allPages.length;

@@ -1,14 +1,16 @@
 import { useCallback, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
 import { useTagsInfiniteQuery } from '../../../hooks/queries';
 import { useObserver } from '../../../hooks';
 import Loading from '../../skeletons/Loading';
 import SortTabs from '../SortTabs';
 import Items from '../../common/Items/Items';
+import { useLocation } from 'react-router-dom';
 
 const TagsItems = () => {
-  const { tagname } = useParams();
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const tagname = params.get('searchTerm') || '';
 
   const [sortOption, setSortOption] = useState<string>('latest');
   const [isLoading, setIsLoading] = useState<boolean>(false);

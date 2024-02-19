@@ -177,7 +177,7 @@ const DetailPost = () => {
             <Tags>
               {tags.map(tag => {
                 return (
-                  <Tag key={tag} onClick={() => navigate(`/tag/${tag}`)}>
+                  <Tag key={tag} onClick={() => navigate(`/tag?searchTerm=${tag}`)}>
                     #{tag}
                   </Tag>
                 );
@@ -191,7 +191,7 @@ const DetailPost = () => {
         <Recs>
           {relatedItems.map(({ productId, productName, imgs }: RelatedItems) => (
             <Rec key={productId}>
-              <Link to={`/detail/${productId}`}>
+              <Link to={`/product/${productId}`}>
                 <RecImg>
                   <Img src={imgs[0]} alt={productName + productId} />
                 </RecImg>

@@ -38,7 +38,7 @@ const Search = () => {
   const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== 'Enter') return;
 
-    navigate(`/tag/${searchTerm}`);
+    navigate(`/tag?searchTerm=${searchTerm}`);
     setSearchResults([]);
     setSearchTerm('');
   };
@@ -56,7 +56,7 @@ const Search = () => {
   };
 
   const handleResultClick = (result: string) => {
-    navigate(`/tag/${result}`);
+    navigate(`/tag?searchTerm=${result}`);
     setSearchResults([]);
     setSearchTerm('');
   };
@@ -83,13 +83,13 @@ const Search = () => {
               {searchResults.length > 0 ? (
                 <>
                   {searchResults.map((result, index) => (
-                    <SearchResultItem searchResult={true} key={index} onClick={() => handleResultClick(result)}>
+                    <SearchResultItem $searchResult={true} key={index} onClick={() => handleResultClick(result)}>
                       {result}
                     </SearchResultItem>
                   ))}
                 </>
               ) : (
-                <SearchResultItem searchResult={false}>
+                <SearchResultItem $searchResult={false}>
                   "{searchTerm}"에 대한 검색 결과가 존재하지 않습니다.
                 </SearchResultItem>
               )}
@@ -172,14 +172,14 @@ const SearchResults = styled.div`
   }
 `;
 
-const SearchResultItem = styled.div<{ searchResult: boolean }>`
+const SearchResultItem = styled.div<{ $searchResult: boolean }>`
   padding: 5px;
   font-size: 14px;
   font-weight: 500;
   margin-top: 10px;
   margin-bottom: 10px;
-  color: ${props => !props.searchResult && ' #ff4d24'};
-  cursor: ${props => props.searchResult && 'pointer'};
+  color: ${props => !props.$searchResult && ' #ff4d24'};
+  cursor: ${props => props.$searchResult && 'pointer'};
 `;
 
 const CloseBtn = styled.button`

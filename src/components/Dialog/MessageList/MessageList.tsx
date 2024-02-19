@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import List from './List';
 import { useChatSocketList } from '../../../hooks';
-import { userState } from '../../../recoil/atom/userState';
 import { fetchMessages } from '../../../api/messages';
 
 type Message = {
@@ -20,13 +18,12 @@ interface NewMessage {
 }
 
 const MessageList = () => {
-  const userId = useRecoilValue(userState) || '';
   const [messages, setMessages] = useState<NewMessage[]>([]);
   useChatSocketList(setMessages);
 
   useEffect(() => {
     const fetchInitialMessages = async () => {
-      const initialMessages = await fetchMessages(userId);
+      const initialMessages = await fetchMessages();
       setMessages(initialMessages);
     };
 

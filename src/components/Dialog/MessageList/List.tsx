@@ -25,7 +25,7 @@ const List: React.FC<ListProps> = ({ message }) => {
   const { messageId, partner, messages } = message;
 
   const handleClick = () => {
-    navigate(`/chatpage/${messageId}`);
+    navigate(`/chat/${messageId}`);
   };
 
   return (

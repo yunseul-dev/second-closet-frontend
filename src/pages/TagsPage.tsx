@@ -3,7 +3,7 @@ import TagsItems from '../components/posts/TagsItems/TagsItems';
 
 const TagsPage = () => {
   return (
-    <AppLayout>
+    <AppLayout hasArrowBtn={true}>
       <TagsItems />
     </AppLayout>
   );

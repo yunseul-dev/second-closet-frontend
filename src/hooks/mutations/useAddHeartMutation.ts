@@ -8,7 +8,7 @@ const useAddHeartMutation = (id: string, hearts: string[]) => {
 
   return useGenericMutation({
     queryKey: ['@ProductInfo', id + ''],
-    mutationFn: () => addHeart(id, userId),
+    mutationFn: () => addHeart(id),
     onMutate() {
       return (productInfo: object[]) => [{ ...productInfo, hearts: [...hearts, userId] }][0];
     },

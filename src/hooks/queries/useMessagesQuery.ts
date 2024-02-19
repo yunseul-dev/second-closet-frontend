@@ -1,6 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-import { useRecoilValue } from 'recoil';
-import { userState } from '../../recoil/atom';
 import { fetchMessages } from '../../api/messages';
 
 interface Message {
@@ -18,11 +16,9 @@ interface Messages {
 const staleTime = 1000 * 3;
 
 const useMessagesQuery = (sortOption: string) => {
-  const userId = useRecoilValue(userState) || '';
-
   const query = useQuery({
     queryKey: ['@MyMessages', sortOption],
-    queryFn: () => fetchMessages(userId),
+    queryFn: () => fetchMessages(),
     staleTime,
   });
 

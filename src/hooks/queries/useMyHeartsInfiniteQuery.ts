@@ -1,6 +1,4 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { useRecoilValue } from 'recoil';
-import { userState } from '../../recoil/atom';
 import { myHeartsInfinite } from '../../api/products';
 
 interface Product {
@@ -22,11 +20,9 @@ interface FetchResponse {
 }
 
 const useMyHeartsInfiniteQuery = (sortOption: string) => {
-  const userId = useRecoilValue(userState);
-
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery<Product[], unknown, FetchResponse>({
     queryKey: ['@MyHearts', sortOption],
-    queryFn: async ({ pageParam = 0 }) => myHeartsInfinite(sortOption, userId, pageParam),
+    queryFn: async ({ pageParam = 0 }) => myHeartsInfinite(sortOption, pageParam),
     initialPageParam: 0,
     getNextPageParam: (lastPage: Product[], allPages: Product[][]): number | undefined => {
       const nextPage = allPages.length === 1 ? 1 : allPages.length;
