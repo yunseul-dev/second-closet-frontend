@@ -8,17 +8,27 @@ interface UserData {
   address: string;
 }
 
+interface ChangePwFormData {
+  nowPassword: string;
+  newPassword: string;
+  passwordConfirm: string;
+}
+
 const { VITE_CORS_SERVER_URL = '' } = import.meta.env;
 
-const url = `/api/users`;
+const BASE_URL = `${VITE_CORS_SERVER_URL}/users`;
 
-const editUser = async (userId: string | null, data: Partial<UserData>) => {
-  await axios.patch(`${VITE_CORS_SERVER_URL}${url}/edit/${userId}`, data);
-};
-
-const fetchUser = async (userId: string) => {
-  const res = await axios.get(`${VITE_CORS_SERVER_URL}${url}/${userId}`);
+const fetchUser = async () => {
+  const res = await axios.get(`${BASE_URL}`, { withCredentials: true });
   return res.data;
 };
 
-export { editUser, fetchUser };
+const editUser = async (data: Partial<UserData>) => {
+  await axios.patch(`${BASE_URL}`, data, { withCredentials: true });
+};
+
+const changePassword = async (data: ChangePwFormData) => {
+  await axios.patch(`${BASE_URL}/password`, data, { withCredentials: true });
+};
+
+export { editUser, fetchUser, changePassword };

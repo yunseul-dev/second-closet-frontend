@@ -16,22 +16,22 @@ interface createMessageInterface {
 
 const { VITE_CORS_SERVER_URL = '' } = import.meta.env;
 
-const url = '/api/messages';
+const BASE_URL = `${VITE_CORS_SERVER_URL}/messages`;
 
 const fetchMessage = async (id: string | undefined) => {
-  const { data } = await axios.get(`${VITE_CORS_SERVER_URL}${url}/message/${id}`);
+  const { data } = await axios.get(`${BASE_URL}/${id}`);
 
   return data;
 };
 
-const fetchMessages = async (userId: string) => {
-  const { data } = await axios.get(`${VITE_CORS_SERVER_URL}${url}/${userId}`);
+const fetchMessages = async () => {
+  const { data } = await axios.get(`${BASE_URL}/user`, { withCredentials: true });
 
   return data;
 };
 
 const createMessage = async (data: createMessageInterface) => {
-  const res = await axios.post(`${VITE_CORS_SERVER_URL}${url}/post`, data);
+  const res = await axios.post(`${BASE_URL}`, data);
 
   return res.data;
 };
