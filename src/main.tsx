@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { io } from 'socket.io-client';
 
-const socket = io('http://52.79.255.158:80', {
+const socket = io('http://52.78.37.10:80', {
   withCredentials: true,
   transports: ['websocket', 'polling'],
 });
