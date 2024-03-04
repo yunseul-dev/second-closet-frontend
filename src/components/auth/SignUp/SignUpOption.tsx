@@ -5,7 +5,7 @@ import { debounce } from 'lodash';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signUpOptionSchema } from '../../../utils';
 import { banks } from '../../../constants';
-import { editUser } from '../../../api/user';
+import { updateOption } from '../../../api/user';
 
 interface SignUpOptionData {
   address: string;
@@ -122,7 +122,7 @@ const SignUpOption = ({ userId, setUserId, setState }: SignUpOptionProps) => {
         bank: selectedBank,
       };
 
-      await editUser(data);
+      await updateOption(userId, data);
       setUserId(null);
       setState('signIn');
     } catch (error) {
