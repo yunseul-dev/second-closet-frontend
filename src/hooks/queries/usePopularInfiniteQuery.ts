@@ -15,7 +15,7 @@ interface FetchResponse {
 
 const usePopularInfiniteQuery = () => {
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery<Product[], unknown, FetchResponse>({
-    queryKey: ['@populars'],
+    queryKey: ['@Populars'],
     queryFn: async ({ pageParam = 0 }) => fetchPopulars(pageParam),
     initialPageParam: 0,
     getNextPageParam: (lastPage: Product[], allPages: Product[][]): number | undefined => {
@@ -23,6 +23,7 @@ const usePopularInfiniteQuery = () => {
 
       return lastPage.length !== 0 ? nextPage : undefined;
     },
+    staleTime: 1000 * 10,
   });
 
   return { products: data?.pages.flat() as Product[], hasNextPage, fetchNextPage };
