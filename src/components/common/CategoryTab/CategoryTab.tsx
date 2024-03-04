@@ -20,7 +20,7 @@ const CategoryTab: React.FC<Categories> = ({ categories }) => {
     <Container>
       <LiaHomeSolid />홈
       <LiaAngleRightSolid />
-      <Select defaultValue={categories[0]} onChange={e => handleChange(e, [])} aria-label="대분류">
+      <Select value={categories[0]} onChange={e => handleChange(e, [])} aria-label="대분류">
         {Object.keys(Category).map(category => (
           <option key={category} value={category} label={category} />
         ))}
