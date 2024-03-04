@@ -23,12 +23,13 @@ const fetchUser = async () => {
   return res.data;
 };
 
-const editUser = async (data: Partial<UserData>) => {
-  await axios.patch(`${BASE_URL}`, data, { withCredentials: true });
-};
+const editUser = async (data: Partial<UserData>) => await axios.patch(`${BASE_URL}`, data, { withCredentials: true });
+
+const updateOption = async (userId: string | null, data: Partial<UserData>) =>
+  await axios.patch(`${BASE_URL}/option`, { userId: userId, data: data });
 
 const changePassword = async (data: ChangePwFormData) => {
   await axios.patch(`${BASE_URL}/password`, data, { withCredentials: true });
 };
 
-export { editUser, fetchUser, changePassword };
+export { editUser, fetchUser, changePassword, updateOption };
