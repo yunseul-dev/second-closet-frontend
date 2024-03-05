@@ -68,6 +68,7 @@ const Item = styled.div`
   height: 300px;
   margin: 4px;
   border: 1px solid #e0e0e0c4;
+  cursor: pointer;
 
   @media (max-width: 1024px) {
     width: 32%;
