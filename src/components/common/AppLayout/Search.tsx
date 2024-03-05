@@ -8,11 +8,12 @@ import { searchProduct } from '../../../api/products';
 const Search = () => {
   const [searchResults, setSearchResults] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [activeIndex, setActiveIndex] = useState<number>(-1);
+  const [isNavigating, setIsNavigating] = useState<boolean>(false);
   const searchRef = useRef<HTMLFormElement>(null);
-
   const navigate = useNavigate();
 
-  const fetchSearchResults = useCallback(
+  const debouncedSearch = useCallback(
     debounce((term: string) => {
       if (term === '') {
         setSearchResults(['']);
@@ -31,18 +32,42 @@ const Search = () => {
   );
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-    fetchSearchResults(e.target.value);
+    if (isNavigating) {
+      setIsNavigating(false);
+    } else {
+      const value = e.target.value;
+      setSearchTerm(value);
+      debouncedSearch(value);
+      setActiveIndex(-1);
+    }
   };
 
   const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key !== 'Enter') return;
-
-    e.preventDefault();
-
-    navigate(`/tag?searchTerm=${searchTerm}`);
-    setSearchResults([]);
-    setSearchTerm('');
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      navigate(`/tag?searchTerm=${searchTerm}`);
+      setSearchResults([]);
+      setSearchTerm('');
+      setActiveIndex(-1);
+    } else if (e.key === 'ArrowDown') {
+      setIsNavigating(true);
+      setActiveIndex(prevActiveIndex => {
+        const nextActiveIndex = prevActiveIndex + 1 < searchResults.length ? prevActiveIndex + 1 : prevActiveIndex;
+        setSearchTerm(searchResults[nextActiveIndex]);
+        return nextActiveIndex;
+      });
+    } else if (e.key === 'ArrowUp') {
+      setIsNavigating(true);
+      setActiveIndex(prevActiveIndex => {
+        const nextActiveIndex = prevActiveIndex >= 1 ? prevActiveIndex - 1 : 0;
+        setSearchTerm(searchResults[nextActiveIndex]);
+        return prevActiveIndex >= 1 ? prevActiveIndex - 1 : -1;
+      });
+      setTimeout(() => {
+        const input = e.target as HTMLInputElement;
+        input.setSelectionRange(input.value.length, input.value.length);
+      }, 0);
+    }
   };
 
   const handleOutsideClick = useCallback((e: MouseEvent) => {
@@ -68,6 +93,8 @@ const Search = () => {
     return () => document.removeEventListener('mousedown', handleOutsideClick);
   }, [handleOutsideClick]);
 
+  const hasSearchResults = searchResults.length > 0;
+
   return (
     <>
       <SearchBar ref={searchRef}>
@@ -82,16 +109,18 @@ const Search = () => {
         {searchTerm.length > 0 && (
           <SearchResultsWrapper>
             <SearchResults>
-              {searchResults.length > 0 ? (
-                <>
-                  {searchResults.map((result, index) => (
-                    <SearchResultItem $searchResult={true} key={index} onClick={() => handleResultClick(result)}>
-                      {result}
-                    </SearchResultItem>
-                  ))}
-                </>
+              {hasSearchResults ? (
+                searchResults.map((result, index) => (
+                  <SearchResultItem
+                    $searchResult={true}
+                    $focus={activeIndex === index}
+                    key={index}
+                    onClick={() => handleResultClick(result)}>
+                    {result}
+                  </SearchResultItem>
+                ))
               ) : (
-                <SearchResultItem $searchResult={false}>
+                <SearchResultItem $searchResult={false} $focus={false}>
                   "{searchTerm}"에 대한 검색 결과가 존재하지 않습니다.
                 </SearchResultItem>
               )}
@@ -154,7 +183,6 @@ const SearchResultsWrapper = styled.div`
 
 const SearchResults = styled.div`
   max-height: 300px;
-
   overflow-y: scroll;
 
   &::-webkit-scrollbar {
@@ -174,12 +202,11 @@ const SearchResults = styled.div`
   }
 `;
 
-const SearchResultItem = styled.div<{ $searchResult: boolean }>`
-  padding: 5px;
+const SearchResultItem = styled.div<{ $searchResult: boolean; $focus: boolean }>`
+  padding: 10px;
   font-size: 14px;
-  font-weight: 500;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  font-weight: ${props => (props.$focus ? 700 : 500)};
+  background-color: ${props => props.$focus && '#ededed'};
   color: ${props => !props.$searchResult && ' #ff4d24'};
   cursor: ${props => props.$searchResult && 'pointer'};
 `;
