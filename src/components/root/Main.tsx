@@ -6,10 +6,17 @@ import { BsBalloonHeartFill } from '../../utils/icons';
 import Loading from '../skeletons/Loading';
 import Banner from './Banner';
 import Items from '../common/Items/Items';
+import { useQueryClient } from '@tanstack/react-query';
 
 const Main = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { products, hasNextPage, fetchNextPage } = usePopularInfiniteQuery();
+
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    queryClient.refetchQueries();
+  }, []);
 
   const getNextPage = useCallback(() => {
     if (isLoading || !hasNextPage) return;
