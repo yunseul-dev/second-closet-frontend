@@ -1,6 +1,6 @@
 import { AiFillAlert, AiOutlineSearch, AiOutlineMessage, AiOutlineHeart, AiOutlineCamera } from 'react-icons/ai';
 import { BiStoreAlt, BiCloset } from 'react-icons/bi';
-import { BsSuitHeart, BsSuitHeartFill, BsBalloonHeartFill } from 'react-icons/bs';
+import { BsSuitHeart, BsSuitHeartFill, BsBalloonHeartFill, BsHearts } from 'react-icons/bs';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { FaXmark, FaCircleUser } from 'react-icons/fa6';
 import { LiaHeartSolid, LiaHomeSolid, LiaAngleRightSolid } from 'react-icons/lia';
@@ -45,4 +45,5 @@ export {
   RiHomeHeartLine,
   LuSettings,
   PiSignOutBold,
+  BsHearts,
 };
