@@ -33,12 +33,22 @@ const TagsItems = () => {
   return (
     <Container>
       <ItemsContainer>
-        <SortTabs setSortOption={setSortOption} sortOption={sortOption} name={tagname} />
-        <Items data={products} />
-        {hasNextPage && (
-          <div ref={observerRef}>
-            <Loading />
-          </div>
+        {products.length > 0 ? (
+          <>
+            <SortTabs setSortOption={setSortOption} sortOption={sortOption} name={tagname} />
+            <Items data={products} />
+            {hasNextPage && (
+              <div ref={observerRef}>
+                <Loading />
+              </div>
+            )}
+          </>
+        ) : (
+          <ItemsName>
+            <CategoryName>
+              <SpanTitle>"{tagname}"</SpanTitle>에 대한 상품이 존재하지 않습니다.
+            </CategoryName>
+          </ItemsName>
         )}
       </ItemsContainer>
     </Container>
@@ -53,3 +63,16 @@ const Container = styled.div`
 `;
 
 const ItemsContainer = styled.div``;
+
+const SpanTitle = styled.span`
+  font-weight: 600;
+`;
+
+const CategoryName = styled.div``;
+
+const ItemsName = styled.div`
+  margin: 50px 20px 25px 0;
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+`;
