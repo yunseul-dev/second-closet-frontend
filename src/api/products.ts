@@ -58,9 +58,11 @@ const fetchRelated = async (productId: string, category: string) => {
   return res.data;
 };
 
-const addHeart = async (productId: string) => await axios.patch(`${BASE_URL}/hearts/${productId}`);
+const addHeart = async (productId: string) =>
+  await axios.patch(`${BASE_URL}/hearts/${productId}`, { withCredentials: true });
 
-const deleteHeart = async (productId: string) => await axios.delete(`${BASE_URL}/hearts/${productId}`);
+const deleteHeart = async (productId: string) =>
+  await axios.delete(`${BASE_URL}/hearts/${productId}`, { withCredentials: true });
 
 const addSold = async (productId: string) => await axios.patch(`${BASE_URL}/update/${productId}`, { sold: true });
 
