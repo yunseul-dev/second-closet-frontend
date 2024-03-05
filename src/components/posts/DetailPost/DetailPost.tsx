@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { LiaHeartSolid, AiFillAlert, FaAngleLeft, FaAngleRight, LuClock3 } from '../../../utils/icons';
+import { LiaHeartSolid, AiFillAlert, FaAngleLeft, FaAngleRight, LuClock3, BsHearts } from '../../../utils/icons';
 import { userState } from '../../../recoil/atom';
 import { useProductQuery, useRelatedQuery } from '../../../hooks/queries';
 import { formatTimeAgo } from '../../../utils';
@@ -170,7 +170,10 @@ const DetailPost = () => {
         </SubmitConatiner>
         <ExplainContainer>
           <MiniTitle>
-            판매자 <SellerName>{sellerId}</SellerName> 님의 코멘트
+            <SellerName>
+              <BsHearts /> {sellerId} <BsHearts />
+            </SellerName>
+            님의 코멘트
           </MiniTitle>
           <Explain>
             {description}
@@ -361,7 +364,9 @@ const Explain = styled.div`
   line-height: 130%;
 `;
 
-const SellerName = styled.span``;
+const SellerName = styled.span`
+  color: #ff4d24;
+`;
 
 const Tags = styled.div`
   margin: 40px 0 20px 0;
